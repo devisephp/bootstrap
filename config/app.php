@@ -145,6 +145,11 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
+		/*
+		 * Devise Service Provider...
+		 */
+		'Devise\DeviseServiceProvider',
+
 	],
 
 	/*
@@ -192,6 +197,15 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+
+		/*
+		 * Devise Facades...
+		 */
+        'Sort'            => 'Devise\Support\Sortable\SortableFacade',
+        'DeviseUser'      => 'Devise\Users\DeviseUser',
+        'RuleManager'     => 'Devise\Users\Permissions\RuleManagerFacade',
+        'Form'			  => 'Illuminate\Html\FormFacade',
+        'HTML'			  => 'Illuminate\Html\HtmlFacade',
 
 	],
 
