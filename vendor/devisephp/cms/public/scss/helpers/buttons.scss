@@ -1,0 +1,113 @@
+.dvs-button {
+  display:inline-block;
+  padding:$regularButtonPadding;
+  color:$primaryButtonTextColor;
+  background-color:$primaryButtonBgColor;
+  text-transform:uppercase;
+  text-decoration:none;
+  border-width:0;
+  border-radius:$buttonBorderRadius;
+  box-sizing:border-box;
+
+  &.dvs-button-small {
+    padding:8px;
+    font-size:10px;
+  }
+
+  &.dvs-button-large {
+    padding:16px 40px;
+    font-size:14px;
+  }
+
+  &.dvs-button-secondary {
+    background-color:$secondaryButtonBgColor;
+    color:$secondaryButtonTextColor;
+  }
+
+  &.dvs-button-inactive {
+    background-color:$inactiveButtonBgColor;
+    color:$secondaryButtonTextColor;
+  }
+
+  &.dvs-button-dark {
+    background-color:lighten($black, 5%);
+    color:$secondaryButtonTextColor;
+  }
+
+  &.dvs-button-gray {
+    background-color:lighten($black, 15%);
+    color:$secondaryButtonTextColor;
+  }
+
+  &.dvs-button-danger {
+    background-color:#666;
+    color:#fff;
+  }
+
+  &.dvs-button-outset {
+    color:darken(#ababab, 10%);
+    background-color:$primaryTableBgColor;
+    border:1px solid darken($primaryTableBgColor, 12%);
+    border-bottom-color:darken($primaryTableBgColor, 20%);
+    border-radius:4px;
+    box-shadow:0 1px 1px darken($primaryTableBgColor, 8%);
+  }
+}
+
+.dvs-button-group {
+  white-space:nowrap;
+
+  .dvs-button {
+    display:inline-block !important;
+    margin-left:-4px;
+    border-radius:0;
+    border-right:1px solid #cbe3f1;
+    border-left:1px solid #ebf3f7;
+
+    &.dvs-button-secondary {
+      border-right:1px solid #90c0dd;
+      border-left: 1px solid #ebf3f7;
+    }
+
+    &.dvs-button-danger {
+      border-right:1px solid #111;
+      border-left:1px solid #fff;
+    }
+
+    &:first-child {
+      border-radius:3px 0 0 3px;
+      border-left-width:0;
+      margin-left:0;
+    }
+
+    &:last-child {
+      border-radius:0 3px 3px 0;
+      border-right-width:0;
+    }
+  }
+
+  form {
+    display:inline-block;
+
+    &:last-child input[type="submit"] {
+      border-radius:0 3px 3px 0;
+      border-right-width:0;
+    }
+  }
+
+  &.dvs-sort-group {
+    .dvs-button-outset {
+      border-right:1px solid darken($primaryTableBgColor, 12%);
+      border-left:1px solid darken($primaryTableBgColor, 12%);
+    }
+
+    a.page-sort { background-position:right 10px top 48% }
+  }
+}
+
+input[type="submit"]{
+  &.dvs-button.dvs-button-small {
+    padding:6px 7px 8px;
+    cursor:pointer;
+  }
+}
