@@ -124,16 +124,16 @@
         },
         {
             "name": "devisephp/cms",
-            "version": "0.9",
+            "version": "0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devisephp/cms.git",
-                "reference": "d4f13c91b694f4da0497613d516cdf98e68119e0"
+                "reference": "b3d1c1f0b02d2d68ed16d99fd4e21ad397ca73fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devisephp/cms/zipball/d4f13c91b694f4da0497613d516cdf98e68119e0",
-                "reference": "d4f13c91b694f4da0497613d516cdf98e68119e0",
+                "url": "https://api.github.com/repos/devisephp/cms/zipball/b3d1c1f0b02d2d68ed16d99fd4e21ad397ca73fa",
+                "reference": "b3d1c1f0b02d2d68ed16d99fd4e21ad397ca73fa",
                 "shasum": ""
             },
             "require": {
@@ -171,7 +171,7 @@
                 }
             ],
             "description": "Content Management System riding on top of the Laravel Framework",
-            "time": "2015-02-10 19:21:59"
+            "time": "2015-02-12 00:53:01"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -625,16 +625,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.0.3",
+            "version": "v5.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "9c36458d2504b87f6a1484023327ea6d91ee4898"
+                "reference": "b5eafda7dba3d1367a63095b83a068a73d32d97f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/9c36458d2504b87f6a1484023327ea6d91ee4898",
-                "reference": "9c36458d2504b87f6a1484023327ea6d91ee4898",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b5eafda7dba3d1367a63095b83a068a73d32d97f",
+                "reference": "b5eafda7dba3d1367a63095b83a068a73d32d97f",
                 "shasum": ""
             },
             "require": {
@@ -746,7 +746,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-02-11 15:56:06"
+            "time": "2015-02-11 20:37:48"
         },
         {
             "name": "league/flysystem",
@@ -1139,16 +1139,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.3.3",
+            "version": "v0.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "0355cecab0591c83fed019a9572c510b0da29174"
+                "reference": "218ea9e49c9fe21e28fce6cf77f22615af92daef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/0355cecab0591c83fed019a9572c510b0da29174",
-                "reference": "0355cecab0591c83fed019a9572c510b0da29174",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/218ea9e49c9fe21e28fce6cf77f22615af92daef",
+                "reference": "218ea9e49c9fe21e28fce6cf77f22615af92daef",
                 "shasum": ""
             },
             "require": {
@@ -1205,7 +1205,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2015-01-20 21:18:03"
+            "time": "2015-02-12 05:21:32"
         },
         {
             "name": "swiftmailer/swiftmailer",

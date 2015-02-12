@@ -1157,78 +1157,6 @@
         "description": "implementation of xdg base directory specification for php"
     },
     {
-        "name": "psy/psysh",
-        "version": "v0.3.3",
-        "version_normalized": "0.3.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/bobthecow/psysh.git",
-            "reference": "0355cecab0591c83fed019a9572c510b0da29174"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/bobthecow/psysh/zipball/0355cecab0591c83fed019a9572c510b0da29174",
-            "reference": "0355cecab0591c83fed019a9572c510b0da29174",
-            "shasum": ""
-        },
-        "require": {
-            "dnoegel/php-xdg-base-dir": "0.1",
-            "jakub-onderka/php-console-highlighter": "0.3.*",
-            "nikic/php-parser": "~1.0",
-            "php": ">=5.3.0",
-            "symfony/console": "~2.3.10|~2.4.2|~2.5"
-        },
-        "require-dev": {
-            "fabpot/php-cs-fixer": "~1.3",
-            "phpunit/phpunit": "~3.7|~4.0",
-            "squizlabs/php_codesniffer": "~2.0",
-            "symfony/finder": "~2.1"
-        },
-        "suggest": {
-            "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
-            "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
-            "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history."
-        },
-        "time": "2015-01-20 21:18:03",
-        "bin": [
-            "bin/psysh"
-        ],
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-develop": "0.3.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "files": [
-                "src/Psy/functions.php"
-            ],
-            "psr-0": {
-                "Psy\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Justin Hileman",
-                "email": "justin@justinhileman.info",
-                "homepage": "http://justinhileman.com"
-            }
-        ],
-        "description": "An interactive shell for modern PHP.",
-        "homepage": "https://github.com/bobthecow/psysh",
-        "keywords": [
-            "REPL",
-            "console",
-            "interactive",
-            "shell"
-        ]
-    },
-    {
         "name": "nesbot/carbon",
         "version": "1.14.0",
         "version_normalized": "1.14.0.0",
@@ -1653,133 +1581,6 @@
         ]
     },
     {
-        "name": "laravel/framework",
-        "version": "v5.0.3",
-        "version_normalized": "5.0.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/laravel/framework.git",
-            "reference": "9c36458d2504b87f6a1484023327ea6d91ee4898"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/laravel/framework/zipball/9c36458d2504b87f6a1484023327ea6d91ee4898",
-            "reference": "9c36458d2504b87f6a1484023327ea6d91ee4898",
-            "shasum": ""
-        },
-        "require": {
-            "classpreloader/classpreloader": "~1.2",
-            "danielstjules/stringy": "~1.8",
-            "doctrine/inflector": "~1.0",
-            "ext-mbstring": "*",
-            "ext-mcrypt": "*",
-            "ext-openssl": "*",
-            "ircmaxell/password-compat": "~1.0",
-            "jeremeamia/superclosure": "~2.0",
-            "league/flysystem": "~1.0",
-            "monolog/monolog": "~1.11",
-            "mtdowling/cron-expression": "~1.0",
-            "nesbot/carbon": "~1.0",
-            "php": ">=5.4.0",
-            "psy/psysh": "0.3.*",
-            "swiftmailer/swiftmailer": "~5.1",
-            "symfony/console": "2.6.*",
-            "symfony/debug": "2.6.*",
-            "symfony/finder": "2.6.*",
-            "symfony/http-foundation": "2.6.*",
-            "symfony/http-kernel": "2.6.*",
-            "symfony/process": "2.6.*",
-            "symfony/routing": "2.6.*",
-            "symfony/security-core": "2.6.*",
-            "symfony/translation": "2.6.*",
-            "symfony/var-dumper": "2.6.*",
-            "vlucas/phpdotenv": "~1.0"
-        },
-        "replace": {
-            "illuminate/auth": "self.version",
-            "illuminate/bus": "self.version",
-            "illuminate/cache": "self.version",
-            "illuminate/config": "self.version",
-            "illuminate/console": "self.version",
-            "illuminate/container": "self.version",
-            "illuminate/contracts": "self.version",
-            "illuminate/cookie": "self.version",
-            "illuminate/database": "self.version",
-            "illuminate/encryption": "self.version",
-            "illuminate/events": "self.version",
-            "illuminate/exception": "self.version",
-            "illuminate/filesystem": "self.version",
-            "illuminate/foundation": "self.version",
-            "illuminate/hashing": "self.version",
-            "illuminate/http": "self.version",
-            "illuminate/log": "self.version",
-            "illuminate/mail": "self.version",
-            "illuminate/pagination": "self.version",
-            "illuminate/pipeline": "self.version",
-            "illuminate/queue": "self.version",
-            "illuminate/redis": "self.version",
-            "illuminate/routing": "self.version",
-            "illuminate/session": "self.version",
-            "illuminate/support": "self.version",
-            "illuminate/translation": "self.version",
-            "illuminate/validation": "self.version",
-            "illuminate/view": "self.version"
-        },
-        "require-dev": {
-            "aws/aws-sdk-php": "~2.4",
-            "iron-io/iron_mq": "~1.5",
-            "mockery/mockery": "~0.9",
-            "pda/pheanstalk": "~3.0",
-            "phpunit/phpunit": "~4.0",
-            "predis/predis": "~1.0"
-        },
-        "suggest": {
-            "aws/aws-sdk-php": "Required to use the SQS queue driver (~2.4).",
-            "doctrine/dbal": "Required to rename columns and drop SQLite columns (~2.4).",
-            "guzzlehttp/guzzle": "Required to use the Mailgun and Mandrill mail drivers (~5.0).",
-            "iron-io/iron_mq": "Required to use the iron queue driver (~1.5).",
-            "league/flysystem-aws-s3-v2": "Required to use the Flysystem S3 driver (~1.0).",
-            "league/flysystem-rackspace": "Required to use the Flysystem Rackspace driver (~1.0).",
-            "pda/pheanstalk": "Required to use the beanstalk queue driver (~3.0).",
-            "predis/predis": "Required to use the redis cache and queue drivers (~1.0)."
-        },
-        "time": "2015-02-11 15:56:06",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "5.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/Illuminate/Queue/IlluminateQueueClosure.php"
-            ],
-            "files": [
-                "src/Illuminate/Foundation/helpers.php",
-                "src/Illuminate/Support/helpers.php"
-            ],
-            "psr-4": {
-                "Illuminate\\": "src/Illuminate/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Taylor Otwell",
-                "email": "taylorotwell@gmail.com"
-            }
-        ],
-        "description": "The Laravel Framework.",
-        "keywords": [
-            "framework",
-            "laravel"
-        ]
-    },
-    {
         "name": "illuminate/html",
         "version": "v5.0.0",
         "version_normalized": "5.0.0.0",
@@ -2056,59 +1857,6 @@
             "serializer",
             "xml"
         ]
-    },
-    {
-        "name": "devisephp/cms",
-        "version": "0.9",
-        "version_normalized": "0.9.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/devisephp/cms.git",
-            "reference": "d4f13c91b694f4da0497613d516cdf98e68119e0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/devisephp/cms/zipball/d4f13c91b694f4da0497613d516cdf98e68119e0",
-            "reference": "d4f13c91b694f4da0497613d516cdf98e68119e0",
-            "shasum": ""
-        },
-        "require": {
-            "ext-imagick": "*",
-            "guzzlehttp/guzzle": "~4.0",
-            "illuminate/html": "5.0.*",
-            "masterminds/html5": "1.*",
-            "php": ">=5.4.0",
-            "symfony/console": "~2.0",
-            "zencoder/zencoder-php": "*"
-        },
-        "require-dev": {
-            "laravel/framework": "5.0.*@dev",
-            "mikey179/vfsstream": "*",
-            "mockery/mockery": "dev-master",
-            "phpunit/phpunit": "*"
-        },
-        "time": "2015-02-10 19:21:59",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/models",
-                "src/seeds",
-                "src/migrations",
-                "tests/DeviseTestCase.php"
-            ],
-            "psr-0": {
-                "Devise\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "authors": [
-            {
-                "name": "DevisePHP Team",
-                "email": "info@devisephp.com"
-            }
-        ],
-        "description": "Content Management System riding on top of the Laravel Framework"
     },
     {
         "name": "sebastian/version",
@@ -3210,5 +2958,257 @@
             "testing",
             "tests"
         ]
+    },
+    {
+        "name": "psy/psysh",
+        "version": "v0.3.4",
+        "version_normalized": "0.3.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bobthecow/psysh.git",
+            "reference": "218ea9e49c9fe21e28fce6cf77f22615af92daef"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bobthecow/psysh/zipball/218ea9e49c9fe21e28fce6cf77f22615af92daef",
+            "reference": "218ea9e49c9fe21e28fce6cf77f22615af92daef",
+            "shasum": ""
+        },
+        "require": {
+            "dnoegel/php-xdg-base-dir": "0.1",
+            "jakub-onderka/php-console-highlighter": "0.3.*",
+            "nikic/php-parser": "~1.0",
+            "php": ">=5.3.0",
+            "symfony/console": "~2.3.10|~2.4.2|~2.5"
+        },
+        "require-dev": {
+            "fabpot/php-cs-fixer": "~1.3",
+            "phpunit/phpunit": "~3.7|~4.0",
+            "squizlabs/php_codesniffer": "~2.0",
+            "symfony/finder": "~2.1"
+        },
+        "suggest": {
+            "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
+            "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
+            "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history."
+        },
+        "time": "2015-02-12 05:21:32",
+        "bin": [
+            "bin/psysh"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-develop": "0.3.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/Psy/functions.php"
+            ],
+            "psr-0": {
+                "Psy\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Justin Hileman",
+                "email": "justin@justinhileman.info",
+                "homepage": "http://justinhileman.com"
+            }
+        ],
+        "description": "An interactive shell for modern PHP.",
+        "homepage": "https://github.com/bobthecow/psysh",
+        "keywords": [
+            "REPL",
+            "console",
+            "interactive",
+            "shell"
+        ]
+    },
+    {
+        "name": "laravel/framework",
+        "version": "v5.0.4",
+        "version_normalized": "5.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/laravel/framework.git",
+            "reference": "b5eafda7dba3d1367a63095b83a068a73d32d97f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/laravel/framework/zipball/b5eafda7dba3d1367a63095b83a068a73d32d97f",
+            "reference": "b5eafda7dba3d1367a63095b83a068a73d32d97f",
+            "shasum": ""
+        },
+        "require": {
+            "classpreloader/classpreloader": "~1.2",
+            "danielstjules/stringy": "~1.8",
+            "doctrine/inflector": "~1.0",
+            "ext-mbstring": "*",
+            "ext-mcrypt": "*",
+            "ext-openssl": "*",
+            "ircmaxell/password-compat": "~1.0",
+            "jeremeamia/superclosure": "~2.0",
+            "league/flysystem": "~1.0",
+            "monolog/monolog": "~1.11",
+            "mtdowling/cron-expression": "~1.0",
+            "nesbot/carbon": "~1.0",
+            "php": ">=5.4.0",
+            "psy/psysh": "0.3.*",
+            "swiftmailer/swiftmailer": "~5.1",
+            "symfony/console": "2.6.*",
+            "symfony/debug": "2.6.*",
+            "symfony/finder": "2.6.*",
+            "symfony/http-foundation": "2.6.*",
+            "symfony/http-kernel": "2.6.*",
+            "symfony/process": "2.6.*",
+            "symfony/routing": "2.6.*",
+            "symfony/security-core": "2.6.*",
+            "symfony/translation": "2.6.*",
+            "symfony/var-dumper": "2.6.*",
+            "vlucas/phpdotenv": "~1.0"
+        },
+        "replace": {
+            "illuminate/auth": "self.version",
+            "illuminate/bus": "self.version",
+            "illuminate/cache": "self.version",
+            "illuminate/config": "self.version",
+            "illuminate/console": "self.version",
+            "illuminate/container": "self.version",
+            "illuminate/contracts": "self.version",
+            "illuminate/cookie": "self.version",
+            "illuminate/database": "self.version",
+            "illuminate/encryption": "self.version",
+            "illuminate/events": "self.version",
+            "illuminate/exception": "self.version",
+            "illuminate/filesystem": "self.version",
+            "illuminate/foundation": "self.version",
+            "illuminate/hashing": "self.version",
+            "illuminate/http": "self.version",
+            "illuminate/log": "self.version",
+            "illuminate/mail": "self.version",
+            "illuminate/pagination": "self.version",
+            "illuminate/pipeline": "self.version",
+            "illuminate/queue": "self.version",
+            "illuminate/redis": "self.version",
+            "illuminate/routing": "self.version",
+            "illuminate/session": "self.version",
+            "illuminate/support": "self.version",
+            "illuminate/translation": "self.version",
+            "illuminate/validation": "self.version",
+            "illuminate/view": "self.version"
+        },
+        "require-dev": {
+            "aws/aws-sdk-php": "~2.4",
+            "iron-io/iron_mq": "~1.5",
+            "mockery/mockery": "~0.9",
+            "pda/pheanstalk": "~3.0",
+            "phpunit/phpunit": "~4.0",
+            "predis/predis": "~1.0"
+        },
+        "suggest": {
+            "aws/aws-sdk-php": "Required to use the SQS queue driver (~2.4).",
+            "doctrine/dbal": "Required to rename columns and drop SQLite columns (~2.4).",
+            "guzzlehttp/guzzle": "Required to use the Mailgun and Mandrill mail drivers (~5.0).",
+            "iron-io/iron_mq": "Required to use the iron queue driver (~1.5).",
+            "league/flysystem-aws-s3-v2": "Required to use the Flysystem S3 driver (~1.0).",
+            "league/flysystem-rackspace": "Required to use the Flysystem Rackspace driver (~1.0).",
+            "pda/pheanstalk": "Required to use the beanstalk queue driver (~3.0).",
+            "predis/predis": "Required to use the redis cache and queue drivers (~1.0)."
+        },
+        "time": "2015-02-11 20:37:48",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "5.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/Illuminate/Queue/IlluminateQueueClosure.php"
+            ],
+            "files": [
+                "src/Illuminate/Foundation/helpers.php",
+                "src/Illuminate/Support/helpers.php"
+            ],
+            "psr-4": {
+                "Illuminate\\": "src/Illuminate/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com"
+            }
+        ],
+        "description": "The Laravel Framework.",
+        "keywords": [
+            "framework",
+            "laravel"
+        ]
+    },
+    {
+        "name": "devisephp/cms",
+        "version": "0.9.1",
+        "version_normalized": "0.9.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/devisephp/cms.git",
+            "reference": "b3d1c1f0b02d2d68ed16d99fd4e21ad397ca73fa"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/devisephp/cms/zipball/b3d1c1f0b02d2d68ed16d99fd4e21ad397ca73fa",
+            "reference": "b3d1c1f0b02d2d68ed16d99fd4e21ad397ca73fa",
+            "shasum": ""
+        },
+        "require": {
+            "ext-imagick": "*",
+            "guzzlehttp/guzzle": "~4.0",
+            "illuminate/html": "5.0.*",
+            "masterminds/html5": "1.*",
+            "php": ">=5.4.0",
+            "symfony/console": "~2.0",
+            "zencoder/zencoder-php": "*"
+        },
+        "require-dev": {
+            "laravel/framework": "5.0.*@dev",
+            "mikey179/vfsstream": "*",
+            "mockery/mockery": "dev-master",
+            "phpunit/phpunit": "*"
+        },
+        "time": "2015-02-12 00:53:01",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/models",
+                "src/seeds",
+                "src/migrations",
+                "tests/DeviseTestCase.php"
+            ],
+            "psr-0": {
+                "Devise\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "DevisePHP Team",
+                "email": "info@devisephp.com"
+            }
+        ],
+        "description": "Content Management System riding on top of the Laravel Framework"
     }
 ]
