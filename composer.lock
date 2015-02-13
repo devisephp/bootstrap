@@ -1139,16 +1139,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.3.4",
+            "version": "v0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "218ea9e49c9fe21e28fce6cf77f22615af92daef"
+                "reference": "2ce0e8f3020fd292c2ad2a496c5d83939823f642"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/218ea9e49c9fe21e28fce6cf77f22615af92daef",
-                "reference": "218ea9e49c9fe21e28fce6cf77f22615af92daef",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/2ce0e8f3020fd292c2ad2a496c5d83939823f642",
+                "reference": "2ce0e8f3020fd292c2ad2a496c5d83939823f642",
                 "shasum": ""
             },
             "require": {
@@ -1198,14 +1198,14 @@
                 }
             ],
             "description": "An interactive shell for modern PHP.",
-            "homepage": "https://github.com/bobthecow/psysh",
+            "homepage": "http://psysh.org",
             "keywords": [
                 "REPL",
                 "console",
                 "interactive",
                 "shell"
             ],
-            "time": "2015-02-12 05:21:32"
+            "time": "2015-02-12 19:35:52"
         },
         {
             "name": "swiftmailer/swiftmailer",
