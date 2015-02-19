@@ -124,16 +124,16 @@
         },
         {
             "name": "devisephp/cms",
-            "version": "0.9.1",
+            "version": "0.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devisephp/cms.git",
-                "reference": "b3d1c1f0b02d2d68ed16d99fd4e21ad397ca73fa"
+                "reference": "23911da84cd81c7e37c459a34e9bde16727ecf54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devisephp/cms/zipball/b3d1c1f0b02d2d68ed16d99fd4e21ad397ca73fa",
-                "reference": "b3d1c1f0b02d2d68ed16d99fd4e21ad397ca73fa",
+                "url": "https://api.github.com/repos/devisephp/cms/zipball/23911da84cd81c7e37c459a34e9bde16727ecf54",
+                "reference": "23911da84cd81c7e37c459a34e9bde16727ecf54",
                 "shasum": ""
             },
             "require": {
@@ -146,7 +146,7 @@
                 "zencoder/zencoder-php": "*"
             },
             "require-dev": {
-                "laravel/framework": "5.0.*@dev",
+                "laravel/framework": "5.0.*",
                 "mikey179/vfsstream": "*",
                 "mockery/mockery": "dev-master",
                 "phpunit/phpunit": "*"
@@ -171,7 +171,7 @@
                 }
             ],
             "description": "Content Management System riding on top of the Laravel Framework",
-            "time": "2015-02-12 00:53:01"
+            "time": "2015-02-17 22:28:27"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
