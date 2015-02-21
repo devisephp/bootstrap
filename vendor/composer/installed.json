@@ -3032,18 +3032,71 @@
         ]
     },
     {
-        "name": "laravel/framework",
-        "version": "v5.0.5",
-        "version_normalized": "5.0.5.0",
+        "name": "devisephp/cms",
+        "version": "0.9.3",
+        "version_normalized": "0.9.3.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/laravel/framework.git",
-            "reference": "b1aea041cbc0cd54563e2d3709a54a71eed57653"
+            "url": "https://github.com/devisephp/cms.git",
+            "reference": "23911da84cd81c7e37c459a34e9bde16727ecf54"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/laravel/framework/zipball/b1aea041cbc0cd54563e2d3709a54a71eed57653",
-            "reference": "b1aea041cbc0cd54563e2d3709a54a71eed57653",
+            "url": "https://api.github.com/repos/devisephp/cms/zipball/23911da84cd81c7e37c459a34e9bde16727ecf54",
+            "reference": "23911da84cd81c7e37c459a34e9bde16727ecf54",
+            "shasum": ""
+        },
+        "require": {
+            "ext-imagick": "*",
+            "guzzlehttp/guzzle": "~4.0",
+            "illuminate/html": "5.0.*",
+            "masterminds/html5": "1.*",
+            "php": ">=5.4.0",
+            "symfony/console": "~2.0",
+            "zencoder/zencoder-php": "*"
+        },
+        "require-dev": {
+            "laravel/framework": "5.0.*",
+            "mikey179/vfsstream": "*",
+            "mockery/mockery": "dev-master",
+            "phpunit/phpunit": "*"
+        },
+        "time": "2015-02-17 22:28:27",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/models",
+                "src/seeds",
+                "src/migrations",
+                "tests/DeviseTestCase.php"
+            ],
+            "psr-0": {
+                "Devise\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "DevisePHP Team",
+                "email": "info@devisephp.com"
+            }
+        ],
+        "description": "Content Management System riding on top of the Laravel Framework"
+    },
+    {
+        "name": "laravel/framework",
+        "version": "v5.0.6",
+        "version_normalized": "5.0.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/laravel/framework.git",
+            "reference": "43637b796f1ac0b1a960984231251ff04b438006"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/laravel/framework/zipball/43637b796f1ac0b1a960984231251ff04b438006",
+            "reference": "43637b796f1ac0b1a960984231251ff04b438006",
             "shasum": ""
         },
         "require": {
@@ -3122,7 +3175,7 @@
             "pda/pheanstalk": "Required to use the beanstalk queue driver (~3.0).",
             "predis/predis": "Required to use the redis cache and queue drivers (~1.0)."
         },
-        "time": "2015-02-13 19:10:59",
+        "time": "2015-02-20 16:22:21",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3157,58 +3210,5 @@
             "framework",
             "laravel"
         ]
-    },
-    {
-        "name": "devisephp/cms",
-        "version": "0.9.3",
-        "version_normalized": "0.9.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/devisephp/cms.git",
-            "reference": "23911da84cd81c7e37c459a34e9bde16727ecf54"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/devisephp/cms/zipball/23911da84cd81c7e37c459a34e9bde16727ecf54",
-            "reference": "23911da84cd81c7e37c459a34e9bde16727ecf54",
-            "shasum": ""
-        },
-        "require": {
-            "ext-imagick": "*",
-            "guzzlehttp/guzzle": "~4.0",
-            "illuminate/html": "5.0.*",
-            "masterminds/html5": "1.*",
-            "php": ">=5.4.0",
-            "symfony/console": "~2.0",
-            "zencoder/zencoder-php": "*"
-        },
-        "require-dev": {
-            "laravel/framework": "5.0.*",
-            "mikey179/vfsstream": "*",
-            "mockery/mockery": "dev-master",
-            "phpunit/phpunit": "*"
-        },
-        "time": "2015-02-17 22:28:27",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/models",
-                "src/seeds",
-                "src/migrations",
-                "tests/DeviseTestCase.php"
-            ],
-            "psr-0": {
-                "Devise\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "authors": [
-            {
-                "name": "DevisePHP Team",
-                "email": "info@devisephp.com"
-            }
-        ],
-        "description": "Content Management System riding on top of the Laravel Framework"
     }
 ]
