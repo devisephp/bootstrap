@@ -4,7 +4,9 @@
 [![Build status](http://img.shields.io/travis/bobthecow/psysh/master.svg?style=flat-square)](http://travis-ci.org/bobthecow/psysh)
 [![Made out of awesome](http://img.shields.io/badge/made_out_of_awesome-✓-brightgreen.svg?style=flat-square)](http://psysh.org)
 
-Check out the [Interactive Debugging in PHP talk from OSCON](https://presentate.com/bobthecow/talks/php-for-pirates) on Presentate.
+## About
+
+PsySH is a runtime developer console, interactive debugger and [REPL](http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) for PHP. Learn more at [psysh.org](http://psysh.org/). Check out the [Interactive Debugging in PHP talk from OSCON](https://presentate.com/bobthecow/talks/php-for-pirates) on Presentate.
 
 
 ## Installation
@@ -36,7 +38,7 @@ chmod +x psysh
 
 ## PsySH configuration
 
-While PsySH strives to detect the right settings automatically, you might want to configure it yourself. Just add a file to `~/.config/psysh/config.php`:
+While PsySH strives to detect the right settings automatically, you might want to configure it yourself. Just add a file to `~/.config/psysh/config.php` (or `C:\Users\{USER}\AppData\Roaming\PsySH` on Windows):
 
 ```php
 <?php
@@ -98,12 +100,22 @@ return array(
     'presenters' => array(
         new \Psy\Presenter\MongoCursorPresenter,
     ),
+
+    // You can disable tab completion if you want to. Not sure why you'd want to.
+    'tabCompletion' => false,
+
+    // You can write your own tab completion matchers, too! Here are some that enable
+    // tab completion for MongoDB database and collection names:
+    'tabCompletionMatchers' => array(
+        new \Psy\TabCompletion\Matcher\MongoClientMatcher,
+        new \Psy\TabCompletion\Matcher\MongoDatabaseMatcher,
+    ),
 );
 ```
 
 ## Downloading the manual
 
-The PsySH `doc` command is great for documenting source code, but you'll need a little something extra for PHP core documentation. Download one of the following PHP Manual files and drop it in `~/.local/share/psysh/`:
+The PsySH `doc` command is great for documenting source code, but you'll need a little something extra for PHP core documentation. Download one of the following PHP Manual files and drop it in `~/.local/share/psysh/` (or `C:\Users\{USER}\AppData\Roaming\PsySH` on Windows):
 
  * **[English](http://psysh.org/manual/en/php_manual.sqlite)**
  * [Brazilian Portuguese](http://psysh.org/manual/pt_BR/php_manual.sqlite)

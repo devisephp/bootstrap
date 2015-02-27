@@ -33,9 +33,22 @@ use Symfony\Component\Console\Input\InputOption;
 
 // If the psysh binary was included directly, assume they just wanted an
 // autoloader and bail early.
-if (Shell::isIncluded(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1))) {
+if (version_compare(PHP_VERSION, '5.3.6', '<')) {
+    $trace = debug_backtrace();
+} elseif (version_compare(PHP_VERSION, '5.4.0', '<')) {
+    $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+} else {
+    $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+}
+
+if (Shell::isIncluded($trace)) {
+    unset($trace);
+
     return;
 }
+
+// Clean up after ourselves.
+unset($trace);
 
 call_user_func(function() {
     $usageException = null;
@@ -95,6 +108,16 @@ EOL;
     // Pass additional arguments to Shell as 'includes'
     $shell->setIncludes($input->getArgument('include'));
 
-    // And go!
-    $shell->run();
+    try {
+        // And go!
+        $shell->run();
+    } catch (Exception $e) {
+        echo $e->getMessage() . PHP_EOL;
+
+        // TODO: this triggers the "exited unexpectedly" logic in the
+        // ForkingLoop, so we can't exit(1) after starting the shell...
+        // fix this :)
+
+        // exit(1);
+    }
 });
