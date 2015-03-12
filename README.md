@@ -8,6 +8,8 @@ Devise Bootstrap
 
 ##About
 
+![alt text][logo]
+
 The Devise Bootstrap is the official bootstrapped application for the [Devise](http://github.com/devisephp/cms) content management system. Think of this as a blank slate for your application with everything you need to get started. Every night we rebuild this application so that you can download the entire application *and all dependencies*.
 
 If you are new to Devise this is the easiest way to get started. Just click on "Download Zip" button above or [click here](https://github.com/devisephp/bootstrap/archive/master.zip). Drop it on a server and then choose your install method.
@@ -18,7 +20,7 @@ Full documentation can be found at [http://devisephp.com/docs](http://devisephp.
 
 ### General Install on [Homestead](http://laravel.com/docs/5.0/homestead)
 
-Homestead is a virtual machine created by the team behind Laravel. You can use any host you like but Homestead provides an Ubuntu sandbox that bridges files to and from your host machine. If you've never used it before follow the instructions [here](http://laravel.com/docs/5.0/homestead). It's worth the download time to get up and running. 
+Homestead is a virtual machine created by the team behind Laravel. You can use any host you like but Homestead provides an Ubuntu sandbox that bridges files to and from your host machine. If you've never used it before follow the instructions [here](http://laravel.com/docs/5.0/homestead). It's worth the download time to get up and running.
 
 Once you're all setup and can ssh into your box follow these steps:
 
@@ -68,3 +70,5 @@ Please give us your feedback on Devise and the Devise Bootstrap at [info@devisep
 ### License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+
+[logo]: https://raw.githubusercontent.com/devisephp/bootstrap/master/raw/master/project-banner.png "Devise Bootstrap"
