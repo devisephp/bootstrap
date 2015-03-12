@@ -124,25 +124,25 @@
         },
         {
             "name": "devisephp/cms",
-            "version": "0.9.4",
+            "version": "0.9.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devisephp/cms.git",
-                "reference": "1459ae0671a6dda9f884221724f8fc96f9ec4197"
+                "reference": "eec72876d299f48eb8f1c64299f52ae4ca687299"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devisephp/cms/zipball/1459ae0671a6dda9f884221724f8fc96f9ec4197",
-                "reference": "1459ae0671a6dda9f884221724f8fc96f9ec4197",
+                "url": "https://api.github.com/repos/devisephp/cms/zipball/eec72876d299f48eb8f1c64299f52ae4ca687299",
+                "reference": "eec72876d299f48eb8f1c64299f52ae4ca687299",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "~2.3",
                 "ext-imagick": "*",
-                "graham-campbell/markdown": "~3.0",
                 "guzzlehttp/guzzle": "~4.0",
                 "illuminate/html": "5.0.*",
                 "laravel/framework": ">=5.0.7",
+                "league/commonmark": "0.7.*",
                 "masterminds/html5": "1.*",
                 "php": ">=5.4.0",
                 "symfony/console": "~2.0",
@@ -173,7 +173,7 @@
                 }
             ],
             "description": "Content Management System riding on top of the Laravel Framework",
-            "time": "2015-03-10 13:59:04"
+            "time": "2015-03-12 16:51:46"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -683,65 +683,6 @@
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
-        },
-        {
-            "name": "graham-campbell/markdown",
-            "version": "v3.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
-                "reference": "dfc7e1525a55c6851fb85723a421bce819fd3c2a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/dfc7e1525a55c6851fb85723a421bce819fd3c2a",
-                "reference": "dfc7e1525a55c6851fb85723a421bce819fd3c2a",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "5.0.*",
-                "illuminate/support": "5.0.*",
-                "illuminate/view": "5.0.*",
-                "league/commonmark": "0.7.*",
-                "php": ">=5.4.7"
-            },
-            "require-dev": {
-                "graham-campbell/testbench": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GrahamCampbell\\Markdown\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Graham Campbell",
-                    "email": "graham@mineuk.com"
-                }
-            ],
-            "description": "Markdown Is A CommonMark Wrapper For Laravel 5",
-            "keywords": [
-                "Graham Campbell",
-                "GrahamCampbell",
-                "Laravel Markdown",
-                "Laravel-Markdown",
-                "common mark",
-                "commonmark",
-                "framework",
-                "laravel",
-                "markdown"
-            ],
-            "time": "2015-02-18 11:41:14"
         },
         {
             "name": "guzzlehttp/guzzle",
