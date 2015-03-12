@@ -6,9 +6,9 @@ Devise Bootstrap
 [![Latest Unstable Version](https://poser.pugx.org/devisephp/cms/v/unstable.svg)](https://packagist.org/packages/devisephp/cms)
 [![License](https://poser.pugx.org/devisephp/cms/license.svg)](https://packagist.org/packages/devisephp/cms)
 
-##About
-
 ![alt text][logo]
+
+##About
 
 The Devise Bootstrap is the official bootstrapped application for the [Devise](http://github.com/devisephp/cms) content management system. Think of this as a blank slate for your application with everything you need to get started. Every night we rebuild this application so that you can download the entire application *and all dependencies*.
 
