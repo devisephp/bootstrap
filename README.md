@@ -71,4 +71,4 @@ Please give us your feedback on Devise and the Devise Bootstrap at [info@devisep
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
-[logo]: https://raw.githubusercontent.com/devisephp/bootstrap/master/raw/master/project-banner.png "Devise Bootstrap"
+[logo]: https://raw.githubusercontent.com/devisephp/bootstrap/master/project-banner.png "Devise Bootstrap"
