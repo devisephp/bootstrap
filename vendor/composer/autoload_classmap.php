@@ -6,9 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'AlterDvsFieldsToAddContentRequestedField' => $vendorDir . '/devisephp/cms/src/migrations/2015_02_04_1634848_alter_dvs_fields_to_add_content_requested_field.php',
-    'AlterDvsMenuItemsToAddPermissions' => $vendorDir . '/devisephp/cms/src/migrations/2015_02_17_131243_alter_dvs_menu_items_to_add_permissions.php',
-    'AlterPageVersionsTable' => $vendorDir . '/devisephp/cms/src/migrations/2014_11_12_163954_alter_page_versions_table.php',
     'App\\Commands\\Command' => $baseDir . '/app/Commands/Command.php',
     'App\\Console\\Commands\\Inspire' => $baseDir . '/app/Console/Commands/Inspire.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',

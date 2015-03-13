@@ -124,16 +124,16 @@
         },
         {
             "name": "devisephp/cms",
-            "version": "0.9.5",
+            "version": "0.9.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devisephp/cms.git",
-                "reference": "eec72876d299f48eb8f1c64299f52ae4ca687299"
+                "reference": "823acdbad94ab9e5eb2c4eeb8fbc6e69d35024ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devisephp/cms/zipball/eec72876d299f48eb8f1c64299f52ae4ca687299",
-                "reference": "eec72876d299f48eb8f1c64299f52ae4ca687299",
+                "url": "https://api.github.com/repos/devisephp/cms/zipball/823acdbad94ab9e5eb2c4eeb8fbc6e69d35024ff",
+                "reference": "823acdbad94ab9e5eb2c4eeb8fbc6e69d35024ff",
                 "shasum": ""
             },
             "require": {
@@ -166,6 +166,9 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "DevisePHP Team",
@@ -173,7 +176,14 @@
                 }
             ],
             "description": "Content Management System riding on top of the Laravel Framework",
-            "time": "2015-03-12 16:51:46"
+            "keywords": [
+                "Content management system",
+                "cms",
+                "devise",
+                "devisephp",
+                "laravel"
+            ],
+            "time": "2015-03-12 19:41:57"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
