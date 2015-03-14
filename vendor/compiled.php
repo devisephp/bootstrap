@@ -1268,7 +1268,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 class Application extends Container implements ApplicationContract, HttpKernelInterface
 {
-    const VERSION = '5.0.15';
+    const VERSION = '5.0.16';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -1735,12 +1735,12 @@ class HandleExceptions
     public function handleShutdown()
     {
         if (!is_null($error = error_get_last()) && $this->isFatal($error['type'])) {
-            $this->handleException($this->fatalExceptionFromError($error));
+            $this->handleException($this->fatalExceptionFromError($error, 0));
         }
     }
-    protected function fatalExceptionFromError(array $error)
+    protected function fatalExceptionFromError(array $error, $traceOffset = null)
     {
-        return new FatalErrorException($error['message'], $error['type'], 0, $error['file'], $error['line']);
+        return new FatalErrorException($error['message'], $error['type'], 0, $error['file'], $error['line'], $traceOffset);
     }
     protected function isFatal($type)
     {
@@ -9444,6 +9444,14 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     {
         $instance = new static();
         return $instance->newQuery()->get($columns);
+    }
+    public static function find($id, $columns = array('*'))
+    {
+        $instance = new static();
+        if (is_array($id) && empty($id)) {
+            return $instance->newCollection();
+        }
+        return $instance->newQuery()->find($id, $columns);
     }
     public static function findOrNew($id, $columns = array('*'))
     {
