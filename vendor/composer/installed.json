@@ -918,60 +918,6 @@
         "homepage": "http://symfony.com"
     },
     {
-        "name": "swiftmailer/swiftmailer",
-        "version": "v5.3.1",
-        "version_normalized": "5.3.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/swiftmailer/swiftmailer.git",
-            "reference": "c5f963e7f9d6f6438fda4f22d5cc2db296ec621a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/c5f963e7f9d6f6438fda4f22d5cc2db296ec621a",
-            "reference": "c5f963e7f9d6f6438fda4f22d5cc2db296ec621a",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "require-dev": {
-            "mockery/mockery": "~0.9.1"
-        },
-        "time": "2014-12-05 14:17:14",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "5.3-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "files": [
-                "lib/swift_required.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Chris Corbyn"
-            },
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            }
-        ],
-        "description": "Swiftmailer, free feature-rich PHP mailer",
-        "homepage": "http://swiftmailer.org",
-        "keywords": [
-            "mail",
-            "mailer"
-        ]
-    },
-    {
         "name": "jakub-onderka/php-console-color",
         "version": "0.1",
         "version_normalized": "0.1.0.0",
@@ -2693,79 +2639,6 @@
         ]
     },
     {
-        "name": "psy/psysh",
-        "version": "v0.4.1",
-        "version_normalized": "0.4.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/bobthecow/psysh.git",
-            "reference": "3787f3436f4fd898e0ac1eb6f5abd2ab6b24085b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/bobthecow/psysh/zipball/3787f3436f4fd898e0ac1eb6f5abd2ab6b24085b",
-            "reference": "3787f3436f4fd898e0ac1eb6f5abd2ab6b24085b",
-            "shasum": ""
-        },
-        "require": {
-            "dnoegel/php-xdg-base-dir": "0.1",
-            "jakub-onderka/php-console-highlighter": "0.3.*",
-            "nikic/php-parser": "~1.0",
-            "php": ">=5.3.0",
-            "symfony/console": "~2.3.10|~2.4.2|~2.5"
-        },
-        "require-dev": {
-            "fabpot/php-cs-fixer": "~1.3",
-            "phpunit/phpunit": "~3.7|~4.0",
-            "squizlabs/php_codesniffer": "~2.0",
-            "symfony/finder": "~2.1"
-        },
-        "suggest": {
-            "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
-            "ext-pdo-sqlite": "The doc command requires SQLite to work.",
-            "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
-            "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history."
-        },
-        "time": "2015-02-25 20:35:54",
-        "bin": [
-            "bin/psysh"
-        ],
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-develop": "0.3.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "files": [
-                "src/Psy/functions.php"
-            ],
-            "psr-0": {
-                "Psy\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Justin Hileman",
-                "email": "justin@justinhileman.info",
-                "homepage": "http://justinhileman.com"
-            }
-        ],
-        "description": "An interactive shell for modern PHP.",
-        "homepage": "http://psysh.org",
-        "keywords": [
-            "REPL",
-            "console",
-            "interactive",
-            "shell"
-        ]
-    },
-    {
         "name": "league/commonmark",
         "version": "0.7.2",
         "version_normalized": "0.7.2.0",
@@ -3706,6 +3579,133 @@
         "keywords": [
             "framework",
             "laravel"
+        ]
+    },
+    {
+        "name": "psy/psysh",
+        "version": "v0.4.2",
+        "version_normalized": "0.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bobthecow/psysh.git",
+            "reference": "e50a63b4e4971041fda993b0dd6977fc60bc39d4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bobthecow/psysh/zipball/e50a63b4e4971041fda993b0dd6977fc60bc39d4",
+            "reference": "e50a63b4e4971041fda993b0dd6977fc60bc39d4",
+            "shasum": ""
+        },
+        "require": {
+            "dnoegel/php-xdg-base-dir": "0.1",
+            "jakub-onderka/php-console-highlighter": "0.3.*",
+            "nikic/php-parser": "~1.0",
+            "php": ">=5.3.0",
+            "symfony/console": "~2.3.10|~2.4.2|~2.5"
+        },
+        "require-dev": {
+            "fabpot/php-cs-fixer": "~1.5",
+            "phpunit/phpunit": "~3.7|~4.0",
+            "squizlabs/php_codesniffer": "~2.0",
+            "symfony/finder": "~2.1|~3.0"
+        },
+        "suggest": {
+            "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
+            "ext-pdo-sqlite": "The doc command requires SQLite to work.",
+            "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
+            "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history."
+        },
+        "time": "2015-03-14 17:29:14",
+        "bin": [
+            "bin/psysh"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-develop": "0.4.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/Psy/functions.php"
+            ],
+            "psr-0": {
+                "Psy\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Justin Hileman",
+                "email": "justin@justinhileman.info",
+                "homepage": "http://justinhileman.com"
+            }
+        ],
+        "description": "An interactive shell for modern PHP.",
+        "homepage": "http://psysh.org",
+        "keywords": [
+            "REPL",
+            "console",
+            "interactive",
+            "shell"
+        ]
+    },
+    {
+        "name": "swiftmailer/swiftmailer",
+        "version": "v5.4.0",
+        "version_normalized": "5.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/swiftmailer/swiftmailer.git",
+            "reference": "31454f258f10329ae7c48763eb898a75c39e0a9f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/31454f258f10329ae7c48763eb898a75c39e0a9f",
+            "reference": "31454f258f10329ae7c48763eb898a75c39e0a9f",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "mockery/mockery": "~0.9.1"
+        },
+        "time": "2015-03-14 06:06:39",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "5.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/swift_required.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Chris Corbyn"
+            },
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            }
+        ],
+        "description": "Swiftmailer, free feature-rich PHP mailer",
+        "homepage": "http://swiftmailer.org",
+        "keywords": [
+            "mail",
+            "mailer"
         ]
     }
 ]
