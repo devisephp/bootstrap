@@ -12,6 +12,7 @@
   box-sizing:border-box;
   font-size: 12px;
   font-weight:400;
+  line-height:1em;
 
   &:hover {
     color:lighten($primaryButtonBgColor, 10%);
@@ -29,7 +30,7 @@
   }
 
   &.dvs-button-small {
-    padding:0px 8px;
+    padding:10px 8px;
     font-size:10px;
   }
 
@@ -113,8 +114,8 @@
   white-space:nowrap;
 
   .dvs-button {
+    float:left;
     display:inline-block !important;
-    margin-left:-4px;
     border-radius:0;
     border-right-width:1px;
     border-left-width:0;
@@ -132,18 +133,7 @@
   }
 
   form {
-    display:inline-block;
-
-    &:last-child input[type="submit"] {
-      border-radius:0 3px 3px 0;
-    }
-  }
-}
-
-input[type="submit"]{
-  &.dvs-button.dvs-button-small {
-    padding:6px 7px 8px;
-    cursor:pointer;
+    display:inline;
   }
 }
 
@@ -210,7 +200,7 @@ input[type="submit"]{
   .dvs-holder {
     display        : block;
     float          : left;
-    margin         : 0 5px 0 12px;
+    margin         : 3px 5px 0 12px;
     white-space    : nowrap;
     overflow       : hidden;
     cursor         : pointer;

@@ -760,7 +760,7 @@
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
-  line-height: 1;
+  line-height: 1em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
@@ -3450,7 +3450,8 @@ button.dvs-no-decoration:hover {
   border-radius: 2px;
   box-sizing: border-box;
   font-size: 12px;
-  font-weight: 400; }
+  font-weight: 400;
+  line-height: 1em; }
   .dvs-button:hover {
     color: #d7d8da; }
   .dvs-button.dvs-button-solid {
@@ -3460,7 +3461,7 @@ button.dvs-no-decoration:hover {
     padding: 6px;
     font-size: 10px; }
   .dvs-button.dvs-button-small {
-    padding: 0px 8px;
+    padding: 10px 8px;
     font-size: 10px; }
   .dvs-button.dvs-button-large {
     padding: 16px 40px;
@@ -3512,8 +3513,8 @@ button.dvs-no-decoration:hover {
 .dvs-button-group {
   white-space: nowrap; }
   .dvs-button-group .dvs-button {
+    float: left;
     display: inline-block !important;
-    margin-left: -4px;
     border-radius: 0;
     border-right-width: 1px;
     border-left-width: 0; }
@@ -3525,13 +3526,7 @@ button.dvs-no-decoration:hover {
       border-radius: 0 3px 3px 0;
       border-right-width: 1px; }
   .dvs-button-group form {
-    display: inline-block; }
-    .dvs-button-group form:last-child input[type="submit"] {
-      border-radius: 0 3px 3px 0; }
-
-input[type="submit"].dvs-button.dvs-button-small {
-  padding: 6px 7px 8px;
-  cursor: pointer; }
+    display: inline; }
 
 .pagination {
   margin: 25px 30px;
@@ -3582,7 +3577,7 @@ input[type="submit"].dvs-button.dvs-button-small {
   .dvs-select-wrapper .dvs-holder {
     display: block;
     float: left;
-    margin: 0 5px 0 12px;
+    margin: 3px 5px 0 12px;
     white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
@@ -4103,7 +4098,7 @@ td .dvs-select-small {
     font-variant: normal;
     text-transform: none;
     text-rendering: auto;
-    line-height: 1;
+    line-height: 1em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale; }
   .dvs-document.invert {
@@ -4214,7 +4209,7 @@ td .dvs-select-small {
       .dvs-node-mode #dvs-nodes .dvs-node.left > span, .dvs-node-mode #dvs-nodes .dvs-node.column > span, .dvs-node-mode #dvs-nodes .dvs-node.col1 > span, .dvs-node-mode #dvs-nodes .dvs-node.col2 > span, .dvs-node-mode #dvs-nodes .dvs-node.col3 > span, .dvs-node-mode #dvs-nodes .dvs-node.col4 > span, .dvs-node-mode #dvs-nodes .dvs-node.col5 > span, .dvs-node-mode #dvs-nodes .dvs-node.col6 > span, .dvs-node-mode #dvs-nodes .dvs-node.col7 > span, .dvs-node-mode #dvs-nodes .dvs-node.col8 > span, .dvs-node-mode #dvs-nodes .dvs-node.col9 > span, .dvs-node-mode #dvs-nodes .dvs-node.col10 > span, .dvs-node-mode #dvs-nodes .dvs-node.col11 > span, .dvs-node-mode #dvs-nodes .dvs-node.col12 > span {
         position: relative;
         padding: 0 40px 0 20px;
-        top: 34px; }
+        top: 40px; }
       .dvs-node-mode #dvs-nodes .dvs-node.left:hover, .dvs-node-mode #dvs-nodes .dvs-node.column:hover, .dvs-node-mode #dvs-nodes .dvs-node.col1:hover, .dvs-node-mode #dvs-nodes .dvs-node.col2:hover, .dvs-node-mode #dvs-nodes .dvs-node.col3:hover, .dvs-node-mode #dvs-nodes .dvs-node.col4:hover, .dvs-node-mode #dvs-nodes .dvs-node.col5:hover, .dvs-node-mode #dvs-nodes .dvs-node.col6:hover, .dvs-node-mode #dvs-nodes .dvs-node.col7:hover, .dvs-node-mode #dvs-nodes .dvs-node.col8:hover, .dvs-node-mode #dvs-nodes .dvs-node.col9:hover, .dvs-node-mode #dvs-nodes .dvs-node.col10:hover, .dvs-node-mode #dvs-nodes .dvs-node.col11:hover, .dvs-node-mode #dvs-nodes .dvs-node.col12:hover {
         left: -5px; }
       .dvs-node-mode #dvs-nodes .dvs-node.left.dvs-content-requested .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.column .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col1 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col2 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col3 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col4 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col5 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col6 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col7 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col8 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col9 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col10 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col11 .svg-node-arrow, .dvs-node-mode #dvs-nodes .dvs-node.dvs-content-requested.col12 .svg-node-arrow {
@@ -4272,7 +4267,7 @@ td .dvs-select-small {
   font-size: 16px;
   font-family: "Roboto", Tahoma, Arial, sans-serif;
   font-weight: 300;
-  line-height: 1.8em; }
+  line-height: 1; }
   #dvs-admin h1, #dvs-admin h2, #dvs-admin h3, #dvs-admin h4, #dvs-admin h5, #dvs-admin h6 {
     font-size: 42px;
     font-weight: 600;
@@ -4292,6 +4287,8 @@ td .dvs-select-small {
     font-size: 18px; }
   #dvs-admin h6 {
     font-size: 16px; }
+  #dvs-admin p {
+    line-height: 1.8em; }
   #dvs-admin hr {
     margin: 20px auto;
     border-color: #347e80;
@@ -4300,6 +4297,8 @@ td .dvs-select-small {
     border-bottom-width: 1px; }
     #dvs-admin hr.dvs-thick {
       border-bottom-width: 2px; }
+  #dvs-admin code {
+    line-height: 1.5em; }
   #dvs-admin .dvs-admin-items-wpr {
     width: 100%;
     margin: 30px auto;
@@ -4832,7 +4831,8 @@ table.dvs-admin-table {
     margin-left: 3px; }
   #dvs-mode.dvs-sidebar-mode #dvs-sidebar-groups .dvs-select-wrapper, #dvs-mode.dvs-sidebar-mode #dvs-sidebar-versions-selector .dvs-select-wrapper {
     width: 160px;
-    height: 32px; }
+    height: 32px;
+    padding: 8px; }
     #dvs-mode.dvs-sidebar-mode #dvs-sidebar-groups .dvs-select-wrapper .dvs-holder, #dvs-mode.dvs-sidebar-mode #dvs-sidebar-versions-selector .dvs-select-wrapper .dvs-holder {
       font-size: 10px; }
   #dvs-mode.dvs-sidebar-mode #dvs-sidebar-groups #dvs-sidebar-manage-groups, #dvs-mode.dvs-sidebar-mode #dvs-sidebar-versions-selector #dvs-sidebar-manage-groups {
@@ -4957,9 +4957,13 @@ table.dvs-admin-table {
     #dvs-mode.dvs-sidebar-mode #dvs-sidebar-current-element .dvs-property .dvs-select-wrapper {
       width: auto;
       margin-left: 15px;
+      padding-top: 2px;
       padding-right: 30px;
       height: 30px;
       font-size: 10px; }
+      #dvs-mode.dvs-sidebar-mode .dvs-sidebar-collection-group .dvs-property .dvs-select-wrapper .dvs-holder,
+      #dvs-mode.dvs-sidebar-mode #dvs-sidebar-current-element .dvs-property .dvs-select-wrapper .dvs-holder {
+        margin: 8px 5px 0 0; }
     #dvs-mode.dvs-sidebar-mode .dvs-sidebar-collection-group .dvs-property span,
     #dvs-mode.dvs-sidebar-mode #dvs-sidebar-current-element .dvs-property span {
       width: auto; }
@@ -5201,7 +5205,8 @@ table.dvs-admin-table {
   border-radius: 2px;
   box-sizing: border-box;
   font-size: 12px;
-  font-weight: 400; }
+  font-weight: 400;
+  line-height: 1em; }
   #dvs-mode.dvs-sidebar-mode .dvs-button:hover {
     color: #d7d8da; }
   #dvs-mode.dvs-sidebar-mode .dvs-button.dvs-button-solid {
@@ -5211,7 +5216,7 @@ table.dvs-admin-table {
     padding: 6px;
     font-size: 10px; }
   #dvs-mode.dvs-sidebar-mode .dvs-button.dvs-button-small {
-    padding: 0px 8px;
+    padding: 10px 8px;
     font-size: 10px; }
   #dvs-mode.dvs-sidebar-mode .dvs-button.dvs-button-large {
     padding: 16px 40px;
@@ -5262,8 +5267,8 @@ table.dvs-admin-table {
 #dvs-mode.dvs-sidebar-mode .dvs-button-group {
   white-space: nowrap; }
   #dvs-mode.dvs-sidebar-mode .dvs-button-group .dvs-button {
+    float: left;
     display: inline-block !important;
-    margin-left: -4px;
     border-radius: 0;
     border-right-width: 1px;
     border-left-width: 0; }
@@ -5275,12 +5280,7 @@ table.dvs-admin-table {
       border-radius: 0 3px 3px 0;
       border-right-width: 1px; }
   #dvs-mode.dvs-sidebar-mode .dvs-button-group form {
-    display: inline-block; }
-    #dvs-mode.dvs-sidebar-mode .dvs-button-group form:last-child input[type="submit"] {
-      border-radius: 0 3px 3px 0; }
-#dvs-mode.dvs-sidebar-mode input[type="submit"].dvs-button.dvs-button-small {
-  padding: 6px 7px 8px;
-  cursor: pointer; }
+    display: inline; }
 #dvs-mode.dvs-sidebar-mode .pagination {
   margin: 25px 30px;
   border-radius: 2px; }
@@ -5329,7 +5329,7 @@ table.dvs-admin-table {
   #dvs-mode.dvs-sidebar-mode .dvs-select-wrapper .dvs-holder {
     display: block;
     float: left;
-    margin: 0 5px 0 12px;
+    margin: 3px 5px 0 12px;
     white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
@@ -5932,8 +5932,8 @@ html.dz-drag-hover body {
   word-wrap: break-word;
   /* Internet Explorer 5.5+ */ }
 #dvs-admin .dvs-test-blocks code {
-  font-family: "Courier New", Courier, monospace;
-  padding: 20px;
+  font-family: "Source Code Pro", "Courier New", Courier, monospace;
+  padding: 5px 20px;
   width: 100%;
   border-radius: 3px; }
 #dvs-admin .dvs-test-blocks p {

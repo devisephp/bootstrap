@@ -1268,7 +1268,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 class Application extends Container implements ApplicationContract, HttpKernelInterface
 {
-    const VERSION = '5.0.16';
+    const VERSION = '5.0.17';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -1877,11 +1877,13 @@ class Kernel implements KernelContract
     public function handle($request)
     {
         try {
-            return $this->sendRequestThroughRouter($request);
+            $response = $this->sendRequestThroughRouter($request);
         } catch (Exception $e) {
             $this->reportException($e);
-            return $this->renderException($request, $e);
+            $response = $this->renderException($request, $e);
         }
+        $this->app['events']->fire('kernel.handled', array($request, $response));
+        return $response;
     }
     protected function sendRequestThroughRouter($request)
     {
@@ -2877,7 +2879,7 @@ class Request
                 $pos = strrpos($host, ':');
             }
             if (false !== $pos) {
-                return intval(substr($host, $pos + 1));
+                return (int) substr($host, $pos + 1);
             }
             return 'https' === $this->getScheme() ? 443 : 80;
         }
@@ -3290,7 +3292,7 @@ class Request
             return false;
         }
         $len = strlen($prefix);
-        if (preg_match("#^(%[[:xdigit:]]{2}|.){{$len}}#", $string, $match)) {
+        if (preg_match(sprintf('#^(%%[[:xdigit:]]{2}|.){%d}#', $len), $string, $match)) {
             return $match[0];
         }
         return false;
@@ -4049,18 +4051,25 @@ use Symfony\Component\Debug\Exception\OutOfMemoryException;
 class ExceptionHandler
 {
     private $debug;
+    private $charset;
     private $handler;
     private $caughtBuffer;
     private $caughtLength;
     private $fileLinkFormat;
-    public function __construct($debug = true, $fileLinkFormat = null)
+    public function __construct($debug = true, $charset = null, $fileLinkFormat = null)
     {
+        if (false !== strpos($charset, '%') xor false === strpos($fileLinkFormat, '%')) {
+            $pivot = $fileLinkFormat;
+            $fileLinkFormat = $charset;
+            $charset = $pivot;
+        }
         $this->debug = $debug;
+        $this->charset = $charset ?: ini_get('default_charset') ?: 'UTF-8';
         $this->fileLinkFormat = $fileLinkFormat ?: ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
     }
-    public static function register($debug = true, $fileLinkFormat = null)
+    public static function register($debug = true, $charset = null, $fileLinkFormat = null)
     {
-        $handler = new static($debug, $fileLinkFormat);
+        $handler = new static($debug, $charset, $fileLinkFormat);
         $prev = set_exception_handler(array($handler, 'handle'));
         if (is_array($prev) && $prev[0] instanceof ErrorHandler) {
             restore_exception_handler();
@@ -4129,6 +4138,7 @@ class ExceptionHandler
             foreach ($exception->getHeaders() as $name => $value) {
                 header($name . ': ' . $value, false);
             }
+            header('Content-Type: text/html; charset=' . $this->charset);
         }
         echo $this->decorate($this->getContent($exception), $this->getStylesheet($exception));
     }
@@ -4137,7 +4147,7 @@ class ExceptionHandler
         if (!$exception instanceof FlattenException) {
             $exception = FlattenException::create($exception);
         }
-        return new Response($this->decorate($this->getContent($exception), $this->getStylesheet($exception)), $exception->getStatusCode(), $exception->getHeaders());
+        return Response::create($this->decorate($this->getContent($exception), $this->getStylesheet($exception)), $exception->getStatusCode(), $exception->getHeaders())->setCharset($this->charset);
     }
     public function getContent(FlattenException $exception)
     {
@@ -4156,7 +4166,7 @@ class ExceptionHandler
                 foreach ($exception->toArray() as $position => $e) {
                     $ind = $count - $position + 1;
                     $class = $this->formatClass($e['class']);
-                    $message = nl2br(self::utf8Htmlize($e['message']));
+                    $message = nl2br($this->escapeHtml($e['message']));
                     $content .= sprintf('                        <h2 class="block_exception clear_fix">
                             <span class="exception_counter">%d/%d</span>
                             <span class="exception_title">%s%s:</span>
@@ -4181,7 +4191,7 @@ class ExceptionHandler
                 }
             } catch (\Exception $e) {
                 if ($this->debug) {
-                    $title = sprintf('Exception thrown when handling an exception (%s: %s)', get_class($e), $e->getMessage());
+                    $title = sprintf('Exception thrown when handling an exception (%s: %s)', get_class($e), $this->escapeHtml($e->getMessage()));
                 } else {
                     $title = 'Whoops, looks like something went wrong.';
                 }
@@ -4246,7 +4256,7 @@ class ExceptionHandler
     }
     private function decorate($content, $css)
     {
-        return "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta name=\"robots\" content=\"noindex,nofollow\" />\n        <style>\n            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */\n            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}\n\n            html { background: #eee; padding: 10px }\n            img { border: 0; }\n            #sf-resetcontent { width:970px; margin:0 auto; }\n            {$css}\n        </style>\n    </head>\n    <body>\n        {$content}\n    </body>\n</html>";
+        return "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"{$this->charset}\" />\n        <meta name=\"robots\" content=\"noindex,nofollow\" />\n        <style>\n            /* Copyright (c) 2010, Yahoo! Inc. All rights reserved. Code licensed under the BSD License: http://developer.yahoo.com/yui/license.html */\n            html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}\n\n            html { background: #eee; padding: 10px }\n            img { border: 0; }\n            #sf-resetcontent { width:970px; margin:0 auto; }\n            {$css}\n        </style>\n    </head>\n    <body>\n        {$content}\n    </body>\n</html>";
     }
     private function formatClass($class)
     {
@@ -4255,7 +4265,7 @@ class ExceptionHandler
     }
     private function formatPath($path, $line)
     {
-        $path = self::utf8Htmlize($path);
+        $path = $this->escapeHtml($path);
         $file = preg_match('#[^/\\\\]*$#', $path, $file) ? $file[0] : $path;
         if ($linkFormat = $this->fileLinkFormat) {
             $link = str_replace(array('%f', '%l'), array($path, $line), $linkFormat);
@@ -4272,7 +4282,7 @@ class ExceptionHandler
             } elseif ('array' === $item[0]) {
                 $formattedValue = sprintf('<em>array</em>(%s)', is_array($item[1]) ? $this->formatArgs($item[1]) : $item[1]);
             } elseif ('string' === $item[0]) {
-                $formattedValue = sprintf('\'%s\'', self::utf8Htmlize($item[1]));
+                $formattedValue = sprintf('\'%s\'', $this->escapeHtml($item[1]));
             } elseif ('null' === $item[0]) {
                 $formattedValue = '<em>null</em>';
             } elseif ('boolean' === $item[0]) {
@@ -4281,7 +4291,7 @@ class ExceptionHandler
                 $formattedValue = '<em>resource</em>';
             } else {
                 $formattedValue = str_replace('
-', '', var_export(self::utf8Htmlize((string) $item[1]), true));
+', '', var_export($this->escapeHtml((string) $item[1]), true));
             }
             $result[] = is_int($key) ? $formattedValue : sprintf('\'%s\' => %s', $key, $formattedValue);
         }
@@ -4299,6 +4309,10 @@ class ExceptionHandler
             $str = iconv($charset, 'UTF-8', $str);
         }
         return htmlspecialchars($str, ENT_QUOTES | (PHP_VERSION_ID >= 50400 ? ENT_SUBSTITUTE : 0), 'UTF-8');
+    }
+    private function escapeHtml($str)
+    {
+        return htmlspecialchars($str, ENT_QUOTES | (PHP_VERSION_ID >= 50400 ? ENT_SUBSTITUTE : 0), $this->charset);
     }
     public function catchOutput($buffer)
     {
@@ -7847,7 +7861,7 @@ class RouteCompiler implements RouteCompilerInterface
         if ('' !== ($host = $route->getHost())) {
             $result = self::compilePattern($route, $host, true);
             $hostVariables = $result['variables'];
-            $variables = array_merge($variables, $hostVariables);
+            $variables = $hostVariables;
             $hostTokens = $result['tokens'];
             $hostRegex = $result['regex'];
         }
@@ -7915,7 +7929,7 @@ class RouteCompiler implements RouteCompilerInterface
         for ($i = 0, $nbToken = count($tokens); $i < $nbToken; $i++) {
             $regexp .= self::computeRegexp($tokens, $i, $firstOptional);
         }
-        return array('staticPrefix' => 'text' === $tokens[0][0] ? $tokens[0][1] : '', 'regex' => self::REGEX_DELIMITER . '^' . $regexp . '$' . self::REGEX_DELIMITER . 's', 'tokens' => array_reverse($tokens), 'variables' => $variables);
+        return array('staticPrefix' => 'text' === $tokens[0][0] ? $tokens[0][1] : '', 'regex' => self::REGEX_DELIMITER . '^' . $regexp . '$' . self::REGEX_DELIMITER . 's' . ($isHost ? 'i' : ''), 'tokens' => array_reverse($tokens), 'variables' => $variables);
     }
     private static function findNextSeparator($pattern)
     {
@@ -9447,11 +9461,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
     public static function find($id, $columns = array('*'))
     {
-        $instance = new static();
-        if (is_array($id) && empty($id)) {
-            return $instance->newCollection();
-        }
-        return $instance->newQuery()->find($id, $columns);
+        return static::query()->find($id, $columns);
     }
     public static function findOrNew($id, $columns = array('*'))
     {
@@ -10245,8 +10255,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     protected function isJsonCastable($key)
     {
         if ($this->hasCast($key)) {
-            $type = $this->getCastType($key);
-            return $type === 'array' || $type === 'json' || $type === 'object';
+            return in_array($this->getCastType($key), array('array', 'json', 'object', 'collection'), true);
         }
         return false;
     }
@@ -10277,6 +10286,8 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
             case 'array':
             case 'json':
                 return json_decode($value, true);
+            case 'collection':
+                return $this->newCollection(json_decode($value, true));
             default:
                 return $value;
         }
@@ -14554,7 +14565,7 @@ class Response
     protected function ensureIEOverSSLCompatibility(Request $request)
     {
         if (false !== stripos($this->headers->get('Content-Disposition'), 'attachment') && preg_match('/MSIE (.*?);/i', $request->server->get('HTTP_USER_AGENT'), $match) == 1 && true === $request->isSecure()) {
-            if (intval(preg_replace('/(MSIE )(.*?);/', '$2', $match[0])) < 9) {
+            if ((int) preg_replace('/(MSIE )(.*?);/', '$2', $match[0]) < 9) {
                 $this->headers->remove('Cache-Control');
             }
         }
@@ -16073,18 +16084,18 @@ class Finder implements \IteratorAggregate, \Countable
     public function ignoreDotFiles($ignoreDotFiles)
     {
         if ($ignoreDotFiles) {
-            $this->ignore = $this->ignore | static::IGNORE_DOT_FILES;
+            $this->ignore |= static::IGNORE_DOT_FILES;
         } else {
-            $this->ignore = $this->ignore & ~static::IGNORE_DOT_FILES;
+            $this->ignore &= ~static::IGNORE_DOT_FILES;
         }
         return $this;
     }
     public function ignoreVCS($ignoreVCS)
     {
         if ($ignoreVCS) {
-            $this->ignore = $this->ignore | static::IGNORE_VCS_FILES;
+            $this->ignore |= static::IGNORE_VCS_FILES;
         } else {
-            $this->ignore = $this->ignore & ~static::IGNORE_VCS_FILES;
+            $this->ignore &= ~static::IGNORE_VCS_FILES;
         }
         return $this;
     }
