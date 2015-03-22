@@ -20,7 +20,7 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
 	 *
 	 * @var string
 	 */
-	const VERSION = '5.0.17';
+	const VERSION = '5.0.18';
 
 	/**
 	 * The base path for the Laravel installation.
@@ -722,7 +722,7 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
 	 */
 	public function getCachedConfigPath()
 	{
-		return $this['path.storage'].DIRECTORY_SEPARATOR.'framework'.DIRECTORY_SEPARATOR.'config.php';
+		return $this->basePath().'/vendor/config.php';
 	}
 
 	/**

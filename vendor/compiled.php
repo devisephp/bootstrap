@@ -1268,7 +1268,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 class Application extends Container implements ApplicationContract, HttpKernelInterface
 {
-    const VERSION = '5.0.17';
+    const VERSION = '5.0.18';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -1539,7 +1539,7 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
     }
     public function getCachedConfigPath()
     {
-        return $this['path.storage'] . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'config.php';
+        return $this->basePath() . '/vendor/config.php';
     }
     public function routesAreCached()
     {
@@ -4581,7 +4581,7 @@ trait ValidatesRequests
     }
     protected function buildFailedValidationResponse(Request $request, array $errors)
     {
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->wantsJson()) {
             return new JsonResponse($errors, 422);
         }
         return redirect()->to($this->getRedirectUrl())->withInput($request->input())->withErrors($errors, $this->errorBag());
@@ -11343,7 +11343,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
                 return data_get($item, $key) == $value;
             });
         }
-        if (is_callable($key)) {
+        if ($this->useAsCallable($key)) {
             return !is_null($this->first($key));
         }
         return in_array($key, $this->items);
