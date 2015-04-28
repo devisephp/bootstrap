@@ -1,7 +1,5 @@
 <?php namespace Illuminate\View\Compilers;
 
-use Closure;
-
 class BladeCompiler extends Compiler implements CompilerInterface {
 
 	/**
@@ -27,7 +25,7 @@ class BladeCompiler extends Compiler implements CompilerInterface {
 		'Extensions',
 		'Statements',
 		'Comments',
-		'Echos'
+		'Echos',
 	);
 
 	/**
@@ -213,7 +211,7 @@ class BladeCompiler extends Compiler implements CompilerInterface {
 	}
 
 	/**
-	 * Get the echo methdos in the proper order for compilation.
+	 * Get the echo methods in the proper order for compilation.
 	 *
 	 * @return array
 	 */
@@ -243,7 +241,7 @@ class BladeCompiler extends Compiler implements CompilerInterface {
 	}
 
 	/**
-	 * Compile Blade Statements that start with "@"
+	 * Compile Blade statements that start with "@".
 	 *
 	 * @param  string  $value
 	 * @return mixed
@@ -652,7 +650,7 @@ class BladeCompiler extends Compiler implements CompilerInterface {
 	}
 
 	/**
-	 * Compile the stack statements into the content
+	 * Compile the stack statements into the content.
 	 *
 	 * @param  string  $expression
 	 * @return string

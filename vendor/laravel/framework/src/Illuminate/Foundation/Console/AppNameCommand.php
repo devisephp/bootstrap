@@ -168,6 +168,8 @@ class AppNameCommand extends Command {
 		$this->setAppConfigNamespaces();
 
 		$this->setAuthConfigNamespace();
+
+		$this->setServicesConfigNamespace();
 	}
 
 	/**
@@ -199,6 +201,18 @@ class AppNameCommand extends Command {
 	{
 		$this->replaceIn(
 			$this->getAuthConfigPath(), $this->currentRoot.'\\User', $this->argument('name').'\\User'
+		);
+	}
+
+	/**
+	 * Set the services User namespace.
+	 *
+	 * @return void
+	 */
+	protected function setServicesConfigNamespace()
+	{
+		$this->replaceIn(
+			$this->getServicesConfigPath(), $this->currentRoot.'\\User', $this->argument('name').'\\User'
 		);
 	}
 
@@ -245,7 +259,7 @@ class AppNameCommand extends Command {
 	 */
 	protected function getBootstrapPath()
 	{
-		return $this->laravel['path.base'].'/bootstrap/app.php';
+		return $this->laravel->basePath().'/bootstrap/app.php';
 	}
 
 	/**
@@ -255,7 +269,7 @@ class AppNameCommand extends Command {
 	 */
 	protected function getComposerPath()
 	{
-		return $this->laravel['path.base'].'/composer.json';
+		return $this->laravel->basePath().'/composer.json';
 	}
 
 	/**
@@ -280,13 +294,23 @@ class AppNameCommand extends Command {
 	}
 
 	/**
+	 * Get the path to the services configuration file.
+	 *
+	 * @return string
+	 */
+	protected function getServicesConfigPath()
+	{
+		return $this->getConfigPath('services');
+	}
+
+	/**
 	 * Get the path to the PHPSpec configuration file.
 	 *
 	 * @return string
 	 */
 	protected function getPhpSpecConfigPath()
 	{
-		return $this->laravel['path.base'].'/phpspec.yml';
+		return $this->laravel->basePath().'/phpspec.yml';
 	}
 
 	/**

@@ -66,7 +66,7 @@ class ConfigCacheCommand extends Command {
 	 */
 	protected function getFreshConfiguration()
 	{
-		$app = require $this->laravel['path.base'].'/bootstrap/app.php';
+		$app = require $this->laravel->basePath().'/bootstrap/app.php';
 
 		$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
@@ -74,7 +74,7 @@ class ConfigCacheCommand extends Command {
 	}
 
 	/**
-	 * Set the "real" session driver on the configuratoin array.
+	 * Set the "real" session driver on the configuration array.
 	 *
 	 * Typically the SessionManager forces the driver to "array" in CLI environment.
 	 *

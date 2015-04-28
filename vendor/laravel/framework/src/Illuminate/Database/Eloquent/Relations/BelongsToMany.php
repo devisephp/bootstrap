@@ -167,13 +167,13 @@ class BelongsToMany extends Relation {
 
 		return $this->related->newCollection($models);
 	}
-	
+
 	/**
 	 * Get a paginator for the "select" statement.
 	 *
 	 * @param  int    $perPage
 	 * @param  array  $columns
-	 * @return \Illuminate\Pagination\Paginator
+	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
 	 */
 	public function paginate($perPage = null, $columns = array('*'))
 	{
@@ -184,6 +184,43 @@ class BelongsToMany extends Relation {
 		$this->hydratePivotRelation($paginator->items());
 
 		return $paginator;
+	}
+
+	/**
+	 * Paginate the given query into a simple paginator.
+	 *
+	 * @param  int  $perPage
+	 * @param  array  $columns
+	 * @return \Illuminate\Contracts\Pagination\Paginator
+	 */
+	public function simplePaginate($perPage = null, $columns = array('*'))
+	{
+		$this->query->addSelect($this->getSelectColumns($columns));
+
+		$paginator = $this->query->simplePaginate($perPage, $columns);
+
+		$this->hydratePivotRelation($paginator->items());
+
+		return $paginator;
+	}
+
+	/**
+	 * Chunk the results of the query.
+	 *
+	 * @param  int  $count
+	 * @param  callable  $callback
+	 * @return void
+	 */
+	public function chunk($count, callable $callback)
+	{
+		$this->query->addSelect($this->getSelectColumns());
+
+		$this->query->chunk($count, function($results) use ($callback)
+		{
+			$this->hydratePivotRelation($results->all());
+
+			call_user_func($callback, $results);
+		});
 	}
 
 	/**
@@ -531,6 +568,41 @@ class BelongsToMany extends Relation {
 	}
 
 	/**
+	 * Find a related model by its primary key.
+	 *
+	 * @param  mixed  $id
+	 * @param  array  $columns
+	 * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|null
+	 */
+	public function find($id, $columns = ['*'])
+	{
+		if (is_array($id))
+		{
+			return $this->findMany($id, $columns);
+		}
+
+		$this->where($this->getRelated()->getQualifiedKeyName(), '=', $id);
+
+		return $this->first($columns);
+	}
+
+	/**
+	 * Find multiple related models by their primary keys.
+	 *
+	 * @param  mixed  $id
+	 * @param  array  $columns
+	 * @return \Illuminate\Database\Eloquent\Collection
+	 */
+	public function findMany($ids, $columns = ['*'])
+	{
+		if (empty($ids)) return $this->getRelated()->newCollection();
+
+		$this->whereIn($this->getRelated()->getQualifiedKeyName(), $ids);
+
+		return $this->get($columns);
+	}
+
+	/**
 	 * Find a related model by its primary key or return new instance of the related model.
 	 *
 	 * @param  mixed  $id
@@ -653,7 +725,7 @@ class BelongsToMany extends Relation {
 	public function sync($ids, $detaching = true)
 	{
 		$changes = array(
-			'attached' => array(), 'detached' => array(), 'updated' => array()
+			'attached' => array(), 'detached' => array(), 'updated' => array(),
 		);
 
 		if ($ids instanceof Collection) $ids = $ids->modelKeys();

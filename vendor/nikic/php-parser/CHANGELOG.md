@@ -1,7 +1,21 @@
-Version 1.2.1-dev
+Version 1.2.3-dev
 -----------------
 
 Nothing yet.
+
+Version 1.2.2 (2015-04-03)
+--------------------------
+
+* The `NameResolver` now resolves parameter type hints when entering the function/method/closure node. As such other
+  visitors running after it will be able to make use of the resolved names at that point already.
+* The autoloader no longer sets the `unserialize_callback_func` ini option on registration - this is not necessary and
+  may cause issues when running PhpUnit tests with process isolation.
+
+Version 1.2.1 (2015-03-24)
+--------------------------
+
+* Fixed registration of the aliases introduced in 1.2.0. Previously the old class names could not be used in
+  `instanceof` checks under some circumstances.
 
 Version 1.2.0 (2015-03-22)
 --------------------------
