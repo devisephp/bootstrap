@@ -25,9 +25,10 @@ input[type=password],
 input[type=text] {
 
   &.form-control {
+    height:auto;
     @include insetFormDude();
 
-    padding:24px 14px;
+    padding:18px 14px;
   }
 }
 
@@ -66,8 +67,9 @@ input[type=text] {
 .dvs-admin-form-vertical,
 .dvs-admin-form-horizontal {
 
-  input[type="submit"] {
-    margin-left:$formLabelColumnWidth + $formGutterWidth;
+  .dvs-submit-margin {
+    display:inline-block;
+    width:$formLabelColumnWidth + $formGutterWidth;
   }
 
   .dvs-form-group {
@@ -99,7 +101,7 @@ input[type=text] {
     }
 
     select {
-      height:50px;
+      height:31px;
       width:$formFieldColumnWidth;
       border-radius: 0;
     }
@@ -120,22 +122,22 @@ input[type=text] {
 
     input[type=text]:disabled,
     textarea:disabled {
-        color:darken($bodyFormTextColor, 25%);
+      color:darken($bodyFormTextColor, 25%);
     }
   }
 
-  .dvs-menu-items {
-
+  .dvs-menu-items,
+  .dvs-sort-items {
   	.ui-sortable-handle {
 	  	clear:both;
 	  	@include clearfix();
-	}
+    }
 
   	select,
   	input[type=text] {
   		width:23%;
   		float:left;
-  		height:24px;
+  		height:31px;
   		font-size:11px;
   		margin-right: 5px;
   	}
@@ -151,6 +153,21 @@ input[type=text] {
   input[type="submit"] {
     margin-left:0;
   }
+}
+
+
+.dvs-admin-form-horizontal #dvs-fields-list {
+    select,
+    input[type=text] {
+        width:18%;
+    }
+
+    .dvs-choices-list {
+        select,
+        input[type=text] {
+            width:26%;
+        }
+    }
 }
 
 

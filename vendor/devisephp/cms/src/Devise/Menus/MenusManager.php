@@ -112,21 +112,21 @@ class MenusManager
 	{
         $validator = $this->Validator->make($input, $this->updateRules($id));
 
-        if ($validator->fails()){
+        if ($validator->fails())
+        {
             $this->message = 'Validation failure.';
             $this->errors = $validator->errors()->all();
 
             return false;
-        } else {
-
-    		$menu = $this->Menu->findOrFail($id);
-    		$menu->name = $input['name'];
-    		$menu->save();
-
-    		$this->syncMenuItems($menu, $input);
-
-    		return $menu;
         }
+
+		$menu = $this->Menu->findOrFail($id);
+		$menu->name = $input['name'];
+		$menu->save();
+
+		$this->syncMenuItems($menu, $input);
+
+		return $menu;
 	}
 
     /**
@@ -142,34 +142,42 @@ class MenusManager
 	{
 		$position = 0;
 
+		if (!isset($input['item']) )
+		{
+			$input['item'] = array();
+		}
+
+		if (!isset($input['item_order']))
+		{
+			$input['item_order'] = array();
+		}
+
 		list($items, $order) = $this->createNewMenuItems($menu, $input['item'], $input['item_order']);
 
 		// sync up all the menu item data
-		foreach ($items as $id => $item)
-		{
+		foreach ($items as $id => $item) {
 			$menuItem = $this->MenuItem->findOrFail($id);
 
 			if (isset($item['image'])) {
 				$menuItem->image = $item['image'];
 			}
-            if (isset($item['url_or_page']) && $item['url_or_page'] !== 'page') {
-                $item['page_id'] = NULL;
-            }
+			if (isset($item['url_or_page']) && $item['url_or_page'] !== 'page') {
+				$item['page_id'] = NULL;
+			}
 
 			$menuItem->parent_item_id = $order[$id] ?: null;
 			$menuItem->url = $item['url'];
 			$menuItem->page_id = $item['page_id'];
 			$menuItem->name = $item['name'];
 			$menuItem->position = $position++;
-        	$menuItem->permission = array_get($item, 'permission', null);
+			$menuItem->permission = array_get($item, 'permission', null);
 			$menuItem->save();
 		}
 
 		// user removed these menu items so let's remove in database
 		$removeItems = array_diff($menu->allItems()->lists('id'), array_keys($items));
 
-		foreach ($removeItems as $removeItem)
-		{
+		foreach ($removeItems as $removeItem) {
 			$item = $this->MenuItem->find($removeItem);
 			if ($item) $item->delete();
 		}
@@ -190,13 +198,15 @@ class MenusManager
 	{
 		$newlyCreated = array();
 
+
 		// create new items if there are any found
 		foreach ($items as $id => $item)
 		{
-			if (strpos($id, 'cid') === 0)
+			if (!is_numeric($id))
 			{
 				if ($item['url_or_page'] == 'page' && (!isset($item['page_id']) || $item['page_id'] == '')) {
 					unset($items[$id]);
+					unset($order[$id]);
 					continue;
 				}
 

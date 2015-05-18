@@ -1268,7 +1268,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 class Application extends Container implements ApplicationContract, HttpKernelInterface
 {
-    const VERSION = '5.0.28';
+    const VERSION = '5.0.31';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -1308,12 +1308,12 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
     }
     public function bootstrapWith(array $bootstrappers)
     {
+        $this->hasBeenBootstrapped = true;
         foreach ($bootstrappers as $bootstrapper) {
             $this['events']->fire('bootstrapping: ' . $bootstrapper, array($this));
             $this->make($bootstrapper)->bootstrap($this);
             $this['events']->fire('bootstrapped: ' . $bootstrapper, array($this));
         }
-        $this->hasBeenBootstrapped = true;
     }
     public function afterLoadingEnvironment(Closure $callback)
     {
@@ -2781,7 +2781,7 @@ class Request
     public static function setTrustedHosts(array $hostPatterns)
     {
         self::$trustedHostPatterns = array_map(function ($hostPattern) {
-            return sprintf('{%s}i', str_replace('}', '\\}', $hostPattern));
+            return sprintf('#%s#i', $hostPattern);
         }, $hostPatterns);
         self::$trustedHosts = array();
     }
@@ -3170,8 +3170,8 @@ class Request
         }
         $languages = AcceptHeader::fromString($this->headers->get('Accept-Language'))->all();
         $this->languages = array();
-        foreach (array_keys($languages) as $lang) {
-            if (strstr($lang, '-')) {
+        foreach ($languages as $lang => $acceptHeaderItem) {
+            if (false !== strpos($lang, '-')) {
                 $codes = explode('-', $lang);
                 if ('i' === $codes[0]) {
                     if (count($codes) > 1) {
@@ -5466,9 +5466,7 @@ class Arr
     }
     public static function except($array, $keys)
     {
-        foreach ((array) $keys as $key) {
-            static::forget($array, $key);
-        }
+        static::forget($array, $keys);
         return $array;
     }
     public static function fetch($array, $key)
@@ -5764,6 +5762,7 @@ namespace Symfony\Component\Debug;
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Debug\Exception\ContextErrorException;
+use Symfony\Component\Debug\Exception\FatalBaseException;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\Debug\Exception\OutOfMemoryException;
 use Symfony\Component\Debug\FatalErrorHandler\UndefinedFunctionFatalErrorHandler;
@@ -5926,64 +5925,70 @@ class ErrorHandler
         $log = $this->loggedErrors & $type;
         $throw = $this->thrownErrors & $type & $level;
         $type &= $level | $this->screamedErrors;
-        if ($type && ($log || $throw)) {
-            if (PHP_VERSION_ID < 50400 && isset($context['GLOBALS']) && $this->scopedErrors & $type) {
-                $e = $context;
-                unset($e['GLOBALS'], $context);
-                $context = $e;
-            }
-            if ($throw) {
-                if ($this->scopedErrors & $type && class_exists('Symfony\\Component\\Debug\\Exception\\ContextErrorException')) {
-                    $throw = new ContextErrorException($this->levels[$type] . ': ' . $message, 0, $type, $file, $line, $context);
-                } else {
-                    $throw = new \ErrorException($this->levels[$type] . ': ' . $message, 0, $type, $file, $line);
-                }
-                if (PHP_VERSION_ID <= 50407 && (PHP_VERSION_ID >= 50400 || PHP_VERSION_ID <= 50317)) {
-                    $throw->errorHandlerCanary = new ErrorHandlerCanary();
-                }
-                throw $throw;
-            }
-            $e = md5("{$type}/{$line}/{$file} {$message}", true);
-            $trace = true;
-            if (!($this->tracedErrors & $type) || isset($this->loggedTraces[$e])) {
-                $trace = false;
+        if (!$type || !$log && !$throw) {
+            return $type && $log;
+        }
+        if (PHP_VERSION_ID < 50400 && isset($context['GLOBALS']) && $this->scopedErrors & $type) {
+            $e = $context;
+            unset($e['GLOBALS'], $context);
+            $context = $e;
+        }
+        if ($throw) {
+            if ($this->scopedErrors & $type && class_exists('Symfony\\Component\\Debug\\Exception\\ContextErrorException')) {
+                $throw = new ContextErrorException($this->levels[$type] . ': ' . $message, 0, $type, $file, $line, $context);
             } else {
-                $this->loggedTraces[$e] = 1;
+                $throw = new \ErrorException($this->levels[$type] . ': ' . $message, 0, $type, $file, $line);
             }
-            $e = compact('type', 'file', 'line', 'level');
-            if ($type & $level) {
-                if ($this->scopedErrors & $type) {
-                    $e['context'] = $context;
-                    if ($trace) {
-                        $e['stack'] = debug_backtrace(true);
-                    }
-                } elseif ($trace) {
-                    $e['stack'] = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
-                }
+            if (PHP_VERSION_ID <= 50407 && (PHP_VERSION_ID >= 50400 || PHP_VERSION_ID <= 50317)) {
+                $throw->errorHandlerCanary = new ErrorHandlerCanary();
             }
-            if ($this->isRecursive) {
-                $log = 0;
-            } elseif (self::$stackedErrorLevels) {
-                self::$stackedErrors[] = array($this->loggers[$type], $message, $e);
-            } else {
-                try {
-                    $this->isRecursive = true;
-                    $this->loggers[$type][0]->log($this->loggers[$type][1], $message, $e);
-                    $this->isRecursive = false;
-                } catch (\Exception $e) {
-                    $this->isRecursive = false;
-                    throw $e;
+            throw $throw;
+        }
+        $e = md5("{$type}/{$line}/{$file} {$message}", true);
+        $trace = true;
+        if (!($this->tracedErrors & $type) || isset($this->loggedTraces[$e])) {
+            $trace = false;
+        } else {
+            $this->loggedTraces[$e] = 1;
+        }
+        $e = compact('type', 'file', 'line', 'level');
+        if ($type & $level) {
+            if ($this->scopedErrors & $type) {
+                $e['scope_vars'] = $context;
+                if ($trace) {
+                    $e['stack'] = debug_backtrace(true);
                 }
+            } elseif ($trace) {
+                $e['stack'] = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
+            }
+        }
+        if ($this->isRecursive) {
+            $log = 0;
+        } elseif (self::$stackedErrorLevels) {
+            self::$stackedErrors[] = array($this->loggers[$type], $message, $e);
+        } else {
+            try {
+                $this->isRecursive = true;
+                $this->loggers[$type][0]->log($type & $level ? $this->loggers[$type][1] : LogLevel::DEBUG, $message, $e);
+                $this->isRecursive = false;
+            } catch (\Exception $e) {
+                $this->isRecursive = false;
+                throw $e;
             }
         }
         return $type && $log;
     }
-    public function handleException(\Exception $exception, array $error = null)
+    public function handleException($exception, array $error = null)
     {
-        $level = error_reporting();
-        if ($this->loggedErrors & E_ERROR & ($level | $this->screamedErrors)) {
-            $e = array('type' => E_ERROR, 'file' => $exception->getFile(), 'line' => $exception->getLine(), 'level' => $level, 'stack' => $exception->getTrace());
-            if ($exception instanceof FatalErrorException) {
+        if (!$exception instanceof \Exception) {
+            $exception = new FatalBaseException($exception);
+        }
+        $type = $exception instanceof FatalErrorException ? $exception->getSeverity() : E_ERROR;
+        if ($this->loggedErrors & $type) {
+            $e = array('type' => $type, 'file' => $exception->getFile(), 'line' => $exception->getLine(), 'level' => error_reporting(), 'stack' => $exception->getTrace());
+            if ($exception instanceof FatalBaseException) {
+                $error = array('type' => $type, 'message' => $message = $exception->getMessage(), 'file' => $e['file'], 'line' => $e['line']);
+            } elseif ($exception instanceof FatalErrorException) {
                 $message = 'Fatal ' . $exception->getMessage();
             } elseif ($exception instanceof \ErrorException) {
                 $message = 'Uncaught ' . $exception->getMessage();
@@ -6013,6 +6018,9 @@ class ErrorHandler
         } catch (\Exception $handlerException) {
             $this->exceptionHandler = null;
             $this->handleException($handlerException);
+        } catch (\BaseException $handlerException) {
+            $this->exceptionHandler = null;
+            $this->handleException($handlerException);
         }
     }
     public static function handleFatalError(array $error = null)
@@ -6021,30 +6029,31 @@ class ErrorHandler
         $handler = set_error_handler('var_dump', 0);
         $handler = is_array($handler) ? $handler[0] : null;
         restore_error_handler();
-        if ($handler instanceof self) {
-            if (null === $error) {
-                $error = error_get_last();
+        if (!$handler instanceof self) {
+            return;
+        }
+        if (null === $error) {
+            $error = error_get_last();
+        }
+        try {
+            while (self::$stackedErrorLevels) {
+                static::unstackErrors();
             }
-            try {
-                while (self::$stackedErrorLevels) {
-                    static::unstackErrors();
-                }
-            } catch (\Exception $exception) {
+        } catch (\Exception $exception) {
+        }
+        if ($error && $error['type'] & (E_PARSE | E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR)) {
+            $handler->throwAt(0, true);
+            if (0 === strpos($error['message'], 'Allowed memory') || 0 === strpos($error['message'], 'Out of memory')) {
+                $exception = new OutOfMemoryException($handler->levels[$error['type']] . ': ' . $error['message'], 0, $error['type'], $error['file'], $error['line'], 2, false);
+            } else {
+                $exception = new FatalErrorException($handler->levels[$error['type']] . ': ' . $error['message'], 0, $error['type'], $error['file'], $error['line'], 2, true);
             }
-            if ($error && $error['type'] & (E_PARSE | E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR)) {
-                $handler->throwAt(0, true);
-                if (0 === strpos($error['message'], 'Allowed memory') || 0 === strpos($error['message'], 'Out of memory')) {
-                    $exception = new OutOfMemoryException($handler->levels[$error['type']] . ': ' . $error['message'], 0, $error['type'], $error['file'], $error['line'], 2, false);
-                } else {
-                    $exception = new FatalErrorException($handler->levels[$error['type']] . ': ' . $error['message'], 0, $error['type'], $error['file'], $error['line'], 2, true);
-                }
-            } elseif (!isset($exception)) {
-                return;
-            }
-            try {
-                $handler->handleException($exception, $error);
-            } catch (FatalErrorException $e) {
-            }
+        } elseif (!isset($exception)) {
+            return;
+        }
+        try {
+            $handler->handleException($exception, $error);
+        } catch (FatalErrorException $e) {
         }
     }
     public static function stackErrors()
@@ -6242,6 +6251,7 @@ class NamespacedItemResolver
 }
 namespace Illuminate\Filesystem;
 
+use ErrorException;
 use FilesystemIterator;
 use Symfony\Component\Finder\Finder;
 use Illuminate\Support\Traits\Macroable;
@@ -6291,7 +6301,11 @@ class Filesystem
         $paths = is_array($paths) ? $paths : func_get_args();
         $success = true;
         foreach ($paths as $path) {
-            if (!@unlink($path)) {
+            try {
+                if (!@unlink($path)) {
+                    $success = false;
+                }
+            } catch (ErrorException $e) {
                 $success = false;
             }
         }
@@ -6856,8 +6870,8 @@ class Router implements RegistrarContract
     }
     public function controllers(array $controllers)
     {
-        foreach ($controllers as $uri => $name) {
-            $this->controller($uri, $name);
+        foreach ($controllers as $uri => $controller) {
+            $this->controller($uri, $controller);
         }
     }
     public function controller($uri, $controller, $names = array())
@@ -7582,7 +7596,7 @@ class Route
     protected function findCallable(array $action)
     {
         return array_first($action, function ($key, $value) {
-            return is_callable($value);
+            return is_callable($value) && is_numeric($key);
         });
     }
     public static function getValidators()
@@ -13868,11 +13882,10 @@ class BladeCompiler extends Compiler implements CompilerInterface
     protected $forelseCounter = 0;
     public function compile($path = null)
     {
-        $this->footer = array();
         if ($path) {
             $this->setPath($path);
         }
-        $contents = $this->compileString($this->files->get($path));
+        $contents = $this->compileString($this->files->get($this->getPath()));
         if (!is_null($this->cachePath)) {
             $this->files->put($this->getCompiledPath($this->getPath()), $contents);
         }
@@ -13888,6 +13901,7 @@ class BladeCompiler extends Compiler implements CompilerInterface
     public function compileString($value)
     {
         $result = '';
+        $this->footer = array();
         foreach (token_get_all($value) as $token) {
             $result .= is_array($token) ? $this->parseToken($token) : $token;
         }
@@ -16284,7 +16298,7 @@ class Finder implements \IteratorAggregate, \Countable
         foreach ((array) $dirs as $dir) {
             if (is_dir($dir)) {
                 $resolvedDirs[] = $dir;
-            } elseif ($glob = glob($dir, GLOB_BRACE | GLOB_ONLYDIR)) {
+            } elseif ($glob = glob($dir, (defined('GLOB_BRACE') ? GLOB_BRACE : 0) | GLOB_ONLYDIR)) {
                 $resolvedDirs = array_merge($resolvedDirs, $glob);
             } else {
                 throw new \InvalidArgumentException(sprintf('The "%s" directory does not exist.', $dir));
@@ -16376,7 +16390,6 @@ namespace Carbon;
 use Closure;
 use DateTime;
 use DateTimeZone;
-use DateInterval;
 use DatePeriod;
 use InvalidArgumentException;
 use Symfony\Component\Translation\Translator;

@@ -13,6 +13,13 @@ class FieldValue
 	 * @var string
 	 */
 	protected $json;
+	
+	/**
+	 * Number of values on this field value
+	 *
+	 * @var integer
+	 */
+	protected $count;
 
 	/**
 	 * Create a new FieldValue object from json string
@@ -22,7 +29,9 @@ class FieldValue
 	public function __construct($json)
 	{
 		$this->json = $json;
-		$values = json_decode($json);
+		$values = json_decode($json, true);
+
+		$this->count = count($values);
 
 		foreach ($values as $key => $value)
 		{
@@ -72,6 +81,30 @@ class FieldValue
 	}
 
 	/**
+	 * Overrides this data with the new
+	 * input array
+	 *
+	 * @param  array $input
+	 * @return void
+	 */
+	public function override($input)
+	{
+		$old = (array) json_decode($this->json);
+
+		foreach ($old as $key => $value)
+		{
+			unset($this->$key);
+		}
+
+		$this->json = json_encode($input);
+
+		foreach ($input as $key => $value)
+		{
+			$this->$key = $value;
+		}
+	}
+
+	/**
 	 * Merges in the array data into the
 	 * field object json
 	 *
@@ -103,6 +136,16 @@ class FieldValue
 	public function toJSON()
 	{
 		return $this->json;
+	}
+
+	/**
+	 * Returns this object as array
+	 *
+	 * @return array
+	 */
+	public function toArray()
+	{
+		return (array) json_decode($this->json);
 	}
 
 	/**
