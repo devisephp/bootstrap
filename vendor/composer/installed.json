@@ -3614,73 +3614,6 @@
         ]
     },
     {
-        "name": "devisephp/cms",
-        "version": "1.1.4",
-        "version_normalized": "1.1.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/devisephp/cms.git",
-            "reference": "e21b37f17cda86cd0b625b6b703c67e6b2874bd8"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/devisephp/cms/zipball/e21b37f17cda86cd0b625b6b703c67e6b2874bd8",
-            "reference": "e21b37f17cda86cd0b625b6b703c67e6b2874bd8",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/dbal": "~2.3",
-            "ext-imagick": "*",
-            "guzzlehttp/guzzle": "~4.0",
-            "illuminate/html": "5.0.*",
-            "laravel/framework": ">=5.0.7",
-            "league/commonmark": "0.7.*",
-            "masterminds/html5": "1.*",
-            "php": ">=5.4.0",
-            "symfony/console": "~2.0",
-            "zencoder/zencoder-php": "*"
-        },
-        "require-dev": {
-            "codeception/codeception": "*",
-            "jakoch/phantomjs-installer": "1.9.8",
-            "mikey179/vfsstream": "*",
-            "mockery/mockery": "0.9.3",
-            "phpunit/phpunit": "*"
-        },
-        "time": "2015-05-13 13:39:51",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/models",
-                "src/seeds",
-                "src/migrations",
-                "tests/DeviseTestCase.php"
-            ],
-            "psr-0": {
-                "Devise\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "DevisePHP Team",
-                "email": "info@devisephp.com"
-            }
-        ],
-        "description": "Content Management System riding on top of the Laravel Framework",
-        "keywords": [
-            "Content management system",
-            "cms",
-            "devise",
-            "devisephp",
-            "laravel"
-        ]
-    },
-    {
         "name": "symfony/yaml",
         "version": "v2.6.7",
         "version_normalized": "2.6.7.0",
@@ -3731,5 +3664,72 @@
         ],
         "description": "Symfony Yaml Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "devisephp/cms",
+        "version": "1.1.6",
+        "version_normalized": "1.1.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/devisephp/cms.git",
+            "reference": "f0d9ad115406888ee64aeb5410b278ad79c7689b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/devisephp/cms/zipball/f0d9ad115406888ee64aeb5410b278ad79c7689b",
+            "reference": "f0d9ad115406888ee64aeb5410b278ad79c7689b",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/dbal": "~2.3",
+            "ext-imagick": "*",
+            "guzzlehttp/guzzle": "~4.0",
+            "illuminate/html": "5.0.*",
+            "laravel/framework": ">=5.0.7",
+            "league/commonmark": "0.7.*",
+            "masterminds/html5": "1.*",
+            "php": ">=5.4.0",
+            "symfony/console": "~2.0",
+            "zencoder/zencoder-php": "*"
+        },
+        "require-dev": {
+            "codeception/codeception": "*",
+            "jakoch/phantomjs-installer": "1.9.8",
+            "mikey179/vfsstream": "*",
+            "mockery/mockery": "0.9.3",
+            "phpunit/phpunit": "*"
+        },
+        "time": "2015-05-21 18:10:16",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/models",
+                "src/seeds",
+                "src/migrations",
+                "tests/DeviseTestCase.php"
+            ],
+            "psr-0": {
+                "Devise\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "DevisePHP Team",
+                "email": "info@devisephp.com"
+            }
+        ],
+        "description": "Content Management System riding on top of the Laravel Framework",
+        "keywords": [
+            "Content management system",
+            "cms",
+            "devise",
+            "devisephp",
+            "laravel"
+        ]
     }
 ]
