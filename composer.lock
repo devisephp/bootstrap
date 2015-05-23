@@ -124,16 +124,16 @@
         },
         {
             "name": "devisephp/cms",
-            "version": "1.1.6",
+            "version": "1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devisephp/cms.git",
-                "reference": "f0d9ad115406888ee64aeb5410b278ad79c7689b"
+                "reference": "aa02f87e9bcb1ac96a3cdea0119ea35917d4e48d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devisephp/cms/zipball/f0d9ad115406888ee64aeb5410b278ad79c7689b",
-                "reference": "f0d9ad115406888ee64aeb5410b278ad79c7689b",
+                "url": "https://api.github.com/repos/devisephp/cms/zipball/aa02f87e9bcb1ac96a3cdea0119ea35917d4e48d",
+                "reference": "aa02f87e9bcb1ac96a3cdea0119ea35917d4e48d",
                 "shasum": ""
             },
             "require": {
@@ -150,7 +150,6 @@
             },
             "require-dev": {
                 "codeception/codeception": "*",
-                "jakoch/phantomjs-installer": "1.9.8",
                 "mikey179/vfsstream": "*",
                 "mockery/mockery": "0.9.3",
                 "phpunit/phpunit": "*"
@@ -185,7 +184,7 @@
                 "devisephp",
                 "laravel"
             ],
-            "time": "2015-05-21 18:10:16"
+            "time": "2015-05-22 14:53:45"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
