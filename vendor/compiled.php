@@ -1,6 +1,5 @@
 <?php
-namespace Illuminate\Contracts\Container;
-
+namespace Illuminate\Contracts\Container {
 use Closure;
 interface Container
 {
@@ -20,15 +19,17 @@ interface Container
     public function resolving($abstract, Closure $callback = null);
     public function afterResolving($abstract, Closure $callback = null);
 }
-namespace Illuminate\Contracts\Container;
+}
 
+namespace Illuminate\Contracts\Container {
 interface ContextualBindingBuilder
 {
     public function needs($abstract);
     public function give($implementation);
 }
-namespace Illuminate\Contracts\Foundation;
+}
 
+namespace Illuminate\Contracts\Foundation {
 use Illuminate\Contracts\Container\Container;
 interface Application extends Container
 {
@@ -43,8 +44,9 @@ interface Application extends Container
     public function booting($callback);
     public function booted($callback);
 }
-namespace Illuminate\Contracts\Bus;
+}
 
+namespace Illuminate\Contracts\Bus {
 use Closure;
 use ArrayAccess;
 interface Dispatcher
@@ -55,14 +57,16 @@ interface Dispatcher
     public function dispatchNow($command, Closure $afterResolving = null);
     public function pipeThrough(array $pipes);
 }
-namespace Illuminate\Contracts\Bus;
+}
 
+namespace Illuminate\Contracts\Bus {
 interface QueueingDispatcher extends Dispatcher
 {
     public function dispatchToQueue($command);
 }
-namespace Illuminate\Contracts\Bus;
+}
 
+namespace Illuminate\Contracts\Bus {
 use Closure;
 interface HandlerResolver
 {
@@ -72,8 +76,9 @@ interface HandlerResolver
     public function maps(array $commands);
     public function mapUsing(Closure $mapper);
 }
-namespace Illuminate\Contracts\Pipeline;
+}
 
+namespace Illuminate\Contracts\Pipeline {
 use Closure;
 interface Pipeline
 {
@@ -82,14 +87,16 @@ interface Pipeline
     public function via($method);
     public function then(Closure $destination);
 }
-namespace Illuminate\Contracts\Support;
+}
 
+namespace Illuminate\Contracts\Support {
 interface Renderable
 {
     public function render();
 }
-namespace Illuminate\Contracts\Logging;
+}
 
+namespace Illuminate\Contracts\Logging {
 interface Log
 {
     public function alert($message, array $context = array());
@@ -103,8 +110,9 @@ interface Log
     public function useFiles($path, $level = 'debug');
     public function useDailyFiles($path, $days = 0, $level = 'debug');
 }
-namespace Illuminate\Contracts\Config;
+}
 
+namespace Illuminate\Contracts\Config {
 interface Repository
 {
     public function has($key);
@@ -113,8 +121,9 @@ interface Repository
     public function prepend($key, $value);
     public function push($key, $value);
 }
-namespace Illuminate\Contracts\Events;
+}
 
+namespace Illuminate\Contracts\Events {
 interface Dispatcher
 {
     public function listen($events, $listener, $priority = 0);
@@ -125,36 +134,41 @@ interface Dispatcher
     public function forget($event);
     public function forgetPushed();
 }
-namespace Illuminate\Contracts\Support;
+}
 
+namespace Illuminate\Contracts\Support {
 interface Arrayable
 {
     public function toArray();
 }
-namespace Illuminate\Contracts\Support;
+}
 
+namespace Illuminate\Contracts\Support {
 interface Jsonable
 {
     public function toJson($options = 0);
 }
-namespace Illuminate\Contracts\Cookie;
+}
 
+namespace Illuminate\Contracts\Cookie {
 interface Factory
 {
     public function make($name, $value, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = true);
     public function forever($name, $value, $path = null, $domain = null, $secure = false, $httpOnly = true);
     public function forget($name, $path = null, $domain = null);
 }
-namespace Illuminate\Contracts\Cookie;
+}
 
+namespace Illuminate\Contracts\Cookie {
 interface QueueingFactory extends Factory
 {
     public function queue();
     public function unqueue($name);
     public function getQueuedCookies();
 }
-namespace Illuminate\Contracts\Encryption;
+}
 
+namespace Illuminate\Contracts\Encryption {
 interface Encrypter
 {
     public function encrypt($value);
@@ -162,14 +176,16 @@ interface Encrypter
     public function setMode($mode);
     public function setCipher($cipher);
 }
-namespace Illuminate\Contracts\Queue;
+}
 
+namespace Illuminate\Contracts\Queue {
 interface QueueableEntity
 {
     public function getQueueableId();
 }
-namespace Illuminate\Contracts\Routing;
+}
 
+namespace Illuminate\Contracts\Routing {
 use Closure;
 interface Registrar
 {
@@ -186,8 +202,9 @@ interface Registrar
     public function after($callback);
     public function filter($name, $callback);
 }
-namespace Illuminate\Contracts\Routing;
+}
 
+namespace Illuminate\Contracts\Routing {
 interface ResponseFactory
 {
     public function make($content = '', $status = 200, array $headers = array());
@@ -202,8 +219,9 @@ interface ResponseFactory
     public function redirectGuest($path, $status = 302, $headers = array(), $secure = null);
     public function redirectToIntended($default = '/', $status = 302, $headers = array(), $secure = null);
 }
-namespace Illuminate\Contracts\Routing;
+}
 
+namespace Illuminate\Contracts\Routing {
 interface UrlGenerator
 {
     public function to($path, $extra = array(), $secure = null);
@@ -213,34 +231,39 @@ interface UrlGenerator
     public function action($action, $parameters = array(), $absolute = true);
     public function setRootControllerNamespace($rootNamespace);
 }
-namespace Illuminate\Contracts\Routing;
+}
 
+namespace Illuminate\Contracts\Routing {
 interface UrlRoutable
 {
     public function getRouteKey();
     public function getRouteKeyName();
 }
-namespace Illuminate\Contracts\Routing;
+}
 
+namespace Illuminate\Contracts\Routing {
 use Closure;
 interface Middleware
 {
     public function handle($request, Closure $next);
 }
-namespace Illuminate\Contracts\Routing;
+}
 
+namespace Illuminate\Contracts\Routing {
 interface TerminableMiddleware extends Middleware
 {
     public function terminate($request, $response);
 }
-namespace Illuminate\Contracts\Validation;
+}
 
+namespace Illuminate\Contracts\Validation {
 interface ValidatesWhenResolved
 {
     public function validate();
 }
-namespace Illuminate\Contracts\View;
+}
 
+namespace Illuminate\Contracts\View {
 interface Factory
 {
     public function exists($view);
@@ -251,14 +274,16 @@ interface Factory
     public function creator($views, $callback);
     public function addNamespace($namespace, $hints);
 }
-namespace Illuminate\Contracts\Support;
+}
 
+namespace Illuminate\Contracts\Support {
 interface MessageProvider
 {
     public function getMessageBag();
 }
-namespace Illuminate\Contracts\Support;
+}
 
+namespace Illuminate\Contracts\Support {
 interface MessageBag
 {
     public function keys();
@@ -274,16 +299,18 @@ interface MessageBag
     public function count();
     public function toArray();
 }
-namespace Illuminate\Contracts\View;
+}
 
+namespace Illuminate\Contracts\View {
 use Illuminate\Contracts\Support\Renderable;
 interface View extends Renderable
 {
     public function name();
     public function with($key, $value = null);
 }
-namespace Illuminate\Contracts\Http;
+}
 
+namespace Illuminate\Contracts\Http {
 interface Kernel
 {
     public function bootstrap();
@@ -291,8 +318,9 @@ interface Kernel
     public function terminate($request, $response);
     public function getApplication();
 }
-namespace Illuminate\Contracts\Auth;
+}
 
+namespace Illuminate\Contracts\Auth {
 interface Guard
 {
     public function check();
@@ -308,16 +336,18 @@ interface Guard
     public function viaRemember();
     public function logout();
 }
-namespace Illuminate\Contracts\Hashing;
+}
 
+namespace Illuminate\Contracts\Hashing {
 interface Hasher
 {
     public function make($value, array $options = array());
     public function check($value, $hashedValue, array $options = array());
     public function needsRehash($hashedValue, array $options = array());
 }
-namespace Illuminate\Auth;
+}
 
+namespace Illuminate\Auth {
 use Illuminate\Support\Manager;
 class AuthManager extends Manager
 {
@@ -366,8 +396,9 @@ class AuthManager extends Manager
         $this->app['config']['auth.driver'] = $name;
     }
 }
-namespace Illuminate\Auth;
+}
 
+namespace Illuminate\Auth {
 use RuntimeException;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -675,8 +706,9 @@ class Guard implements GuardContract
         return $this->viaRemember;
     }
 }
-namespace Illuminate\Contracts\Auth;
+}
 
+namespace Illuminate\Contracts\Auth {
 interface UserProvider
 {
     public function retrieveById($identifier);
@@ -685,8 +717,9 @@ interface UserProvider
     public function retrieveByCredentials(array $credentials);
     public function validateCredentials(Authenticatable $user, array $credentials);
 }
-namespace Illuminate\Auth;
+}
 
+namespace Illuminate\Auth {
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
@@ -734,8 +767,9 @@ class EloquentUserProvider implements UserProvider
         return new $class();
     }
 }
-namespace Illuminate\Container;
+}
 
+namespace Illuminate\Container {
 use Closure;
 use ArrayAccess;
 use ReflectionClass;
@@ -1234,8 +1268,9 @@ class Container implements ArrayAccess, ContainerContract
         $this[$key] = $value;
     }
 }
-namespace Symfony\Component\HttpKernel;
+}
 
+namespace Symfony\Component\HttpKernel {
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 interface HttpKernelInterface
@@ -1244,16 +1279,18 @@ interface HttpKernelInterface
     const SUB_REQUEST = 2;
     public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true);
 }
-namespace Symfony\Component\HttpKernel;
+}
 
+namespace Symfony\Component\HttpKernel {
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 interface TerminableInterface
 {
     public function terminate(Request $request, Response $response);
 }
-namespace Illuminate\Foundation;
+}
 
+namespace Illuminate\Foundation {
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Container\Container;
@@ -1670,8 +1707,9 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
         $this->loadedProviders = array();
     }
 }
-namespace Illuminate\Foundation;
+}
 
+namespace Illuminate\Foundation {
 use Closure;
 class EnvironmentDetector
 {
@@ -1700,8 +1738,9 @@ class EnvironmentDetector
         });
     }
 }
-namespace Illuminate\Foundation\Bootstrap;
+}
 
+namespace Illuminate\Foundation\Bootstrap {
 use Illuminate\Log\Writer;
 use Monolog\Logger as Monolog;
 use Illuminate\Contracts\Foundation\Application;
@@ -1741,8 +1780,9 @@ class ConfigureLogging
         $log->useErrorLog();
     }
 }
-namespace Illuminate\Foundation\Bootstrap;
+}
 
+namespace Illuminate\Foundation\Bootstrap {
 use ErrorException;
 use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -1803,8 +1843,9 @@ class HandleExceptions
         return $this->app->make('Illuminate\\Contracts\\Debug\\ExceptionHandler');
     }
 }
-namespace Illuminate\Foundation\Bootstrap;
+}
 
+namespace Illuminate\Foundation\Bootstrap {
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Contracts\Foundation\Application;
@@ -1817,8 +1858,9 @@ class RegisterFacades
         AliasLoader::getInstance($app['config']['app.aliases'])->register();
     }
 }
-namespace Illuminate\Foundation\Bootstrap;
+}
 
+namespace Illuminate\Foundation\Bootstrap {
 use Illuminate\Contracts\Foundation\Application;
 class RegisterProviders
 {
@@ -1827,8 +1869,9 @@ class RegisterProviders
         $app->registerConfiguredProviders();
     }
 }
-namespace Illuminate\Foundation\Bootstrap;
+}
 
+namespace Illuminate\Foundation\Bootstrap {
 use Illuminate\Contracts\Foundation\Application;
 class BootProviders
 {
@@ -1837,8 +1880,9 @@ class BootProviders
         $app->boot();
     }
 }
-namespace Illuminate\Foundation\Bootstrap;
+}
 
+namespace Illuminate\Foundation\Bootstrap {
 use Illuminate\Config\Repository;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -1884,8 +1928,9 @@ class LoadConfiguration
         return $tree;
     }
 }
-namespace Illuminate\Foundation\Bootstrap;
+}
 
+namespace Illuminate\Foundation\Bootstrap {
 use Dotenv;
 use InvalidArgumentException;
 use Illuminate\Contracts\Foundation\Application;
@@ -1902,8 +1947,9 @@ class DetectEnvironment
         });
     }
 }
-namespace Illuminate\Foundation\Http;
+}
 
+namespace Illuminate\Foundation\Http {
 use Exception;
 use Illuminate\Routing\Router;
 use Illuminate\Pipeline\Pipeline;
@@ -2006,8 +2052,9 @@ class Kernel implements KernelContract
         return $this->app;
     }
 }
-namespace Illuminate\Foundation\Auth;
+}
 
+namespace Illuminate\Foundation\Auth {
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
@@ -2062,8 +2109,9 @@ trait AuthenticatesAndRegistersUsers
         return property_exists($this, 'loginPath') ? $this->loginPath : '/auth/login';
     }
 }
-namespace Illuminate\Foundation\Auth;
+}
 
+namespace Illuminate\Foundation\Auth {
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\PasswordBroker;
@@ -2124,8 +2172,9 @@ trait ResetsPasswords
         return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
     }
 }
-namespace Illuminate\Http;
+}
 
+namespace Illuminate\Http {
 use Closure;
 use ArrayAccess;
 use SplFileInfo;
@@ -2458,8 +2507,9 @@ class Request extends SymfonyRequest implements ArrayAccess
         }
     }
 }
-namespace Illuminate\Http\Middleware;
+}
 
+namespace Illuminate\Http\Middleware {
 use Closure;
 use Illuminate\Contracts\Routing\Middleware;
 class FrameGuard implements Middleware
@@ -2471,8 +2521,9 @@ class FrameGuard implements Middleware
         return $response;
     }
 }
-namespace Illuminate\Foundation\Http\Middleware;
+}
 
+namespace Illuminate\Foundation\Http\Middleware {
 use Closure;
 use Illuminate\Contracts\Routing\Middleware;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -2511,8 +2562,9 @@ class VerifyCsrfToken implements Middleware
         return in_array($request->method(), array('HEAD', 'GET', 'OPTIONS'));
     }
 }
-namespace Illuminate\Foundation\Http\Middleware;
+}
 
+namespace Illuminate\Foundation\Http\Middleware {
 use Closure;
 use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Contracts\Foundation\Application;
@@ -2532,8 +2584,9 @@ class CheckForMaintenanceMode implements Middleware
         return $next($request);
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class Request
 {
@@ -3178,7 +3231,7 @@ class Request
                         $lang = $codes[1];
                     }
                 } else {
-                    for ($i = 0, $max = count($codes); $i < $max; $i++) {
+                    for ($i = 0, $max = count($codes); $i < $max; ++$i) {
                         if ($i === 0) {
                             $lang = strtolower($codes[0]);
                         } else {
@@ -3275,7 +3328,7 @@ class Request
         if ($baseUrl && false !== ($prefix = $this->getUrlencodedPrefix($requestUri, $baseUrl))) {
             return $prefix;
         }
-        if ($baseUrl && false !== ($prefix = $this->getUrlencodedPrefix($requestUri, dirname($baseUrl) . '/'))) {
+        if ($baseUrl && false !== ($prefix = $this->getUrlencodedPrefix($requestUri, rtrim(dirname($baseUrl), '/') . '/'))) {
             return rtrim($prefix, '/');
         }
         $truncatedRequestUri = $requestUri;
@@ -3365,8 +3418,9 @@ class Request
         return self::$trustedProxies && IpUtils::checkIp($this->server->get('REMOTE_ADDR'), self::$trustedProxies);
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 class ParameterBag implements \IteratorAggregate, \Countable
 {
     protected $parameters;
@@ -3401,7 +3455,7 @@ class ParameterBag implements \IteratorAggregate, \Countable
         }
         $value = $this->parameters[$root];
         $currentKey = null;
-        for ($i = $pos, $c = strlen($path); $i < $c; $i++) {
+        for ($i = $pos, $c = strlen($path); $i < $c; ++$i) {
             $char = $path[$i];
             if ('[' === $char) {
                 if (null !== $currentKey) {
@@ -3481,8 +3535,9 @@ class ParameterBag implements \IteratorAggregate, \Countable
         return count($this->parameters);
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FileBag extends ParameterBag
 {
@@ -3550,8 +3605,9 @@ class FileBag extends ParameterBag
         return $files;
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 class ServerBag extends ParameterBag
 {
     public function getHeaders()
@@ -3584,6 +3640,8 @@ class ServerBag extends ParameterBag
                 } elseif (empty($this->parameters['PHP_AUTH_DIGEST']) && 0 === stripos($authorizationHeader, 'digest ')) {
                     $headers['PHP_AUTH_DIGEST'] = $authorizationHeader;
                     $this->parameters['PHP_AUTH_DIGEST'] = $authorizationHeader;
+                } elseif (0 === stripos($authorizationHeader, 'bearer ')) {
+                    $headers['AUTHORIZATION'] = $authorizationHeader;
                 }
             }
         }
@@ -3595,8 +3653,9 @@ class ServerBag extends ParameterBag
         return $headers;
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 class HeaderBag implements \IteratorAggregate, \Countable
 {
     protected $headers = array();
@@ -3747,8 +3806,9 @@ class HeaderBag implements \IteratorAggregate, \Countable
         return $cacheControl;
     }
 }
-namespace Symfony\Component\HttpFoundation\Session;
+}
 
+namespace Symfony\Component\HttpFoundation\Session {
 use Symfony\Component\HttpFoundation\Session\Storage\MetadataBag;
 interface SessionInterface
 {
@@ -3772,8 +3832,9 @@ interface SessionInterface
     public function getBag($name);
     public function getMetadataBag();
 }
-namespace Symfony\Component\HttpFoundation\Session;
+}
 
+namespace Symfony\Component\HttpFoundation\Session {
 interface SessionBagInterface
 {
     public function getName();
@@ -3781,8 +3842,9 @@ interface SessionBagInterface
     public function getStorageKey();
     public function clear();
 }
-namespace Symfony\Component\HttpFoundation\Session\Attribute;
+}
 
+namespace Symfony\Component\HttpFoundation\Session\Attribute {
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 interface AttributeBagInterface extends SessionBagInterface
 {
@@ -3793,8 +3855,9 @@ interface AttributeBagInterface extends SessionBagInterface
     public function replace(array $attributes);
     public function remove($name);
 }
-namespace Symfony\Component\HttpFoundation\Session\Attribute;
+}
 
+namespace Symfony\Component\HttpFoundation\Session\Attribute {
 class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Countable
 {
     private $name = 'attributes';
@@ -3867,8 +3930,9 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         return count($this->attributes);
     }
 }
-namespace Symfony\Component\HttpFoundation\Session\Storage;
+}
 
+namespace Symfony\Component\HttpFoundation\Session\Storage {
 use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
 class MetadataBag implements SessionBagInterface
 {
@@ -3936,8 +4000,9 @@ class MetadataBag implements SessionBagInterface
         $this->meta[self::LIFETIME] = null === $lifetime ? ini_get('session.cookie_lifetime') : $lifetime;
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 class AcceptHeaderItem
 {
     private $value;
@@ -4029,8 +4094,9 @@ class AcceptHeaderItem
         return $this;
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 class AcceptHeader
 {
     private $items = array();
@@ -4099,8 +4165,9 @@ class AcceptHeader
         }
     }
 }
-namespace Symfony\Component\Debug;
+}
 
+namespace Symfony\Component\Debug {
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\Debug\Exception\OutOfMemoryException;
@@ -4324,7 +4391,7 @@ class ExceptionHandler
         $path = $this->escapeHtml($path);
         $file = preg_match('#[^/\\\\]*$#', $path, $file) ? $file[0] : $path;
         if ($linkFormat = $this->fileLinkFormat) {
-            $link = str_replace(array('%f', '%l'), array($path, $line), $linkFormat);
+            $link = strtr($this->escapeHtml($linkFormat), array('%f' => $path, '%l' => (int) $line));
             return sprintf(' in <a href="%s" title="Go to source">%s line %d</a>', $link, $file, $line);
         }
         return sprintf(' in <a title="%s line %3$d" ondblclick="var f=this.innerHTML;this.innerHTML=this.title;this.title=f;">%s line %d</a>', $path, $file, $line);
@@ -4386,8 +4453,9 @@ class ExceptionHandler
         return $buffer;
     }
 }
-namespace Illuminate\Support;
+}
 
+namespace Illuminate\Support {
 use BadMethodCallException;
 abstract class ServiceProvider
 {
@@ -4476,8 +4544,9 @@ abstract class ServiceProvider
         throw new BadMethodCallException("Call to undefined method [{$method}]");
     }
 }
-namespace Illuminate\Support;
+}
 
+namespace Illuminate\Support {
 class AggregateServiceProvider extends ServiceProvider
 {
     protected $providers = array();
@@ -4499,8 +4568,9 @@ class AggregateServiceProvider extends ServiceProvider
         return $provides;
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use Illuminate\Support\ServiceProvider;
 class RoutingServiceProvider extends ServiceProvider
 {
@@ -4555,8 +4625,9 @@ class RoutingServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use Illuminate\Support\ServiceProvider;
 class ControllerServiceProvider extends ServiceProvider
 {
@@ -4567,8 +4638,9 @@ class ControllerServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Events;
+}
 
+namespace Illuminate\Events {
 use Illuminate\Support\ServiceProvider;
 class EventServiceProvider extends ServiceProvider
 {
@@ -4581,8 +4653,9 @@ class EventServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Validation;
+}
 
+namespace Illuminate\Validation {
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Validation\ValidatesWhenResolved;
 class ValidationServiceProvider extends ServiceProvider
@@ -4616,8 +4689,9 @@ class ValidationServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Foundation\Validation;
+}
 
+namespace Illuminate\Foundation\Validation {
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Validator;
@@ -4659,8 +4733,9 @@ trait ValidatesRequests
         return 'default';
     }
 }
-namespace Illuminate\Validation;
+}
 
+namespace Illuminate\Validation {
 use Illuminate\Contracts\Validation\ValidationException;
 use Illuminate\Contracts\Validation\UnauthorizedException;
 trait ValidatesWhenResolvedTrait
@@ -4694,8 +4769,9 @@ trait ValidatesWhenResolvedTrait
         throw new UnauthorizedException();
     }
 }
-namespace Illuminate\Foundation\Http;
+}
 
+namespace Illuminate\Foundation\Http {
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -4784,8 +4860,9 @@ class FormRequest extends Request implements ValidatesWhenResolved
         return array();
     }
 }
-namespace Illuminate\Foundation\Bus;
+}
 
+namespace Illuminate\Foundation\Bus {
 use ArrayAccess;
 trait DispatchesCommands
 {
@@ -4802,15 +4879,17 @@ trait DispatchesCommands
         return app('Illuminate\\Contracts\\Bus\\Dispatcher')->dispatchFrom($command, $source, $extras);
     }
 }
-namespace Illuminate\Foundation\Providers;
+}
 
+namespace Illuminate\Foundation\Providers {
 use Illuminate\Support\AggregateServiceProvider;
 class FoundationServiceProvider extends AggregateServiceProvider
 {
     protected $providers = array('Illuminate\\Foundation\\Providers\\FormRequestServiceProvider');
 }
-namespace Illuminate\Foundation\Providers;
+}
 
+namespace Illuminate\Foundation\Providers {
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Request;
@@ -4840,8 +4919,9 @@ class FormRequestServiceProvider extends ServiceProvider
         $form->setRouteResolver($current->getRouteResolver());
     }
 }
-namespace Illuminate\Auth;
+}
 
+namespace Illuminate\Auth {
 use Illuminate\Support\ServiceProvider;
 class AuthServiceProvider extends ServiceProvider
 {
@@ -4876,8 +4956,9 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Pagination;
+}
 
+namespace Illuminate\Pagination {
 use Illuminate\Support\ServiceProvider;
 class PaginationServiceProvider extends ServiceProvider
 {
@@ -4891,8 +4972,9 @@ class PaginationServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Foundation\Support\Providers;
+}
 
+namespace Illuminate\Foundation\Support\Providers {
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 class RouteServiceProvider extends ServiceProvider
@@ -4942,8 +5024,9 @@ class RouteServiceProvider extends ServiceProvider
         return call_user_func_array(array($this->app['router'], $method), $parameters);
     }
 }
-namespace Illuminate\Foundation\Support\Providers;
+}
 
+namespace Illuminate\Foundation\Support\Providers {
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 class EventServiceProvider extends ServiceProvider
@@ -4969,8 +5052,9 @@ class EventServiceProvider extends ServiceProvider
         return $this->listen;
     }
 }
-namespace Illuminate\Hashing;
+}
 
+namespace Illuminate\Hashing {
 use Illuminate\Support\ServiceProvider;
 class HashServiceProvider extends ServiceProvider
 {
@@ -4986,8 +5070,9 @@ class HashServiceProvider extends ServiceProvider
         return array('hash');
     }
 }
-namespace Illuminate\Hashing;
+}
 
+namespace Illuminate\Hashing {
 use RuntimeException;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 class BcryptHasher implements HasherContract
@@ -5017,8 +5102,9 @@ class BcryptHasher implements HasherContract
         return $this;
     }
 }
-namespace Illuminate\Contracts\Pagination;
+}
 
+namespace Illuminate\Contracts\Pagination {
 interface Paginator
 {
     public function url($page);
@@ -5036,8 +5122,9 @@ interface Paginator
     public function isEmpty();
     public function render(Presenter $presenter = null);
 }
-namespace Illuminate\Pagination;
+}
 
+namespace Illuminate\Pagination {
 use Closure;
 use ArrayIterator;
 abstract class AbstractPaginator
@@ -5215,8 +5302,9 @@ abstract class AbstractPaginator
         return $this->render();
     }
 }
-namespace Illuminate\Pagination;
+}
 
+namespace Illuminate\Pagination {
 use Countable;
 use ArrayAccess;
 use IteratorAggregate;
@@ -5276,8 +5364,9 @@ class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Cou
         return json_encode($this->toArray(), $options);
     }
 }
-namespace Illuminate\Support\Facades;
+}
 
+namespace Illuminate\Support\Facades {
 use Mockery;
 use RuntimeException;
 use Mockery\MockInterface;
@@ -5377,8 +5466,9 @@ abstract class Facade
         }
     }
 }
-namespace Illuminate\Support\Traits;
+}
 
+namespace Illuminate\Support\Traits {
 use Closure;
 use BadMethodCallException;
 trait Macroable
@@ -5415,8 +5505,9 @@ trait Macroable
         throw new BadMethodCallException("Method {$method} does not exist.");
     }
 }
-namespace Illuminate\Support;
+}
 
+namespace Illuminate\Support {
 use Illuminate\Support\Traits\Macroable;
 class Arr
 {
@@ -5605,8 +5696,9 @@ class Arr
         return $filtered;
     }
 }
-namespace Illuminate\Support;
+}
 
+namespace Illuminate\Support {
 use RuntimeException;
 use Stringy\StaticStringy;
 use Illuminate\Support\Traits\Macroable;
@@ -5757,8 +5849,9 @@ class Str
         return static::$studlyCache[$key] = str_replace(' ', '', $value);
     }
 }
-namespace Symfony\Component\Debug;
+}
 
+namespace Symfony\Component\Debug {
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Debug\Exception\ContextErrorException;
@@ -6141,14 +6234,16 @@ class ErrorHandlerCanary
         }
     }
 }
-namespace Symfony\Component\HttpKernel\Debug;
+}
 
+namespace Symfony\Component\HttpKernel\Debug {
 use Symfony\Component\Debug\ErrorHandler as DebugErrorHandler;
 class ErrorHandler extends DebugErrorHandler
 {
 }
-namespace Illuminate\Config;
+}
 
+namespace Illuminate\Config {
 use ArrayAccess;
 use Illuminate\Contracts\Config\Repository as ConfigContract;
 class Repository implements ArrayAccess, ConfigContract
@@ -6209,8 +6304,9 @@ class Repository implements ArrayAccess, ConfigContract
         $this->set($key, null);
     }
 }
-namespace Illuminate\Support;
+}
 
+namespace Illuminate\Support {
 class NamespacedItemResolver
 {
     protected $parsed = array();
@@ -6249,8 +6345,9 @@ class NamespacedItemResolver
         $this->parsed[$key] = $parsed;
     }
 }
-namespace Illuminate\Filesystem;
+}
 
+namespace Illuminate\Filesystem {
 use ErrorException;
 use FilesystemIterator;
 use Symfony\Component\Finder\Finder;
@@ -6436,8 +6533,9 @@ class Filesystem
         return $this->deleteDirectory($directory, true);
     }
 }
-namespace Illuminate\Foundation;
+}
 
+namespace Illuminate\Foundation {
 class AliasLoader
 {
     protected $aliases;
@@ -6501,8 +6599,9 @@ class AliasLoader
     {
     }
 }
-namespace Illuminate\Foundation;
+}
 
+namespace Illuminate\Foundation {
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 class ProviderRepository
@@ -6581,8 +6680,9 @@ class ProviderRepository
         return array('providers' => $providers, 'eager' => array(), 'deferred' => array());
     }
 }
-namespace Illuminate\Cookie;
+}
 
+namespace Illuminate\Cookie {
 use Illuminate\Support\ServiceProvider;
 class CookieServiceProvider extends ServiceProvider
 {
@@ -6594,8 +6694,9 @@ class CookieServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Database;
+}
 
+namespace Illuminate\Database {
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\QueueEntityResolver;
@@ -6624,8 +6725,9 @@ class DatabaseServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Encryption;
+}
 
+namespace Illuminate\Encryption {
 use Illuminate\Support\ServiceProvider;
 class EncryptionServiceProvider extends ServiceProvider
 {
@@ -6640,8 +6742,9 @@ class EncryptionServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Filesystem;
+}
 
+namespace Illuminate\Filesystem {
 use Illuminate\Support\ServiceProvider;
 class FilesystemServiceProvider extends ServiceProvider
 {
@@ -6681,8 +6784,9 @@ class FilesystemServiceProvider extends ServiceProvider
         return $this->app['config']['filesystems.cloud'];
     }
 }
-namespace Illuminate\Session;
+}
 
+namespace Illuminate\Session {
 use Illuminate\Support\ServiceProvider;
 class SessionServiceProvider extends ServiceProvider
 {
@@ -6706,8 +6810,9 @@ class SessionServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\View;
+}
 
+namespace Illuminate\View {
 use Illuminate\View\Engines\PhpEngine;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Engines\CompilerEngine;
@@ -6767,8 +6872,9 @@ class ViewServiceProvider extends ServiceProvider
         });
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use ReflectionMethod;
 use ReflectionFunctionAbstract;
 trait RouteDependencyResolverTrait
@@ -6801,8 +6907,9 @@ trait RouteDependencyResolverTrait
         }));
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -7339,8 +7446,9 @@ class Router implements RegistrarContract
         return $this->patterns;
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use Closure;
 use LogicException;
 use ReflectionFunction;
@@ -7736,8 +7844,9 @@ class Route
         return $this->parameter($key);
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use Countable;
 use ArrayIterator;
 use IteratorAggregate;
@@ -7854,8 +7963,9 @@ class RouteCollection implements Countable, IteratorAggregate
         return count($this->getRoutes());
     }
 }
-namespace Symfony\Component\Routing;
+}
 
+namespace Symfony\Component\Routing {
 class CompiledRoute implements \Serializable
 {
     private $variables;
@@ -7926,14 +8036,16 @@ class CompiledRoute implements \Serializable
         return $this->hostVariables;
     }
 }
-namespace Symfony\Component\Routing;
+}
 
+namespace Symfony\Component\Routing {
 interface RouteCompilerInterface
 {
     public static function compile(Route $route);
 }
-namespace Symfony\Component\Routing;
+}
 
+namespace Symfony\Component\Routing {
 class RouteCompiler implements RouteCompilerInterface
 {
     const REGEX_DELIMITER = '#';
@@ -8002,7 +8114,7 @@ class RouteCompiler implements RouteCompilerInterface
         }
         $firstOptional = PHP_INT_MAX;
         if (!$isHost) {
-            for ($i = count($tokens) - 1; $i >= 0; $i--) {
+            for ($i = count($tokens) - 1; $i >= 0; --$i) {
                 $token = $tokens[$i];
                 if ('variable' === $token[0] && $route->hasDefault($token[3])) {
                     $firstOptional = $i;
@@ -8012,7 +8124,7 @@ class RouteCompiler implements RouteCompilerInterface
             }
         }
         $regexp = '';
-        for ($i = 0, $nbToken = count($tokens); $i < $nbToken; $i++) {
+        for ($i = 0, $nbToken = count($tokens); $i < $nbToken; ++$i) {
             $regexp .= self::computeRegexp($tokens, $i, $firstOptional);
         }
         return array('staticPrefix' => 'text' === $tokens[0][0] ? $tokens[0][1] : '', 'regex' => self::REGEX_DELIMITER . '^' . $regexp . '$' . self::REGEX_DELIMITER . 's' . ($isHost ? 'i' : ''), 'tokens' => array_reverse($tokens), 'variables' => $variables);
@@ -8047,8 +8159,9 @@ class RouteCompiler implements RouteCompilerInterface
         }
     }
 }
-namespace Symfony\Component\Routing;
+}
 
+namespace Symfony\Component\Routing {
 class Route implements \Serializable
 {
     private $path = '/';
@@ -8291,8 +8404,9 @@ class Route implements \Serializable
         return $regex;
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use Closure;
 use BadMethodCallException;
 use InvalidArgumentException;
@@ -8395,8 +8509,9 @@ abstract class Controller
         throw new BadMethodCallException("Method [{$method}] does not exist.");
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
@@ -8508,8 +8623,9 @@ class ControllerDispatcher
         return $this->router->callRouteFilter($filter['filter'], $filter['parameters'], $route, $request);
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use ReflectionClass;
 use ReflectionMethod;
 class ControllerInspector
@@ -8561,8 +8677,9 @@ class ControllerInspector
         return $uri . '/{one?}/{two?}/{three?}/{four?}/{five?}';
     }
 }
-namespace Illuminate\Routing;
+}
 
+namespace Illuminate\Routing {
 use Illuminate\Http\Request;
 use InvalidArgumentException;
 use Illuminate\Contracts\Routing\UrlRoutable;
@@ -8827,8 +8944,9 @@ class UrlGenerator implements UrlGeneratorContract
         return $this;
     }
 }
-namespace Illuminate\Bus;
+}
 
+namespace Illuminate\Bus {
 use Illuminate\Support\ServiceProvider;
 class BusServiceProvider extends ServiceProvider
 {
@@ -8848,8 +8966,9 @@ class BusServiceProvider extends ServiceProvider
         return array('Illuminate\\Bus\\Dispatcher', 'Illuminate\\Contracts\\Bus\\Dispatcher', 'Illuminate\\Contracts\\Bus\\QueueingDispatcher');
     }
 }
-namespace Illuminate\Bus;
+}
 
+namespace Illuminate\Bus {
 use Closure;
 use ArrayAccess;
 use ReflectionClass;
@@ -9013,8 +9132,9 @@ class Dispatcher implements DispatcherContract, QueueingDispatcher, HandlerResol
         return $this;
     }
 }
-namespace Illuminate\Pipeline;
+}
 
+namespace Illuminate\Pipeline {
 use Closure;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pipeline\Pipeline as PipelineContract;
@@ -9068,16 +9188,18 @@ class Pipeline implements PipelineContract
         };
     }
 }
-namespace Illuminate\Routing\Matching;
+}
 
+namespace Illuminate\Routing\Matching {
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 interface ValidatorInterface
 {
     public function matches(Route $route, Request $request);
 }
-namespace Illuminate\Routing\Matching;
+}
 
+namespace Illuminate\Routing\Matching {
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 class HostValidator implements ValidatorInterface
@@ -9090,8 +9212,9 @@ class HostValidator implements ValidatorInterface
         return preg_match($route->getCompiled()->getHostRegex(), $request->getHost());
     }
 }
-namespace Illuminate\Routing\Matching;
+}
 
+namespace Illuminate\Routing\Matching {
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 class MethodValidator implements ValidatorInterface
@@ -9101,8 +9224,9 @@ class MethodValidator implements ValidatorInterface
         return in_array($request->getMethod(), $route->methods());
     }
 }
-namespace Illuminate\Routing\Matching;
+}
 
+namespace Illuminate\Routing\Matching {
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 class SchemeValidator implements ValidatorInterface
@@ -9117,8 +9241,9 @@ class SchemeValidator implements ValidatorInterface
         return true;
     }
 }
-namespace Illuminate\Routing\Matching;
+}
 
+namespace Illuminate\Routing\Matching {
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 class UriValidator implements ValidatorInterface
@@ -9129,8 +9254,9 @@ class UriValidator implements ValidatorInterface
         return preg_match($route->getCompiled()->getRegex(), rawurldecode($path));
     }
 }
-namespace Illuminate\Events;
+}
 
+namespace Illuminate\Events {
 use Exception;
 use ReflectionClass;
 use Illuminate\Container\Container;
@@ -9324,8 +9450,9 @@ class Dispatcher implements DispatcherContract
         return $this;
     }
 }
-namespace Illuminate\Database\Eloquent;
+}
 
+namespace Illuminate\Database\Eloquent {
 use DateTime;
 use Exception;
 use ArrayAccess;
@@ -10651,8 +10778,9 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
         $this->bootIfNotBooted();
     }
 }
-namespace Illuminate\Database;
+}
 
+namespace Illuminate\Database {
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Illuminate\Database\Connectors\ConnectionFactory;
@@ -10768,16 +10896,18 @@ class DatabaseManager implements ConnectionResolverInterface
         return call_user_func_array(array($this->connection(), $method), $parameters);
     }
 }
-namespace Illuminate\Database;
+}
 
+namespace Illuminate\Database {
 interface ConnectionResolverInterface
 {
     public function connection($name = null);
     public function getDefaultConnection();
     public function setDefaultConnection($name);
 }
-namespace Illuminate\Database\Connectors;
+}
 
+namespace Illuminate\Database\Connectors {
 use PDO;
 use InvalidArgumentException;
 use Illuminate\Database\MySqlConnection;
@@ -10878,8 +11008,9 @@ class ConnectionFactory
         throw new InvalidArgumentException("Unsupported driver [{$driver}]");
     }
 }
-namespace Illuminate\Session;
+}
 
+namespace Illuminate\Session {
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface as BaseSessionInterface;
 interface SessionInterface extends BaseSessionInterface
@@ -10888,8 +11019,9 @@ interface SessionInterface extends BaseSessionInterface
     public function handlerNeedsRequest();
     public function setRequestOnHandler(Request $request);
 }
-namespace Illuminate\Session\Middleware;
+}
 
+namespace Illuminate\Session\Middleware {
 use Closure;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -10992,8 +11124,9 @@ class StartSession implements TerminableMiddleware
         return $this->manager->driver()->getHandler() instanceof CookieSessionHandler;
     }
 }
-namespace Illuminate\Session;
+}
 
+namespace Illuminate\Session {
 use SessionHandlerInterface;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
@@ -11282,8 +11415,9 @@ class Store implements SessionInterface
         }
     }
 }
-namespace Illuminate\Session;
+}
 
+namespace Illuminate\Session {
 use Illuminate\Support\Manager;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
 class SessionManager extends Manager
@@ -11369,8 +11503,9 @@ class SessionManager extends Manager
         $this->app['config']['session.driver'] = $name;
     }
 }
-namespace Illuminate\Support;
+}
 
+namespace Illuminate\Support {
 use Closure;
 use InvalidArgumentException;
 abstract class Manager
@@ -11419,8 +11554,9 @@ abstract class Manager
         return call_user_func_array(array($this->driver(), $method), $parameters);
     }
 }
-namespace Illuminate\Support;
+}
 
+namespace Illuminate\Support {
 use Closure;
 use Countable;
 use ArrayAccess;
@@ -11792,8 +11928,9 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         return $items;
     }
 }
-namespace Illuminate\Cookie;
+}
 
+namespace Illuminate\Cookie {
 use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Contracts\Cookie\QueueingFactory as JarContract;
 class CookieJar implements JarContract
@@ -11850,8 +11987,9 @@ class CookieJar implements JarContract
         return $this->queued;
     }
 }
-namespace Illuminate\Cookie\Middleware;
+}
 
+namespace Illuminate\Cookie\Middleware {
 use Closure;
 use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Contracts\Routing\Middleware;
@@ -11905,8 +12043,9 @@ class EncryptCookies implements Middleware
         return new Cookie($c->getName(), $value, $c->getExpiresTime(), $c->getPath(), $c->getDomain(), $c->isSecure(), $c->isHttpOnly());
     }
 }
-namespace Illuminate\Cookie\Middleware;
+}
 
+namespace Illuminate\Cookie\Middleware {
 use Closure;
 use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Contracts\Cookie\QueueingFactory as CookieJar;
@@ -11926,8 +12065,9 @@ class AddQueuedCookiesToResponse implements Middleware
         return $response;
     }
 }
-namespace Illuminate\Encryption;
+}
 
+namespace Illuminate\Encryption {
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Symfony\Component\Security\Core\Util\StringUtils;
@@ -12044,8 +12184,9 @@ class Encrypter implements EncrypterContract
         $this->block = mcrypt_get_iv_size($this->cipher, $this->mode);
     }
 }
-namespace Illuminate\Support\Facades;
+}
 
+namespace Illuminate\Support\Facades {
 class Log extends Facade
 {
     protected static function getFacadeAccessor()
@@ -12053,8 +12194,9 @@ class Log extends Facade
         return 'log';
     }
 }
-namespace Illuminate\Log;
+}
 
+namespace Illuminate\Log {
 use Closure;
 use RuntimeException;
 use InvalidArgumentException;
@@ -12193,8 +12335,9 @@ class Writer implements LogContract, PsrLoggerInterface
         $this->dispatcher = $dispatcher;
     }
 }
-namespace Illuminate\View\Middleware;
+}
 
+namespace Illuminate\View\Middleware {
 use Closure;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Contracts\Routing\Middleware;
@@ -12216,8 +12359,9 @@ class ShareErrorsFromSession implements Middleware
         return $next($request);
     }
 }
-namespace Monolog;
+}
 
+namespace Monolog {
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\StreamHandler;
 use Psr\Log\LoggerInterface;
@@ -12425,8 +12569,9 @@ class Logger implements LoggerInterface
         return $this->addRecord(static::EMERGENCY, $message, $context);
     }
 }
-namespace Psr\Log;
+}
 
+namespace Psr\Log {
 interface LoggerInterface
 {
     public function emergency($message, array $context = array());
@@ -12439,8 +12584,9 @@ interface LoggerInterface
     public function debug($message, array $context = array());
     public function log($level, $message, array $context = array());
 }
-namespace Monolog\Handler;
+}
 
+namespace Monolog\Handler {
 use Monolog\Logger;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
@@ -12525,8 +12671,9 @@ abstract class AbstractHandler implements HandlerInterface
         return new LineFormatter();
     }
 }
-namespace Monolog\Handler;
+}
 
+namespace Monolog\Handler {
 abstract class AbstractProcessingHandler extends AbstractHandler
 {
     public function handle(array $record)
@@ -12550,8 +12697,9 @@ abstract class AbstractProcessingHandler extends AbstractHandler
         return $record;
     }
 }
-namespace Monolog\Handler;
+}
 
+namespace Monolog\Handler {
 use Monolog\Logger;
 class StreamHandler extends AbstractProcessingHandler
 {
@@ -12611,8 +12759,9 @@ class StreamHandler extends AbstractProcessingHandler
         $this->errorMessage = preg_replace('{^fopen\\(.*?\\): }', '', $msg);
     }
 }
-namespace Monolog\Handler;
+}
 
+namespace Monolog\Handler {
 use Monolog\Logger;
 class RotatingFileHandler extends StreamHandler
 {
@@ -12695,8 +12844,9 @@ class RotatingFileHandler extends StreamHandler
         return $glob;
     }
 }
-namespace Monolog\Handler;
+}
 
+namespace Monolog\Handler {
 use Monolog\Formatter\FormatterInterface;
 interface HandlerInterface
 {
@@ -12708,15 +12858,17 @@ interface HandlerInterface
     public function setFormatter(FormatterInterface $formatter);
     public function getFormatter();
 }
-namespace Monolog\Formatter;
+}
 
+namespace Monolog\Formatter {
 interface FormatterInterface
 {
     public function format(array $record);
     public function formatBatch(array $records);
 }
-namespace Monolog\Formatter;
+}
 
+namespace Monolog\Formatter {
 use Exception;
 class NormalizerFormatter implements FormatterInterface
 {
@@ -12809,8 +12961,9 @@ class NormalizerFormatter implements FormatterInterface
         return json_encode($data);
     }
 }
-namespace Monolog\Formatter;
+}
 
+namespace Monolog\Formatter {
 use Exception;
 class LineFormatter extends NormalizerFormatter
 {
@@ -12920,8 +13073,9 @@ class LineFormatter extends NormalizerFormatter
 ' => ' '));
     }
 }
-namespace Illuminate\Support\Facades;
+}
 
+namespace Illuminate\Support\Facades {
 class App extends Facade
 {
     protected static function getFacadeAccessor()
@@ -12929,8 +13083,9 @@ class App extends Facade
         return 'app';
     }
 }
-namespace Illuminate\Support\Facades;
+}
 
+namespace Illuminate\Support\Facades {
 class Route extends Facade
 {
     protected static function getFacadeAccessor()
@@ -12938,8 +13093,9 @@ class Route extends Facade
         return 'router';
     }
 }
-namespace Illuminate\View\Engines;
+}
 
+namespace Illuminate\View\Engines {
 use Closure;
 use InvalidArgumentException;
 class EngineResolver
@@ -12962,8 +13118,9 @@ class EngineResolver
         throw new InvalidArgumentException("Engine {$engine} not found.");
     }
 }
-namespace Illuminate\View;
+}
 
+namespace Illuminate\View {
 interface ViewFinderInterface
 {
     const HINT_PATH_DELIMITER = '::';
@@ -12973,8 +13130,9 @@ interface ViewFinderInterface
     public function prependNamespace($namespace, $hints);
     public function addExtension($extension);
 }
-namespace Illuminate\View;
+}
 
+namespace Illuminate\View {
 use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem;
 class FileViewFinder implements ViewFinderInterface
@@ -13083,8 +13241,9 @@ class FileViewFinder implements ViewFinderInterface
         return $this->extensions;
     }
 }
-namespace Illuminate\View;
+}
 
+namespace Illuminate\View {
 use Closure;
 use InvalidArgumentException;
 use Illuminate\Contracts\Support\Arrayable;
@@ -13429,8 +13588,9 @@ class Factory implements FactoryContract
         return $this->names;
     }
 }
-namespace Illuminate\Support;
+}
 
+namespace Illuminate\Support {
 use Countable;
 use Illuminate\Contracts\Support\MessageBag as MessageBagContract;
 class ViewErrorBag implements Countable
@@ -13470,8 +13630,9 @@ class ViewErrorBag implements Countable
         array_set($this->bags, $key, $value);
     }
 }
-namespace Illuminate\Support;
+}
 
+namespace Illuminate\Support {
 use Countable;
 use JsonSerializable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -13596,8 +13757,9 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
         return $this->toJson();
     }
 }
-namespace Illuminate\Support\Facades;
+}
 
+namespace Illuminate\Support\Facades {
 class View extends Facade
 {
     protected static function getFacadeAccessor()
@@ -13605,8 +13767,9 @@ class View extends Facade
         return 'view';
     }
 }
-namespace Illuminate\View;
+}
 
+namespace Illuminate\View {
 use Closure;
 use ArrayAccess;
 use BadMethodCallException;
@@ -13761,14 +13924,16 @@ class View implements ArrayAccess, ViewContract
         return $this->render();
     }
 }
-namespace Illuminate\View\Engines;
+}
 
+namespace Illuminate\View\Engines {
 interface EngineInterface
 {
     public function get($path, array $data = array());
 }
-namespace Illuminate\View\Engines;
+}
 
+namespace Illuminate\View\Engines {
 use Exception;
 class PhpEngine implements EngineInterface
 {
@@ -13796,8 +13961,9 @@ class PhpEngine implements EngineInterface
         throw $e;
     }
 }
-namespace Illuminate\View\Engines;
+}
 
+namespace Illuminate\View\Engines {
 use ErrorException;
 use Illuminate\View\Compilers\CompilerInterface;
 class CompilerEngine extends PhpEngine
@@ -13833,16 +13999,18 @@ class CompilerEngine extends PhpEngine
         return $this->compiler;
     }
 }
-namespace Illuminate\View\Compilers;
+}
 
+namespace Illuminate\View\Compilers {
 interface CompilerInterface
 {
     public function getCompiledPath($path);
     public function isExpired($path);
     public function compile($path);
 }
-namespace Illuminate\View\Compilers;
+}
 
+namespace Illuminate\View\Compilers {
 use Illuminate\Filesystem\Filesystem;
 abstract class Compiler
 {
@@ -13867,8 +14035,9 @@ abstract class Compiler
         return $lastModified >= $this->files->lastModified($compiled);
     }
 }
-namespace Illuminate\View\Compilers;
+}
 
+namespace Illuminate\View\Compilers {
 class BladeCompiler extends Compiler implements CompilerInterface
 {
     protected $extensions = array();
@@ -14183,8 +14352,9 @@ class BladeCompiler extends Compiler implements CompilerInterface
         $this->echoFormat = $format;
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 class Response
 {
     const HTTP_CONTINUE = 100;
@@ -14695,8 +14865,9 @@ class Response
         }
     }
 }
-namespace Illuminate\Http;
+}
 
+namespace Illuminate\Http {
 use Symfony\Component\HttpFoundation\Cookie;
 trait ResponseTrait
 {
@@ -14711,8 +14882,9 @@ trait ResponseTrait
         return $this;
     }
 }
-namespace Illuminate\Http;
+}
 
+namespace Illuminate\Http {
 use ArrayObject;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Renderable;
@@ -14748,8 +14920,9 @@ class Response extends BaseResponse
         return $this->original;
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 class ResponseHeaderBag extends HeaderBag
 {
     const COOKIES_FLAT = 'flat';
@@ -14897,8 +15070,9 @@ class ResponseHeaderBag extends HeaderBag
         return $header;
     }
 }
-namespace Symfony\Component\HttpFoundation;
+}
 
+namespace Symfony\Component\HttpFoundation {
 class Cookie
 {
     protected $name;
@@ -14991,8 +15165,9 @@ class Cookie
         return $this->expire < time();
     }
 }
-namespace Symfony\Component\Security\Core\Util;
+}
 
+namespace Symfony\Component\Security\Core\Util {
 class StringUtils
 {
     private function __construct()
@@ -15015,7 +15190,7 @@ class StringUtils
             return false;
         }
         $result = 0;
-        for ($i = 0; $i < $knownLen; $i++) {
+        for ($i = 0; $i < $knownLen; ++$i) {
             $result |= ord($knownString[$i]) ^ ord($userInput[$i]);
         }
         return 0 === $result;
@@ -15032,14 +15207,16 @@ class StringUtils
         return strlen($string);
     }
 }
-namespace Symfony\Component\Security\Core\Util;
+}
 
+namespace Symfony\Component\Security\Core\Util {
 interface SecureRandomInterface
 {
     public function nextBytes($nbBytes);
 }
-namespace Symfony\Component\Security\Core\Util;
+}
 
+namespace Symfony\Component\Security\Core\Util {
 use Psr\Log\LoggerInterface;
 final class SecureRandom implements SecureRandomInterface
 {
@@ -15107,8 +15284,9 @@ final class SecureRandom implements SecureRandomInterface
         $this->seedUpdated = true;
     }
 }
-namespace Symfony\Component\Finder;
+}
 
+namespace Symfony\Component\Finder {
 class SplFileInfo extends \SplFileInfo
 {
     private $relativePath;
@@ -15139,8 +15317,9 @@ class SplFileInfo extends \SplFileInfo
         return $content;
     }
 }
-namespace Symfony\Component\Finder\Expression;
+}
 
+namespace Symfony\Component\Finder\Expression {
 class Regex implements ValueInterface
 {
     const START_FLAG = '^';
@@ -15282,8 +15461,9 @@ class Regex implements ValueInterface
         $this->pattern = $pattern;
     }
 }
-namespace Symfony\Component\Finder\Expression;
+}
 
+namespace Symfony\Component\Finder\Expression {
 interface ValueInterface
 {
     public function render();
@@ -15293,8 +15473,9 @@ interface ValueInterface
     public function prepend($expr);
     public function append($expr);
 }
-namespace Symfony\Component\Finder\Expression;
+}
 
+namespace Symfony\Component\Finder\Expression {
 class Expression implements ValueInterface
 {
     const TYPE_REGEX = 1;
@@ -15362,8 +15543,9 @@ class Expression implements ValueInterface
         return self::TYPE_REGEX === $this->value->getType() ? $this->value : $this->value->toRegex();
     }
 }
-namespace Symfony\Component\Finder\Iterator;
+}
 
+namespace Symfony\Component\Finder\Iterator {
 abstract class FilterIterator extends \FilterIterator
 {
     public function rewind()
@@ -15385,8 +15567,9 @@ abstract class FilterIterator extends \FilterIterator
         parent::rewind();
     }
 }
-namespace Symfony\Component\Finder\Iterator;
+}
 
+namespace Symfony\Component\Finder\Iterator {
 use Symfony\Component\Finder\Expression\Expression;
 abstract class MultiplePcreFilterIterator extends FilterIterator
 {
@@ -15408,8 +15591,9 @@ abstract class MultiplePcreFilterIterator extends FilterIterator
     }
     protected abstract function toRegex($str);
 }
-namespace Symfony\Component\Finder\Iterator;
+}
 
+namespace Symfony\Component\Finder\Iterator {
 class PathFilterIterator extends MultiplePcreFilterIterator
 {
     public function accept()
@@ -15439,8 +15623,9 @@ class PathFilterIterator extends MultiplePcreFilterIterator
         return $this->isRegex($str) ? $str : '/' . preg_quote($str, '/') . '/';
     }
 }
-namespace Symfony\Component\Finder\Iterator;
+}
 
+namespace Symfony\Component\Finder\Iterator {
 class ExcludeDirectoryFilterIterator extends FilterIterator
 {
     private $patterns = array();
@@ -15463,8 +15648,9 @@ class ExcludeDirectoryFilterIterator extends FilterIterator
         return true;
     }
 }
-namespace Symfony\Component\Finder\Iterator;
+}
 
+namespace Symfony\Component\Finder\Iterator {
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Finder\SplFileInfo;
 class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
@@ -15522,8 +15708,9 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
         return $this->rewindable = false;
     }
 }
-namespace Symfony\Component\Finder\Iterator;
+}
 
+namespace Symfony\Component\Finder\Iterator {
 class FileTypeFilterIterator extends FilterIterator
 {
     const ONLY_FILES = 1;
@@ -15545,8 +15732,9 @@ class FileTypeFilterIterator extends FilterIterator
         return true;
     }
 }
-namespace Symfony\Component\Finder\Shell;
+}
 
+namespace Symfony\Component\Finder\Shell {
 class Shell
 {
     const TYPE_UNIX = 1;
@@ -15593,8 +15781,9 @@ class Shell
         return self::TYPE_UNIX;
     }
 }
-namespace Symfony\Component\Finder\Adapter;
+}
 
+namespace Symfony\Component\Finder\Adapter {
 interface AdapterInterface
 {
     public function setFollowLinks($followLinks);
@@ -15616,8 +15805,9 @@ interface AdapterInterface
     public function isSupported();
     public function getName();
 }
-namespace Symfony\Component\Finder\Adapter;
+}
 
+namespace Symfony\Component\Finder\Adapter {
 abstract class AbstractAdapter implements AdapterInterface
 {
     protected $followLinks = false;
@@ -15741,8 +15931,9 @@ abstract class AbstractAdapter implements AdapterInterface
     }
     protected abstract function canBeUsed();
 }
-namespace Symfony\Component\Finder\Adapter;
+}
 
+namespace Symfony\Component\Finder\Adapter {
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Finder\Iterator;
 use Symfony\Component\Finder\Shell\Shell;
@@ -15925,8 +16116,9 @@ abstract class AbstractFindAdapter extends AbstractAdapter
     protected abstract function buildFormatSorting(Command $command, $sort);
     protected abstract function buildContentFiltering(Command $command, array $contains, $not = false);
 }
-namespace Symfony\Component\Finder\Adapter;
+}
 
+namespace Symfony\Component\Finder\Adapter {
 use Symfony\Component\Finder\Shell\Shell;
 use Symfony\Component\Finder\Shell\Command;
 use Symfony\Component\Finder\Iterator\SortableIterator;
@@ -15976,8 +16168,9 @@ class GnuFindAdapter extends AbstractFindAdapter
         }
     }
 }
-namespace Symfony\Component\Finder\Adapter;
+}
 
+namespace Symfony\Component\Finder\Adapter {
 use Symfony\Component\Finder\Iterator;
 class PhpAdapter extends AbstractAdapter
 {
@@ -16030,8 +16223,9 @@ class PhpAdapter extends AbstractAdapter
         return true;
     }
 }
-namespace Symfony\Component\Finder\Adapter;
+}
 
+namespace Symfony\Component\Finder\Adapter {
 use Symfony\Component\Finder\Shell\Shell;
 use Symfony\Component\Finder\Shell\Command;
 use Symfony\Component\Finder\Iterator\SortableIterator;
@@ -16082,8 +16276,9 @@ class BsdFindAdapter extends AbstractFindAdapter
         }
     }
 }
-namespace Symfony\Component\Finder;
+}
 
+namespace Symfony\Component\Finder {
 use Symfony\Component\Finder\Adapter\AdapterInterface;
 use Symfony\Component\Finder\Adapter\GnuFindAdapter;
 use Symfony\Component\Finder\Adapter\BsdFindAdapter;
@@ -16385,8 +16580,9 @@ class Finder implements \IteratorAggregate, \Countable
         }, $this->adapters);
     }
 }
-namespace Carbon;
+}
 
+namespace Carbon {
 use Closure;
 use DateTime;
 use DateTimeZone;
@@ -17273,8 +17469,9 @@ class Carbon extends DateTime
         return $this->format('md') === $dt->format('md');
     }
 }
-namespace App\Providers;
+}
 
+namespace App\Providers {
 use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
@@ -17285,8 +17482,9 @@ class AppServiceProvider extends ServiceProvider
     {
     }
 }
-namespace App\Providers;
+}
 
+namespace App\Providers {
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\ServiceProvider;
 class BusServiceProvider extends ServiceProvider
@@ -17301,8 +17499,9 @@ class BusServiceProvider extends ServiceProvider
     {
     }
 }
-namespace App\Providers;
+}
 
+namespace App\Providers {
 use Illuminate\Support\ServiceProvider;
 class ConfigServiceProvider extends ServiceProvider
 {
@@ -17311,8 +17510,9 @@ class ConfigServiceProvider extends ServiceProvider
         config(array());
     }
 }
-namespace App\Providers;
+}
 
+namespace App\Providers {
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 class EventServiceProvider extends ServiceProvider
@@ -17323,8 +17523,9 @@ class EventServiceProvider extends ServiceProvider
         parent::boot($events);
     }
 }
-namespace App\Providers;
+}
 
+namespace App\Providers {
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 class RouteServiceProvider extends ServiceProvider
@@ -17341,3 +17542,5 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 }
+}
+
