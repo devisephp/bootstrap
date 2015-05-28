@@ -2678,72 +2678,6 @@
         ]
     },
     {
-        "name": "devisephp/cms",
-        "version": "1.1.7",
-        "version_normalized": "1.1.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/devisephp/cms.git",
-            "reference": "aa02f87e9bcb1ac96a3cdea0119ea35917d4e48d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/devisephp/cms/zipball/aa02f87e9bcb1ac96a3cdea0119ea35917d4e48d",
-            "reference": "aa02f87e9bcb1ac96a3cdea0119ea35917d4e48d",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/dbal": "~2.3",
-            "ext-imagick": "*",
-            "guzzlehttp/guzzle": "~4.0",
-            "illuminate/html": "5.0.*",
-            "laravel/framework": ">=5.0.7",
-            "league/commonmark": "0.7.*",
-            "masterminds/html5": "1.*",
-            "php": ">=5.4.0",
-            "symfony/console": "~2.0",
-            "zencoder/zencoder-php": "*"
-        },
-        "require-dev": {
-            "codeception/codeception": "*",
-            "mikey179/vfsstream": "*",
-            "mockery/mockery": "0.9.3",
-            "phpunit/phpunit": "*"
-        },
-        "time": "2015-05-22 14:53:45",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/models",
-                "src/seeds",
-                "src/migrations",
-                "tests/DeviseTestCase.php"
-            ],
-            "psr-0": {
-                "Devise\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "DevisePHP Team",
-                "email": "info@devisephp.com"
-            }
-        ],
-        "description": "Content Management System riding on top of the Laravel Framework",
-        "keywords": [
-            "Content management system",
-            "cms",
-            "devise",
-            "devisephp",
-            "laravel"
-        ]
-    },
-    {
         "name": "phpunit/php-code-coverage",
         "version": "2.0.17",
         "version_normalized": "2.0.17.0",
@@ -3730,5 +3664,71 @@
         ],
         "description": "Symfony Yaml Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "devisephp/cms",
+        "version": "1.1.8",
+        "version_normalized": "1.1.8.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/devisephp/cms.git",
+            "reference": "569167c6fee74edfa4a23be9e5ee1039743e5475"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/devisephp/cms/zipball/569167c6fee74edfa4a23be9e5ee1039743e5475",
+            "reference": "569167c6fee74edfa4a23be9e5ee1039743e5475",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/dbal": "~2.3",
+            "ext-imagick": "*",
+            "guzzlehttp/guzzle": "~4.0",
+            "illuminate/html": "5.0.*",
+            "laravel/framework": ">=5.0.7",
+            "league/commonmark": "0.7.*",
+            "masterminds/html5": "1.*",
+            "php": ">=5.4.0",
+            "symfony/console": "~2.0",
+            "zencoder/zencoder-php": "*"
+        },
+        "require-dev": {
+            "codeception/codeception": "*",
+            "mikey179/vfsstream": "*",
+            "mockery/mockery": "0.9.3",
+            "phpunit/phpunit": "*"
+        },
+        "time": "2015-05-27 14:12:57",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/models",
+                "src/seeds",
+                "src/migrations",
+                "tests/DeviseTestCase.php"
+            ],
+            "psr-0": {
+                "Devise\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "DevisePHP Team",
+                "email": "info@devisephp.com"
+            }
+        ],
+        "description": "Content Management System riding on top of the Laravel Framework",
+        "keywords": [
+            "Content management system",
+            "cms",
+            "devise",
+            "devisephp",
+            "laravel"
+        ]
     }
 ]

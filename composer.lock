@@ -124,16 +124,16 @@
         },
         {
             "name": "devisephp/cms",
-            "version": "1.1.7",
+            "version": "1.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devisephp/cms.git",
-                "reference": "aa02f87e9bcb1ac96a3cdea0119ea35917d4e48d"
+                "reference": "569167c6fee74edfa4a23be9e5ee1039743e5475"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devisephp/cms/zipball/aa02f87e9bcb1ac96a3cdea0119ea35917d4e48d",
-                "reference": "aa02f87e9bcb1ac96a3cdea0119ea35917d4e48d",
+                "url": "https://api.github.com/repos/devisephp/cms/zipball/569167c6fee74edfa4a23be9e5ee1039743e5475",
+                "reference": "569167c6fee74edfa4a23be9e5ee1039743e5475",
                 "shasum": ""
             },
             "require": {
@@ -184,7 +184,7 @@
                 "devisephp",
                 "laravel"
             ],
-            "time": "2015-05-22 14:53:45"
+            "time": "2015-05-27 14:12:57"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
