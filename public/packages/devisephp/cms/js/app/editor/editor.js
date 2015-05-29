@@ -27,6 +27,8 @@ devise.define(['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', 'dvsPositionH
     {
         if (! this.shouldStart()) return false;
 
+        this.removeParentStyles();
+
         this.render();
 
         View.registerEvents(this.layoutView, this.events, this);
@@ -34,6 +36,26 @@ devise.define(['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', 'dvsPositionH
         $('body').show();
 
         return true;
+    }
+
+    /**
+     * Removes all non-devise styles from parent page
+     * to keep them from overriding our stuff on the parent.
+     * This has the effect of sandboxing page specific
+     * styles inside of the dvs-iframe. We will try and keep
+     * our styles out of the sandboxed iframe.
+     */
+    Editor.prototype.removeParentStyles = function()
+    {
+        $('link[rel="stylesheet"], style').each(function(index, element)
+        {
+            var el = $(element);
+
+            if (typeof el.data('deviseEditorAsset') === 'undefined')
+            {
+                el.remove();
+            }
+        });
     }
 
     /**
@@ -229,9 +251,8 @@ devise.define(['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', 'dvsPositionH
                 // create a finder on this editor
                 editor.finder = new BindingsFinder(editor.data.database)
 
-
                 // find all the bindings
-                editor.bindings = editor.finder.find(contentWindow.document.childNodes[1]);
+                editor.bindings = editor.finder.find(getRootHtmlNode(contentWindow.document.childNodes));
 
                 // apply the bindings now
                 editor.bindings.apply();
@@ -248,6 +269,22 @@ devise.define(['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', 'dvsPositionH
         });
 
         iframe.attr('src', query.append('start-editor', 'false', location.origin + location.pathname + location.search)  + location.hash);
+    }
+
+    /**
+     * Finds the html node inside of this array of nodes
+     */
+    function getRootHtmlNode(nodes)
+    {
+        for (var i = 0; i < nodes.length; i++)
+        {
+            if (nodes[i].nodeType === 1)
+            {
+                return nodes[i];
+            }
+        }
+
+        return null;
     }
 
     /**
