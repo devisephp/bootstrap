@@ -9,8 +9,9 @@
     <php>
         <ini name="error_reporting" value="-1" />
     </php>
+
     <testsuites>
-        <testsuite name="Symfony Yaml Component Test Suite">
+        <testsuite name="Symfony Filesystem Component Test Suite">
             <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
@@ -19,7 +20,6 @@
         <whitelist>
             <directory>./</directory>
             <exclude>
-                <directory>./vendor</directory>
                 <directory>./Tests</directory>
             </exclude>
         </whitelist>
