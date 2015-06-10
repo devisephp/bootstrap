@@ -907,8 +907,10 @@ class Container implements ArrayAccess, ContainerContract
     public function tagged($tag)
     {
         $results = array();
-        foreach ($this->tags[$tag] as $abstract) {
-            $results[] = $this->make($abstract);
+        if (isset($this->tags[$tag])) {
+            foreach ($this->tags[$tag] as $abstract) {
+                $results[] = $this->make($abstract);
+            }
         }
         return $results;
     }
@@ -1308,7 +1310,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 class Application extends Container implements ApplicationContract, HttpKernelInterface
 {
-    const VERSION = '5.0.32';
+    const VERSION = '5.0.33';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -5787,14 +5789,27 @@ class Str
     }
     public static function random($length = 16)
     {
-        if (!function_exists('openssl_random_pseudo_bytes')) {
-            throw new RuntimeException('OpenSSL extension is required.');
+        $string = '';
+        while (($len = strlen($string)) < $length) {
+            $size = $length - $len;
+            $bytes = static::randomBytes($size);
+            $string .= substr(str_replace(array('/', '+', '='), '', base64_encode($bytes)), 0, $size);
         }
-        $bytes = openssl_random_pseudo_bytes($length * 2);
-        if ($bytes === false) {
-            throw new RuntimeException('Unable to generate random string.');
+        return $string;
+    }
+    public static function randomBytes($length = 16)
+    {
+        if (function_exists('random_bytes')) {
+            $bytes = random_bytes($length);
+        } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            $bytes = openssl_random_pseudo_bytes($length, $strong);
+            if ($bytes === false || $strong === false) {
+                throw new RuntimeException('Unable to generate random string.');
+            }
+        } else {
+            throw new RuntimeException('OpenSSL extension is required for PHP 5 users.');
         }
-        return substr(str_replace(array('/', '+', '='), '', base64_encode($bytes)), 0, $length);
+        return $bytes;
     }
     public static function quickRandom($length = 16)
     {
