@@ -1586,7 +1586,7 @@ return array(
     'PHP_CodeCoverage_Report_XML_Totals' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Report/XML/Totals.php',
     'PHP_CodeCoverage_Util' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Util.php',
     'PHP_CodeCoverage_Util_InvalidArgumentHelper' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage/Util/InvalidArgumentHelper.php',
-    'PHP_Timer' => $vendorDir . '/phpunit/php-timer/PHP/Timer.php',
+    'PHP_Timer' => $vendorDir . '/phpunit/php-timer/src/Timer.php',
     'PHP_Token' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_TokenWithScope' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_TokenWithScopeAndVisibility' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
