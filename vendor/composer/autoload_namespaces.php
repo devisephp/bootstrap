@@ -26,7 +26,6 @@ return array(
     'JakubOnderka\\PhpConsoleColor' => array($vendorDir . '/jakub-onderka/php-console-color/src'),
     'HTML5' => array($vendorDir . '/masterminds/html5/src'),
     'Dotenv' => array($vendorDir . '/vlucas/phpdotenv/src'),
-    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src'),
     'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
