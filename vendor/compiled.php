@@ -12413,6 +12413,7 @@ class Logger implements LoggerInterface
     public function pushHandler(HandlerInterface $handler)
     {
         array_unshift($this->handlers, $handler);
+        return $this;
     }
     public function popHandler()
     {
@@ -12431,6 +12432,7 @@ class Logger implements LoggerInterface
             throw new \InvalidArgumentException('Processors must be valid callables (callback or object with an __invoke method), ' . var_export($callback, true) . ' given');
         }
         array_unshift($this->processors, $callback);
+        return $this;
     }
     public function popProcessor()
     {
@@ -12533,9 +12535,7 @@ class Logger implements LoggerInterface
     }
     public function log($level, $message, array $context = array())
     {
-        if (is_string($level) && defined(__CLASS__ . '::' . strtoupper($level))) {
-            $level = constant(__CLASS__ . '::' . strtoupper($level));
-        }
+        $level = static::toMonologLevel($level);
         return $this->addRecord($level, $message, $context);
     }
     public function debug($message, array $context = array())
@@ -12585,6 +12585,10 @@ class Logger implements LoggerInterface
     public function emergency($message, array $context = array())
     {
         return $this->addRecord(static::EMERGENCY, $message, $context);
+    }
+    public static function setTimezone(\DateTimeZone $tz)
+    {
+        self::$timezone = $tz;
     }
 }
 }
@@ -12942,7 +12946,12 @@ class NormalizerFormatter implements FormatterInterface
             if ($data instanceof Exception) {
                 return $this->normalizeException($data);
             }
-            return sprintf('[object] (%s: %s)', get_class($data), $this->toJson($data, true));
+            if (method_exists($data, '__toString') && !$data instanceof \JsonSerializable) {
+                $value = (string) $data;
+            } else {
+                $value = $this->toJson($data, true);
+            }
+            return sprintf('[object] (%s: %s)', get_class($data), $value);
         }
         if (is_resource($data)) {
             return '[resource]';
@@ -13086,9 +13095,9 @@ class LineFormatter extends NormalizerFormatter
         if ($this->allowInlineLineBreaks) {
             return $str;
         }
-        return strtr($str, array('
-' => ' ', '' => ' ', '
-' => ' '));
+        return str_replace(array('
+', '', '
+'), ' ', $str);
     }
 }
 }
