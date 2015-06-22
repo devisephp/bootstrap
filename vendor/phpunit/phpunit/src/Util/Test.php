@@ -18,10 +18,6 @@ if (!function_exists('trait_exists')) {
 /**
  * Test helpers.
  *
- * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
- * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
 class PHPUnit_Util_Test
@@ -573,11 +569,17 @@ class PHPUnit_Util_Test
             $groups = array_merge($groups, $annotations['method']['ticket']);
         }
 
-        foreach (array('small', 'medium', 'large') as $size) {
-            if (isset($annotations['method'][$size])) {
-                $groups[] = $size;
-            } elseif (isset($annotations['class'][$size])) {
-                $groups[] = $size;
+        foreach (array('method', 'class') as $element) {
+            foreach (array('small', 'medium', 'large') as $size) {
+                if (isset($annotations[$element][$size])) {
+                    $groups[] = $size;
+                    break 2;
+                }
+
+                if (isset($annotations[$element][$size])) {
+                    $groups[] = $size;
+                    break 2;
+                }
             }
         }
 

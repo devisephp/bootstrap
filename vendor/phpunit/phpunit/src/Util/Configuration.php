@@ -137,10 +137,6 @@
  * </phpunit>
  * </code>
  *
- * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  Sebastian Bergmann <sebastian@phpunit.de>
- * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
 class PHPUnit_Util_Configuration
@@ -375,11 +371,17 @@ class PHPUnit_Util_Configuration
 
             if ($type == 'coverage-html') {
                 if ($log->hasAttribute('lowUpperBound')) {
-                    $result['lowUpperBound'] = (string) $log->getAttribute('lowUpperBound');
+                    $result['lowUpperBound'] = $this->getInteger(
+                        (string) $log->getAttribute('lowUpperBound'),
+                        50
+                    );
                 }
 
                 if ($log->hasAttribute('highLowerBound')) {
-                    $result['highLowerBound'] = (string) $log->getAttribute('highLowerBound');
+                    $result['highLowerBound'] = $this->getInteger(
+                        (string) $log->getAttribute('highLowerBound'),
+                        90
+                    );
                 }
             } elseif ($type == 'junit') {
                 if ($log->hasAttribute('logIncompleteSkipped')) {

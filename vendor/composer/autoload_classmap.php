@@ -3161,7 +3161,7 @@ return array(
     'Symfony\\Component\\Yaml\\Unescaper' => $vendorDir . '/symfony/yaml/Unescaper.php',
     'Symfony\\Component\\Yaml\\Yaml' => $vendorDir . '/symfony/yaml/Yaml.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
-    'Text_Template' => $vendorDir . '/phpunit/php-text-template/Text/Template.php',
+    'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
     'XdgBaseDir\\Xdg' => $vendorDir . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
     'phpDocumentor\\Reflection\\DocBlock' => $vendorDir . '/phpdocumentor/reflection-docblock/src/phpDocumentor/Reflection/DocBlock.php',
     'phpDocumentor\\Reflection\\DocBlock\\Context' => $vendorDir . '/phpdocumentor/reflection-docblock/src/phpDocumentor/Reflection/DocBlock/Context.php',
