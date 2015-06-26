@@ -16639,6 +16639,9 @@ class Carbon extends DateTime
     const SECONDS_PER_MINUTE = 60;
     const DEFAULT_TO_STRING_FORMAT = 'Y-m-d H:i:s';
     protected static $toStringFormat = self::DEFAULT_TO_STRING_FORMAT;
+    protected static $weekStartsAt = self::MONDAY;
+    protected static $weekEndsAt = self::SUNDAY;
+    protected static $weekendDays = array(self::SATURDAY, self::SUNDAY);
     protected static $testNow;
     protected static $translator;
     protected static function safeCreateDateTimeZone($object)
@@ -16873,6 +16876,30 @@ class Carbon extends DateTime
         parent::setTimezone(static::safeCreateDateTimeZone($value));
         return $this;
     }
+    public static function getWeekStartsAt()
+    {
+        return static::$weekStartsAt;
+    }
+    public static function setWeekStartsAt($day)
+    {
+        static::$weekStartsAt = $day;
+    }
+    public static function getWeekEndsAt()
+    {
+        return static::$weekEndsAt;
+    }
+    public static function setWeekEndsAt($day)
+    {
+        static::$weekEndsAt = $day;
+    }
+    public static function getWeekendDays()
+    {
+        return static::$weekendDays;
+    }
+    public static function setWeekendDays($days)
+    {
+        static::$weekendDays = $days;
+    }
     public static function setTestNow(Carbon $testNow = null)
     {
         static::$testNow = $testNow;
@@ -17054,11 +17081,11 @@ class Carbon extends DateTime
     }
     public function isWeekday()
     {
-        return $this->dayOfWeek != static::SUNDAY && $this->dayOfWeek != static::SATURDAY;
+        return !$this->isWeekend();
     }
     public function isWeekend()
     {
-        return !$this->isWeekDay();
+        return in_array($this->dayOfWeek, self::$weekendDays);
     }
     public function isYesterday()
     {
@@ -17087,6 +17114,34 @@ class Carbon extends DateTime
     public function isSameDay(Carbon $dt)
     {
         return $this->toDateString() === $dt->toDateString();
+    }
+    public function isSunday()
+    {
+        return $this->dayOfWeek === static::SUNDAY;
+    }
+    public function isMonday()
+    {
+        return $this->dayOfWeek === static::MONDAY;
+    }
+    public function isTuesday()
+    {
+        return $this->dayOfWeek === static::TUESDAY;
+    }
+    public function isWednesday()
+    {
+        return $this->dayOfWeek === static::WEDNESDAY;
+    }
+    public function isThursday()
+    {
+        return $this->dayOfWeek === static::THURSDAY;
+    }
+    public function isFriday()
+    {
+        return $this->dayOfWeek === static::FRIDAY;
+    }
+    public function isSaturday()
+    {
+        return $this->dayOfWeek === static::SATURDAY;
     }
     public function addYears($value)
     {
@@ -17408,15 +17463,15 @@ class Carbon extends DateTime
     }
     public function startOfWeek()
     {
-        if ($this->dayOfWeek != static::MONDAY) {
-            $this->previous(static::MONDAY);
+        if ($this->dayOfWeek != static::$weekStartsAt) {
+            $this->previous(static::$weekStartsAt);
         }
         return $this->startOfDay();
     }
     public function endOfWeek()
     {
-        if ($this->dayOfWeek != static::SUNDAY) {
-            $this->next(static::SUNDAY);
+        if ($this->dayOfWeek != static::$weekEndsAt) {
+            $this->next(static::$weekEndsAt);
         }
         return $this->endOfDay();
     }
