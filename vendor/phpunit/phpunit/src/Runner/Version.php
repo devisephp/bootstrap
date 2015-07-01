@@ -11,7 +11,7 @@
 /**
  * This class defines the current version of PHPUnit.
  *
- * @since      Class available since Release 2.0.0
+ * @since Class available since Release 2.0.0
  */
 class PHPUnit_Runner_Version
 {
@@ -30,7 +30,7 @@ class PHPUnit_Runner_Version
         }
 
         if (self::$version === null) {
-            $version       = new SebastianBergmann\Version('4.7.5', dirname(dirname(__DIR__)));
+            $version       = new SebastianBergmann\Version('4.7.6', dirname(dirname(__DIR__)));
             self::$version = $version->getVersion();
         }
 
