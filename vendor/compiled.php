@@ -12736,6 +12736,16 @@ class StreamHandler extends AbstractProcessingHandler
         if (is_resource($stream)) {
             $this->stream = $stream;
         } elseif (is_string($stream)) {
+            $dir = $this->getDirFromStream($stream);
+            if (null !== $dir && !is_dir($dir)) {
+                $this->errorMessage = null;
+                set_error_handler(array($this, 'customErrorHandler'));
+                $status = mkdir($dir, 511, true);
+                restore_error_handler();
+                if (false === $status) {
+                    throw new \UnexpectedValueException(sprintf('There is no existing directory at "%s" and its not buildable: ' . $this->errorMessage, $dir));
+                }
+            }
             $this->url = $stream;
         } else {
             throw new \InvalidArgumentException('A stream must either be a resource or a string.');
@@ -12778,7 +12788,18 @@ class StreamHandler extends AbstractProcessingHandler
     }
     private function customErrorHandler($code, $msg)
     {
-        $this->errorMessage = preg_replace('{^fopen\\(.*?\\): }', '', $msg);
+        $this->errorMessage = preg_replace('{^(fopen|mkdir)\\(.*?\\): }', '', $msg);
+    }
+    private function getDirFromStream($stream)
+    {
+        $pos = strpos($stream, '://');
+        if ($pos === false) {
+            return dirname($stream);
+        }
+        if ('file://' === substr($stream, 0, 7)) {
+            return dirname(substr($stream, 7));
+        }
+        return;
     }
 }
 }
@@ -12983,9 +13004,34 @@ class NormalizerFormatter implements FormatterInterface
             return @json_encode($data);
         }
         if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-            return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        } else {
+            $json = json_encode($data);
         }
-        return json_encode($data);
+        if ($json === false) {
+            $this->throwEncodeError(json_last_error(), $data);
+        }
+        return $json;
+    }
+    private function throwEncodeError($code, $data)
+    {
+        switch ($code) {
+            case JSON_ERROR_DEPTH:
+                $msg = 'Maximum stack depth exceeded';
+                break;
+            case JSON_ERROR_STATE_MISMATCH:
+                $msg = 'Underflow or the modes mismatch';
+                break;
+            case JSON_ERROR_CTRL_CHAR:
+                $msg = 'Unexpected control character found';
+                break;
+            case JSON_ERROR_UTF8:
+                $msg = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+                break;
+            default:
+                $msg = 'Unknown error';
+        }
+        throw new \RuntimeException('JSON encoding failed: ' . $msg . '. Encoding: ' . var_export($data, true));
     }
 }
 }

@@ -15,6 +15,19 @@ use SplFileInfo;
 
 class Local extends AbstractAdapter
 {
+    /**
+     * @var int
+     */
+    const SKIP_LINKS = 0001;
+
+    /**
+     * @var int
+     */
+    const DISALLOW_LINKS = 0002;
+
+    /**
+     * @var array
+     */
     protected static $permissions = [
         'file' => [
             'public' => 0744,
@@ -35,14 +48,19 @@ class Local extends AbstractAdapter
      * @var int
      */
     protected $writeFlags;
+    /**
+     * @var int
+     */
+    private $linkHandling;
 
     /**
      * Constructor.
      *
      * @param string $root
      * @param int $writeFlags
+     * @param int $linkHandling
      */
-    public function __construct($root, $writeFlags = LOCK_EX)
+    public function __construct($root, $writeFlags = LOCK_EX, $linkHandling = self::DISALLOW_LINKS)
     {
         $realRoot = $this->ensureDirectory($root);
 
@@ -52,6 +70,7 @@ class Local extends AbstractAdapter
 
         $this->setPathPrefix($realRoot);
         $this->writeFlags = $writeFlags;
+        $this->linkHandling = $linkHandling;
     }
 
     /**
@@ -73,7 +92,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function has($path)
     {
@@ -83,7 +102,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function write($path, $contents, Config $config)
     {
@@ -106,7 +125,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function writeStream($path, $resource, Config $config)
     {
@@ -132,7 +151,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function readStream($path)
     {
@@ -143,7 +162,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function updateStream($path, $resource, Config $config)
     {
@@ -151,7 +170,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function update($path, $contents, Config $config)
     {
@@ -167,7 +186,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function read($path)
     {
@@ -182,7 +201,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rename($path, $newpath)
     {
@@ -195,7 +214,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function copy($path, $newpath)
     {
@@ -207,7 +226,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete($path)
     {
@@ -217,7 +236,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function listContents($directory = '', $recursive = false)
     {
@@ -240,11 +259,11 @@ class Local extends AbstractAdapter
             $result[] = $this->normalizeFileInfo($file);
         }
 
-        return $result;
+        return array_filter($result);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getMetadata($path)
     {
@@ -255,7 +274,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSize($path)
     {
@@ -263,7 +282,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getMimetype($path)
     {
@@ -274,7 +293,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTimestamp($path)
     {
@@ -282,7 +301,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getVisibility($path)
     {
@@ -295,7 +314,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setVisibility($path, $visibility)
     {
@@ -307,7 +326,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function createDir($dirname, Config $config)
     {
@@ -327,7 +346,7 @@ class Local extends AbstractAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deleteDir($dirname)
     {
@@ -337,14 +356,17 @@ class Local extends AbstractAdapter
             return false;
         }
 
-        $contents = $this->listContents($dirname, true);
-        $contents = array_reverse($contents);
+        $contents = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($location, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
 
+        /** @var SplFileInfo $file */
         foreach ($contents as $file) {
-            if ($file['type'] !== 'dir') {
-                unlink($this->applyPathPrefix($file['path']));
+            if ($file->getType() !== 'dir') {
+                unlink($file->getRealPath());
             } else {
-                rmdir($this->applyPathPrefix($file['path']));
+                rmdir($file->getRealPath());
             }
         }
 
@@ -360,22 +382,13 @@ class Local extends AbstractAdapter
      */
     protected function normalizeFileInfo(SplFileInfo $file)
     {
-        if ($file->isLink()) {
+        if (! $file->isLink()) {
+            return $this->mapFileInfo($file);
+        }
+
+        if ($this->linkHandling & self::DISALLOW_LINKS) {
             throw NotSupportedException::forLink($file);
         }
-
-        $normalized = [
-            'type' => $file->getType(),
-            'path' => $this->getFilePath($file),
-        ];
-
-        $normalized['timestamp'] = $file->getMTime();
-
-        if ($normalized['type'] === 'file') {
-            $normalized['size'] = $file->getSize();
-        }
-
-        return $normalized;
     }
 
     /**
@@ -416,5 +429,25 @@ class Local extends AbstractAdapter
         $iterator = new DirectoryIterator($path);
 
         return $iterator;
+    }
+
+    /**
+     * @param SplFileInfo $file
+     * @return array
+     */
+    protected function mapFileInfo(SplFileInfo $file)
+    {
+        $normalized = [
+            'type' => $file->getType(),
+            'path' => $this->getFilePath($file),
+        ];
+
+        $normalized['timestamp'] = $file->getMTime();
+
+        if ($normalized['type'] === 'file') {
+            $normalized['size'] = $file->getSize();
+        }
+
+        return $normalized;
     }
 }

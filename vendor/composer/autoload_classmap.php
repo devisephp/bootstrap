@@ -1335,6 +1335,7 @@ return array(
     'Monolog\\Handler\\ChromePHPHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/ChromePHPHandler.php',
     'Monolog\\Handler\\CouchDBHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/CouchDBHandler.php',
     'Monolog\\Handler\\CubeHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/CubeHandler.php',
+    'Monolog\\Handler\\Curl\\Util' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/Curl/Util.php',
     'Monolog\\Handler\\DoctrineCouchDBHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/DoctrineCouchDBHandler.php',
     'Monolog\\Handler\\DynamoDbHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/DynamoDbHandler.php',
     'Monolog\\Handler\\ElasticSearchHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/ElasticSearchHandler.php',
