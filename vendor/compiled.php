@@ -2801,9 +2801,14 @@ class Request
     }
     public function __toString()
     {
+        try {
+            $content = $this->getContent();
+        } catch (\LogicException $e) {
+            return trigger_error($e, E_USER_ERROR);
+        }
         return sprintf('%s %s %s', $this->getMethod(), $this->getRequestUri(), $this->server->get('SERVER_PROTOCOL')) . '
 ' . $this->headers . '
-' . $this->getContent();
+' . $content;
     }
     public function overrideGlobals()
     {
@@ -3179,8 +3184,8 @@ class Request
     }
     public function getContent($asResource = false)
     {
-        if (false === $this->content || true === $asResource && null !== $this->content) {
-            throw new \LogicException('getContent() can only be called once when using the resource return type.');
+        if (PHP_VERSION_ID < 50600 && (false === $this->content || true === $asResource && null !== $this->content)) {
+            throw new \LogicException('getContent() can only be called once when using the resource return type and PHP below 5.6.');
         }
         if (true === $asResource) {
             $this->content = false;
@@ -5873,8 +5878,8 @@ namespace Symfony\Component\Debug {
 use Psr\Log\LogLevel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Debug\Exception\ContextErrorException;
-use Symfony\Component\Debug\Exception\FatalBaseException;
 use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Symfony\Component\Debug\Exception\OutOfMemoryException;
 use Symfony\Component\Debug\FatalErrorHandler\UndefinedFunctionFatalErrorHandler;
 use Symfony\Component\Debug\FatalErrorHandler\UndefinedMethodFatalErrorHandler;
@@ -6030,7 +6035,7 @@ class ErrorHandler
             }
         }
     }
-    public function handleError($type, $message, $file, $line, array $context)
+    public function handleError($type, $message, $file, $line, array $context, array $backtrace = null)
     {
         $level = error_reporting() | E_RECOVERABLE_ERROR | E_USER_ERROR;
         $log = $this->loggedErrors & $type;
@@ -6043,6 +6048,10 @@ class ErrorHandler
             $e = $context;
             unset($e['GLOBALS'], $context);
             $context = $e;
+        }
+        if (null !== $backtrace && $type & E_ERROR) {
+            $this->handleFatalError(compact('type', 'message', 'file', 'line', 'backtrace'));
+            return true;
         }
         if ($throw) {
             if ($this->scopedErrors & $type && class_exists('Symfony\\Component\\Debug\\Exception\\ContextErrorException')) {
@@ -6067,16 +6076,23 @@ class ErrorHandler
             if ($this->scopedErrors & $type) {
                 $e['scope_vars'] = $context;
                 if ($trace) {
-                    $e['stack'] = debug_backtrace(true);
+                    $e['stack'] = $backtrace ?: debug_backtrace(true);
                 }
             } elseif ($trace) {
-                $e['stack'] = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
+                if (null === $backtrace) {
+                    $e['stack'] = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : false);
+                } else {
+                    foreach ($backtrace as &$frame) {
+                        unset($frame['args'], $frame);
+                    }
+                    $e['stack'] = $backtrace;
+                }
             }
         }
         if ($this->isRecursive) {
             $log = 0;
         } elseif (self::$stackedErrorLevels) {
-            self::$stackedErrors[] = array($this->loggers[$type], $message, $e);
+            self::$stackedErrors[] = array($this->loggers[$type][0], $type & $level ? $this->loggers[$type][1] : LogLevel::DEBUG, $message, $e);
         } else {
             try {
                 $this->isRecursive = true;
@@ -6092,15 +6108,17 @@ class ErrorHandler
     public function handleException($exception, array $error = null)
     {
         if (!$exception instanceof \Exception) {
-            $exception = new FatalBaseException($exception);
+            $exception = new FatalThrowableError($exception);
         }
         $type = $exception instanceof FatalErrorException ? $exception->getSeverity() : E_ERROR;
         if ($this->loggedErrors & $type) {
             $e = array('type' => $type, 'file' => $exception->getFile(), 'line' => $exception->getLine(), 'level' => error_reporting(), 'stack' => $exception->getTrace());
-            if ($exception instanceof FatalBaseException) {
-                $error = array('type' => $type, 'message' => $message = $exception->getMessage(), 'file' => $e['file'], 'line' => $e['line']);
-            } elseif ($exception instanceof FatalErrorException) {
-                $message = 'Fatal ' . $exception->getMessage();
+            if ($exception instanceof FatalErrorException) {
+                if ($exception instanceof FatalThrowableError) {
+                    $error = array('type' => $type, 'message' => $message = $exception->getMessage(), 'file' => $e['file'], 'line' => $e['line']);
+                } else {
+                    $message = 'Fatal ' . $exception->getMessage();
+                }
             } elseif ($exception instanceof \ErrorException) {
                 $message = 'Uncaught ' . $exception->getMessage();
                 if ($exception instanceof ContextErrorException) {
@@ -6127,16 +6145,19 @@ class ErrorHandler
         try {
             call_user_func($this->exceptionHandler, $exception);
         } catch (\Exception $handlerException) {
-            $this->exceptionHandler = null;
-            $this->handleException($handlerException);
-        } catch (\BaseException $handlerException) {
+        } catch (\Throwable $handlerException) {
+        }
+        if (isset($handlerException)) {
             $this->exceptionHandler = null;
             $this->handleException($handlerException);
         }
     }
     public static function handleFatalError(array $error = null)
     {
-        self::$reservedMemory = '';
+        if (null === self::$reservedMemory) {
+            return;
+        }
+        self::$reservedMemory = null;
         $handler = set_error_handler('var_dump', 0);
         $handler = is_array($handler) ? $handler[0] : null;
         restore_error_handler();
@@ -6152,12 +6173,13 @@ class ErrorHandler
             }
         } catch (\Exception $exception) {
         }
-        if ($error && $error['type'] & (E_PARSE | E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR)) {
+        if ($error && ($error['type'] &= E_PARSE | E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR)) {
             $handler->throwAt(0, true);
+            $trace = isset($error['backtrace']) ? $error['backtrace'] : null;
             if (0 === strpos($error['message'], 'Allowed memory') || 0 === strpos($error['message'], 'Out of memory')) {
-                $exception = new OutOfMemoryException($handler->levels[$error['type']] . ': ' . $error['message'], 0, $error['type'], $error['file'], $error['line'], 2, false);
+                $exception = new OutOfMemoryException($handler->levels[$error['type']] . ': ' . $error['message'], 0, $error['type'], $error['file'], $error['line'], 2, false, $trace);
             } else {
-                $exception = new FatalErrorException($handler->levels[$error['type']] . ': ' . $error['message'], 0, $error['type'], $error['file'], $error['line'], 2, true);
+                $exception = new FatalErrorException($handler->levels[$error['type']] . ': ' . $error['message'], 0, $error['type'], $error['file'], $error['line'], 2, true, $trace);
             }
         } elseif (!isset($exception)) {
             return;
@@ -6184,7 +6206,7 @@ class ErrorHandler
             $errors = self::$stackedErrors;
             self::$stackedErrors = array();
             foreach ($errors as $e) {
-                $e[0][0]->log($e[0][1], $e[1], $e[2]);
+                $e[0]->log($e[1], $e[2], $e[3]);
             }
         }
     }
@@ -14862,7 +14884,7 @@ class Response
         $notModified = false;
         $lastModified = $this->headers->get('Last-Modified');
         $modifiedSince = $request->headers->get('If-Modified-Since');
-        if ($etags = $request->getEtags()) {
+        if ($etags = $request->getETags()) {
             $notModified = in_array($this->getEtag(), $etags) || in_array('*', $etags);
         }
         if ($modifiedSince && $lastModified) {
@@ -14921,7 +14943,8 @@ class Response
     {
         $status = ob_get_status(true);
         $level = count($status);
-        while ($level-- > $targetLevel && (!empty($status[$level]['del']) || isset($status[$level]['flags']) && $status[$level]['flags'] & PHP_OUTPUT_HANDLER_REMOVABLE && $status[$level]['flags'] & ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE))) {
+        $flags = PHP_VERSION_ID >= 50400 ? PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE) : -1;
+        while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || $flags === ($s['flags'] & $flags) : $s['del'])) {
             if ($flush) {
                 ob_end_flush();
             } else {
