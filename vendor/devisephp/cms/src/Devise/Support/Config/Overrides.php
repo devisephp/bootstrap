@@ -17,6 +17,6 @@ class Overrides extends \Illuminate\Config\Repository
      */
     public function __construct(array $items = array(), array $overrides = array())
     {
-        $this->items = array_merge($items, $overrides);
+        $this->items = array_merge_values($items, $overrides);
     }
 }

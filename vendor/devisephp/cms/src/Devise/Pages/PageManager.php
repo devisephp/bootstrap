@@ -4,6 +4,7 @@ use Illuminate\Support\Str;
 use Devise\Support\Framework;
 use Devise\Pages\Fields\FieldsRepository;
 use Devise\Pages\Fields\FieldManager;
+use Devise\Languages\LocaleDetector;
 
 /**
  * Class PageManager manages the creating of new pages,
@@ -11,12 +12,12 @@ use Devise\Pages\Fields\FieldManager;
  */
 class PageManager
 {
-	/**
+    /**
      * DvsPage model to fetch database dvs_pages
      *
-	 * @var Page
-	 */
-	protected $Page;
+     * @var Page
+     */
+    protected $Page;
 
     /**
      * Validator is used to validate page rules
@@ -59,7 +60,6 @@ class PageManager
         'view',
         'title',
         'http_verb',
-        'route_name',
         'is_admin',
         'dvs_admin',
         'slug',
@@ -76,14 +76,14 @@ class PageManager
         'response_params',
     ];
 
-	/**
+    /**
      * Errors are kept in an array and can be
      * used later if validation fails and we want to
      * know why
      *
-	 * @var array
-	 */
-	public $errors;
+     * @var array
+     */
+    public $errors;
 
     /**
      * This is a message that we can store why the
@@ -103,13 +103,15 @@ class PageManager
      * @param FieldManager $FieldManager
      * @param Framework $Framework
      */
-	public function __construct(
+    public function __construct(
         \DvsPage $Page,
         PageVersionManager $PageVersionManager,
         PageVersionsRepository $PageVersionsRepository,
         FieldsRepository $FieldsRepository,
         FieldManager $FieldManager,
-        Framework $Framework
+        Framework $Framework,
+        RoutesGenerator $RoutesGenerator,
+        \DvsLanguage $Language
     ){
         $this->Page = $Page;
         $this->Validator = $Framework->Validator;
@@ -118,38 +120,41 @@ class PageManager
         $this->FieldsRepository = $FieldsRepository;
         $this->FieldManager = $FieldManager;
         $this->Config = $Framework->config;
+        $this->RoutesGenerator = $RoutesGenerator;
+        $this->Language = $Language;
         $this->now = new \DateTime;
     }
 
-	/**
-	 * Validates and creates a page with the given input
+    /**
+     * Validates and creates a page with the given input
      *
-	 * @param  array a$input
-	 * @return bool
-	 */
-	public function createNewPage($input)
-	{
+     * @param  array a$input
+     * @return bool
+     */
+    public function createNewPage($input)
+    {
         $input['response_type'] = 'View';
-		$page = $this->createPageFromInput($input);
+        $page = $this->createPageFromInput($input);
 
         if ($page)
         {
             $startsAt = array_get($input, 'published', false) ? new \DateTime : null;
-    		$page->version = $this->PageVersionManager->createDefaultPageVersion($page, $startsAt);
+            $page->version = $this->PageVersionManager->createDefaultPageVersion($page, $startsAt);
+            $this->RoutesGenerator->cacheRoutes();
         }
 
-		return $page;
+        return $page;
     }
 
-	/**
-	 * Validates and updates a page with the given input
+    /**
+     * Validates and updates a page with the given input
      *
-	 * @param  integer $id
-	 * @param  array   $input
-	 * @return bool
-	 */
-	public function updatePage($id, $input)
-	{
+     * @param  integer $id
+     * @param  array   $input
+     * @return bool
+     */
+    public function updatePage($id, $input)
+    {
         $input = array_only($input, static::$PageFields);
         $page = $this->Page->findOrFail($id);
 
@@ -158,6 +163,7 @@ class PageManager
         if ($this->validator->passes())
         {
             $page->update($input);
+            $this->RoutesGenerator->cacheRoutes();
             return $page;
         }
 
@@ -166,31 +172,33 @@ class PageManager
         return false;
     }
 
-	/**
+    /**
      * Destroys a page
      *
      * @param  integer $id
      * @return boolean
      */
-	public function destroyPage($id)
-	{
-		$page = $this->Page->findOrFail($id);
+    public function destroyPage($id)
+    {
+        $page = $this->Page->findOrFail($id);
 
         $page->versions()->delete();
 
-		return $page->delete();
-	}
+        $this->RoutesGenerator->cacheRoutes();
 
-	/**
+        return $page->delete();
+    }
+
+    /**
      * Takes the input provided and runs the create method after stripping necessary fields.
      *
      * @param  integer $fromPageId
      * @param  array   $input
      * @return DvsPage
      */
-	public function copyPage($fromPageId, $input)
-	{
-		$fromPage = $this->Page->findOrFail($fromPageId);
+    public function copyPage($fromPageId, $input)
+    {
+        $fromPage = $this->Page->findOrFail($fromPageId);
 
         if (isset($input['page_version_id']))
         {
@@ -204,16 +212,47 @@ class PageManager
             $fromPageVersion = $fromPage->getLiveVersion();
         }
 
-		$toPage = $this->createPageFromInput($input);
+
+        $input = $this->getTranslatedFromPageId($fromPageId, $input);
+
+        $toPage = $this->createPageFromInput($input);
+
+        if (!$toPage) return false;
 
         $this->PageVersionManager->copyPageVersionToAnotherPage($fromPageVersion, $toPage);
 
-		return $toPage;
-	}
+        $this->RoutesGenerator->cacheRoutes();
 
+        return $toPage;
+    }
 
+    /**
+     * This ensures that we are translating from the correct "parent" page.
+     *
+     * This happens when a user creates a page and then copies that "parent"
+     * page to a "child" page. When the user tries to copy the "child"
+     * page to a "grandchild" page. We want the "grandchild" to be a
+     * "child" instead of a "grandchild".
+     *
+     * This keeps page nesting down to 1 level instead of nesting under
+     * many levels.
+     *
+     * @param  integer $fromPageId
+     * @param  array $input
+     * @return array
+     */
+    protected function getTranslatedFromPageId($fromPageId, $input)
+    {
+        $fromPage = $this->Page->findOrFail($fromPageId);
 
-	/**
+        $input['translated_from_page_id'] = $fromPage->translated_from_page_id
+            ? $fromPage->translated_from_page_id
+            : $fromPage->id;
+
+        return $input;
+    }
+
+    /**
      * This helper method keeps looking through suggested route names
      * and adding a number onto the suggested route until it finds an available
      * one that isn't taken in the database. We don't want route names to be
@@ -223,18 +262,24 @@ class PageManager
      * @param  integer $currentIteration
      * @return string
      */
-	protected function findAvailableRoute($suggestedRoute, $currentIteration = 0)
+    protected function findAvailableRoute($suggestedRoute, $languageId)
     {
-        $modifiedRoute = ($currentIteration == 0) ? $suggestedRoute : $suggestedRoute . '-' . $currentIteration;
+        $sanity = 0;
 
-        $existingRouteSearch = $this->Page->where('route_name', '=', $modifiedRoute)->count();
+        $modifiedRoute = $suggestedRoute;
 
-        if ($existingRouteSearch < 1)
+        if ($languageId != $this->Config->get('devise.languages.primary_language_id'))
         {
-            return $modifiedRoute;
+            $language = $this->Language->findOrFail($languageId);
+            $modifiedRoute = $language->code . '-' . $suggestedRoute;
         }
 
-        return $this->findAvailableRoute($suggestedRoute, $currentIteration + 1);
+        while ($this->Page->where('route_name', '=', $modifiedRoute)->count() > 0 && $sanity++ < 100)
+        {
+            $modifiedRoute .= '-' . $sanity;
+        }
+
+        return $modifiedRoute;
     }
 
 
@@ -246,28 +291,50 @@ class PageManager
      */
     protected function createPageFromInput($input)
     {
-        $primaryLanguageId = $this->Config->get('devise.languages.primary_language_id');
         // fill in some default values
         $input = array_only($input, static::$PageFields);
         $input['is_admin'] = array_get($input, 'is_admin', false);
         $input['dvs_admin'] = array_get($input, 'dvs_admin', false);
-        $input['language_id'] = array_get($input, 'language_id', $primaryLanguageId);
+        $input['language_id'] = array_get($input, 'language_id', $this->Config->get('devise.languages.primary_language_id'));
+        $input['route_name'] = $this->findAvailableRoute(Str::slug(array_get($input, 'title', str_random(42))), $input['language_id']);
 
-        // validate the input given before we create the page
-        $this->validator = $this->Validator->make($input, $this->Page->createRules, $this->Page->messages);
-
-        if ($this->validator->passes())
+        if ($this->isValidInputForNewPage($input))
         {
-            $suggestedRouteName = (!isset($input['route_name'])) ? Str::slug($input['title']) : $input['route_name'];
-            $input['route_name'] = $this->findAvailableRoute($suggestedRouteName);
-
             return $this->Page->create($input);
         }
 
-        $this->errors = $this->validator->errors()->all();
-        $this->message = "There were validation errors.";
-
         return false;
+    }
+
+    /**
+     * [isValidInputForNewPage description]
+     * @param  [type]  $input
+     * @return boolean
+     */
+    protected function isValidInputForNewPage($input)
+    {
+        // validate the input given before we create the page
+        $this->validator = $this->Validator->make($input, $this->Page->createRules, $this->Page->messages);
+
+        $fails = $this->validator->fails();
+
+        if ($fails)
+        {
+            $this->errors = $this->validator->errors()->all();
+            $this->message = "There were validation errors.";
+        }
+
+        // check to make sure that there is no duplicate slug/method out there
+        $duplicatePage = $this->Page->where('http_verb', $input['http_verb'])->where('slug', $input['slug'])->first();
+
+        if ($duplicatePage)
+        {
+            $this->errors = $this->validator->errors()->all();
+            $this->errors['slug'] = 'There is already a page with this slug/verb pair';
+            $this->message = "There were validation errors.";
+        }
+
+        return count($this->errors) == 0;
     }
 
     /**

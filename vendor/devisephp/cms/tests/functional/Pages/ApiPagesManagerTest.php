@@ -14,12 +14,14 @@ class ApiPagesManagerTest extends \DeviseTestCase
         $this->PageVersionsRepository = m::mock('Devise\Pages\PageVersionsRepository');
         $this->FieldsRepository = m::mock('Devise\Pages\Fields\FieldsRepository');
         $this->FieldManager = m::mock('Devise\Pages\Fields\FieldManager');
-
-        $this->ApiPagesManager = new ApiPagesManager($this->DvsPage, $this->PageVersionManager, $this->PageVersionsRepository, $this->FieldsRepository, $this->FieldManager, $Framework);
+        $this->RoutesGenerator = m::mock('Devise\Pages\RoutesGenerator');
+        $this->Language = new \DvsLanguage;
+        $this->ApiPagesManager = new ApiPagesManager($this->DvsPage, $this->PageVersionManager, $this->PageVersionsRepository, $this->FieldsRepository, $this->FieldManager, $Framework, $this->RoutesGenerator, $this->Language);
     }
 
     public function test_it_creates_new_page()
     {
+        $this->RoutesGenerator->shouldReceive('cacheRoutes')->once();
         $this->PageVersionManager->shouldReceive('createDefaultPageVersion')->times(1)->andReturn(new \DvsPageVersion);
         $page = $this->ApiPagesManager->createNewPage(['title' => 'Some page title', 'slug' => '/some-page-title', 'http_verb' => 'get', 'response_path' => 'some.path','response_params'=>'param1,param2']);
         assertNotFalse($page);

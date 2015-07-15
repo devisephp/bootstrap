@@ -261,13 +261,14 @@ class PagesRepository
      */
     public function availableLanguagesForPage($id)
     {
-        $page = $this->Page->with('localizedPages', 'language', 'translatedFromPage')->find($id);
+        $page = $this->Page->with('localizedPages', 'language', 'translatedFromPage.localizedPages')->find($id);
 
         $languages = [
             $page->language_id => [
                 'human_name' => $page->language->human_name,
                 'url' => $this->URL->route($page->route_name),
                 'code' => $page->language->code,
+                'id' => $page->language_id,
             ]
         ];
 
@@ -277,6 +278,7 @@ class PagesRepository
                 'human_name' => $p->language->human_name,
                 'url' => $this->URL->route($p->route_name),
                 'code' => $p->language->code,
+                'id' => $p->language_id,
             ];
         }
 
@@ -287,7 +289,18 @@ class PagesRepository
                 'human_name' => $p->language->human_name,
                 'url' => $this->URL->route($p->route_name),
                 'code' => $p->language->code,
+                'id' => $p->language_id,
             ];
+
+            foreach ($p->localizedPages as $lp)
+            {
+                $languages[$lp->language_id] = [
+                    'human_name' => $lp->language->human_name,
+                    'url' => $this->URL->route($lp->route_name),
+                    'code' => $lp->language->code,
+                    'id' => $lp->language_id,
+                ];
+            }
         }
 
         return $languages;
@@ -431,7 +444,7 @@ class PagesRepository
                                 })
                                 ->lists('title', 'language_id');
 
-        return array_diff_key($languages, $existingLangages);
+        return array_diff_key($languages, $existingLangages->toArray());
     }
 
     /**
@@ -521,16 +534,27 @@ class PagesRepository
     {
         foreach ($fields as $field)
         {
-            // turn routes into urls GO MAGIC GO! ^_^
-            if (isset($field->value->route) && $field->value->route !== '')
-            {
-                $field->value->url = $this->URL->route($field->value->route);
-            }
-
+            $this->updateUrlsInField($field);
             $page->{$field->key} = $field->value;
         }
 
         return $page;
+    }
+
+    /**
+     * [updateUrlsInField description]
+     * @param  [type] $field
+     * @return [type]
+     */
+    protected function updateUrlsInField($field)
+    {
+        if (isset($field->value->route) && $field->value->route !== '')
+        {
+            if (!isset($field->value->url) || $field->value->url == '')
+            {
+                $field->value->url = dvspage($field->value->route);
+            }
+        }
     }
 
     /**
@@ -545,6 +569,14 @@ class PagesRepository
     {
         foreach ($collections as $key => $collection)
         {
+            foreach ($collection as $fields)
+            {
+                foreach ($fields as $field)
+                {
+                    $this->updateUrlsInField($field);
+                }
+            }
+
             $page->{$key} = $collection;
         }
 

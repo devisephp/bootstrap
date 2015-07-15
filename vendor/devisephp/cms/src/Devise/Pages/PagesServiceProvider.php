@@ -33,6 +33,13 @@ class PagesServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
+        $cachedRoutesPath = \Config::get('devise.routes.cache');
+
+        if (!$this->app->routesAreCached() && file_exists($cachedRoutesPath))
+        {
+            require $cachedRoutesPath;
+        }
+
         require __DIR__. '/routes.php';
 
         // register these field update bindings
@@ -116,13 +123,13 @@ class PagesServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         \Blade::extend(function($view, $compiler)
         {
-            $pattern = $compiler->createPlainMatcher('php');
+            $pattern = $this->createPlainMatcher('php');
             return preg_replace($pattern, "<?php\n", $view);
         });
 
         \Blade::extend(function($view, $compiler)
         {
-            $pattern = $compiler->createPlainMatcher('endphp');
+            $pattern = $this->createPlainMatcher('endphp');
             return preg_replace($pattern, "\n?>", $view);
         });
     }
@@ -160,5 +167,16 @@ class PagesServiceProvider extends \Illuminate\Support\ServiceProvider
     public function provides()
     {
         return array();
+    }
+
+    /**
+     * Create a plain Blade matcher.
+     *
+     * @param  string  $function
+     * @return string
+     */
+    public function createPlainMatcher($function)
+    {
+        return '/(?<!\w)(\s*)@'.$function.'(\s*)/';
     }
 }

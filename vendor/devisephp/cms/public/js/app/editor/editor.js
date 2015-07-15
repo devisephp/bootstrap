@@ -10,14 +10,23 @@ devise.define(['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', 'dvsPositionH
     /**
      * The editor class we are building
      */
-    var Editor = function (templates, data)
+    var Editor = function (templates, data, csrf)
+    {
+        this.events = events;
+        this.csrf = csrf;
+        this.sidebar = new Sidebar(data);
+        this.updateData(data);
+    }
+
+    /**
+     * Updates the page data for this and sidebar.page
+     */
+   Editor.prototype.updateData = function (data)
     {
         this.pageId = data.pageId;
         this.pageVersionId = data.pageVersionId;
-        this.events = events;
         this.data = data;
-        this.sidebar = new Sidebar(data);
-        this.aboutPageTemplate = $('[data-template-name="about-page"]');
+        this.sidebar.page = data;
     }
 
     /**
@@ -63,7 +72,7 @@ devise.define(['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', 'dvsPositionH
      */
     Editor.prototype.render = function()
     {
-        this.layoutView             = View.make('editor.layout', this.data);
+        this.layoutView             = $('#dvs-mode');
         this.iframeView             = this.layoutView.find('#dvs-iframe');
         this.nodesView              = $('<div/>');
         this.iframeBodyView         = $('<div/>');
@@ -77,9 +86,6 @@ devise.define(['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', 'dvsPositionH
 
         this.aboutPageContainerView.empty();
         this.aboutPageContainerView.append(View.make('about-page'));
-
-        $('body').empty();
-        $('body').append(this.layoutView);
     }
 
     /**
@@ -226,7 +232,10 @@ devise.define(['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', 'dvsPositionH
                 // the start-editor=false redirect (see above) will
                 // catch it
                 iframe.contents().find('a').each(function(index, el){
-                    $(el).attr('target', '_top');
+                    var attr = $(this).attr('target');
+                    if (typeof attr == typeof undefined || attr == '_self') {
+                        $(el).attr('target', '_top');
+                    }
                 });
 
                 // check for form submissions, and when we find one
@@ -246,7 +255,10 @@ devise.define(['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', 'dvsPositionH
                 if (editor.showingEditor) body.addClass('dvs-node-mode');
 
                 // copy over the database fields for live updates
-                editor.data.database = contentWindow.devise.dvsPageData.database;
+                editor.updateData(contentWindow.dvsPageData);
+
+                // update csrfToken
+                editor.csrf(editor.data.csrfToken);
 
                 // create a finder on this editor
                 editor.finder = new BindingsFinder(editor.data.database)

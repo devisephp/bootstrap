@@ -3607,7 +3607,7 @@ button.dvs-no-decoration:hover {
   .dvs-select-wrapper .dvs-holder {
     display: block;
     float: left;
-    margin: 3px 5px 0 12px;
+    margin: 3px 5px 0 10px;
     white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
@@ -4209,8 +4209,10 @@ ul.js-tab-links {
   font-weight: bold; }
 
 #dvs-docs-toc {
-  list-style-type: disc;
-  padding-left: 35px; }
+  padding-top: 10px; }
+  #dvs-docs-toc ul {
+    list-style-type: disc;
+    padding-left: 35px; }
   #dvs-docs-toc a {
     text-decoration: none; }
 
@@ -4380,7 +4382,8 @@ ul.js-tab-links {
   #dvs-admin-sidenav .dvs-admin-links {
     margin: 12px 0 40px 0; }
     #dvs-admin-sidenav .dvs-admin-links li {
-      line-height: 40px; }
+      line-height: 40px;
+      color: #bcbec2; }
       #dvs-admin-sidenav .dvs-admin-links li a {
         display: block;
         color: #bcbec2;
@@ -4608,11 +4611,22 @@ ul.js-tab-links {
     clear: both; }
   #dvs-admin-actions .dvs-select-wrapper {
     float: right;
-    width: 150px;
-    font-size: 11px;
-    padding: 8px 12px; }
+    width: auto;
+    padding: 5px 30px 6px 6px;
+    font-size: 10px;
+    margin-left: 8px; }
+    #dvs-admin-actions .dvs-select-wrapper select {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      -webkit-appearance: none;
+      /* Important for Macs */ }
     #dvs-admin-actions .dvs-select-wrapper .dvs-holder {
       background-color: transparent; }
+    #dvs-admin-actions .dvs-select-wrapper:after {
+      top: 43%; }
 
 .dvs-inset-text {
   box-sizing: border-box;
@@ -4926,6 +4940,12 @@ table.dvs-admin-table {
     width: 428px;
     top: 0;
     left: 0; }
+    #dvs-mode.dvs-sidebar-mode #dvs-sidebar-container.fat {
+      width: 80%; }
+    #dvs-mode.dvs-sidebar-mode #dvs-sidebar-container.fat #dvs-sidebar-scroller {
+      width: 101%; }
+    #dvs-mode.dvs-sidebar-mode #dvs-sidebar-container.fat #dvs-sidebar-scroller #dvs-sidebar {
+      width: 97%; }
   #dvs-mode.dvs-sidebar-mode #dvs-sidebar-scroller {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -5246,6 +5266,7 @@ table.dvs-admin-table {
     #dvs-mode.dvs-sidebar-mode .dvs-sidebar-collection-group > div {
       margin: -20px; }
   #dvs-mode.dvs-sidebar-mode .dvs-sidebar-discard, #dvs-mode.dvs-sidebar-mode .dvs-sidebar-save-group, #dvs-mode.dvs-sidebar-mode .dvs-sidebar-save-model, #dvs-mode.dvs-sidebar-mode .dvs-sidebar-save-model-groups {
+    cursor: pointer;
     display: block;
     width: 100%;
     padding: 27px 15px;
@@ -5519,7 +5540,7 @@ table.dvs-admin-table {
     #dvs-mode.dvs-sidebar-mode .dvs-select-wrapper .dvs-holder {
       display: block;
       float: left;
-      margin: 3px 5px 0 12px;
+      margin: 3px 5px 0 10px;
       white-space: nowrap;
       overflow: hidden;
       cursor: pointer;
@@ -5616,14 +5637,26 @@ table.dvs-admin-table {
       height: 25px; }
       #dvs-mode.dvs-sidebar-mode #dvs-sidebar-language-selector .dvs-select-wrapper .dvs-holder {
         margin-top: 0; }
+  #dvs-mode.dvs-sidebar-mode #dvs-sidebar-save-notification {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-color: #5dbabd;
+    padding: 15px;
+    width: 100px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-left: -50px;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); }
+  #dvs-mode.dvs-sidebar-mode .saving #dvs-sidebar-save-notification {
+    display: block; }
 
 .dvs-sidebar-save-group {
   -webkit-transition: all 2s;
   transition: all 2s;
   pointer: cursor; }
-
-.saving .dvs-sidebar-save-group {
-  opacity: 0.3; }
 
 .dvs-media-manager-container {
   padding: 10px; }
@@ -6196,6 +6229,18 @@ html.dz-drag-hover body {
   margin-top: 10px;
   margin-bottom: 10px;
   font-size: 12px; }
+#devise-documentation-container ul, #devise-documentation-container ol {
+  padding-left: 24px;
+  font-size: 12px; }
+#devise-documentation-container ol {
+  list-style-type: lower-hexadecimal; }
+  #devise-documentation-container ol li {
+    margin-bottom: 10px; }
+#devise-documentation-container ul {
+  display: list-item;
+  text-align: -webkit-match-parent; }
+  #devise-documentation-container ul li {
+    margin: 0 0 10px 10px; }
 
 .dvs-document-button:before {
   content: '?';

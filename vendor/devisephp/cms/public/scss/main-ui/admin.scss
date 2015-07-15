@@ -16,6 +16,7 @@
 
     li {
       line-height:40px;
+      color:$sidenavLinkColor;
 
       a {
         display:block;
@@ -332,12 +333,26 @@
 
   .dvs-select-wrapper {
     float:right;
-    width:150px;
-    font-size:11px;
-    padding:8px 12px;
+    width:auto;
+    padding:5px 30px 6px 6px;
+    font-size:10px;
+    margin-left:8px;
+
+    select {
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+      height:100%;
+      -webkit-appearance:none; /* Important for Macs */
+    }
 
     .dvs-holder {
       background-color:transparent;
+    }
+
+    &:after {
+      top:43%;
     }
   }
 }

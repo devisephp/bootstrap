@@ -6,6 +6,7 @@ devise.define(['jquery', 'query', 'dvsBaseView', 'dvsFieldView', 'dvsCollectionV
 	var events = {
 		'change #dvs-sidebar-version-selector': onChangePageVersion,
         'click #dvs-sidebar-add-version': onAddPageVersionBtnClicked,
+        'change #dvs-language-selector': onLanguageSelectorChanged,
 		'click .dvs-sidebar-save-group': 'save',
 		'input form [name]': 'changed',
 		'change form [name]': 'changed'
@@ -31,6 +32,7 @@ devise.define(['jquery', 'query', 'dvsBaseView', 'dvsFieldView', 'dvsCollectionV
 		this.validationErrors = null;
 		this.content = null;
 		this.saveButton = null;
+		this.saveNotification = null;
 	}
 
 	/**
@@ -53,6 +55,7 @@ devise.define(['jquery', 'query', 'dvsBaseView', 'dvsFieldView', 'dvsCollectionV
 		this.validationErrors = this.layout.filter('[data-view="validation-errors"]');
 		this.content = this.layout.find('[data-view="content"]');
 		this.saveButton = this.layout.find('[data-view="save-button"]');
+		this.saveNotification = this.layout.find('[data-view="save-notification"]');
 
 		this.saveButton.hide();
 
@@ -199,6 +202,20 @@ devise.define(['jquery', 'query', 'dvsBaseView', 'dvsFieldView', 'dvsCollectionV
         var pageName = prompt('What would you like to name this new page version?');
 
         if (pageName) this.addPageVersion(pageName);
+    }
+
+    /**
+     * handle when language selector changes
+     */
+    function onLanguageSelectorChanged(event)
+    {
+    	var url = $(event.currentTarget).find(':selected').data('url');
+    	var id = $(event.currentTarget).val();
+
+    	if (id != this.page.languageId)
+    	{
+    		location.href = url;
+    	}
     }
 
 	return Sidebar;
