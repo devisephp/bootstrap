@@ -20,9 +20,11 @@ trait ThrottlesLogins
 
         $lockedOut = Cache::has($this->getLoginLockExpirationKey($request));
 
-        if ($attempts > 5 || $lockedOut) {
+        if ($attempts > $this->maxLoginAttempts() || $lockedOut) {
             if (! $lockedOut) {
-                Cache::put($this->getLoginLockExpirationKey($request), time() + 60, 1);
+                Cache::put(
+                    $this->getLoginLockExpirationKey($request), time() + $this->lockoutTime(), 1
+                );
             }
 
             return true;
@@ -65,15 +67,24 @@ trait ThrottlesLogins
     {
         $seconds = (int) Cache::get($this->getLoginLockExpirationKey($request)) - time();
 
-        $message = Lang::has('auth.throttle')
-                    ? Lang::get('auth.throttle', ['seconds' => $seconds])
-                    : 'Too many login attempts. Please try again in '.$seconds.' seconds.';
-
         return redirect($this->loginPath())
             ->withInput($request->only($this->loginUsername(), 'remember'))
             ->withErrors([
-                $this->loginUsername() => $message,
+                $this->loginUsername() => $this->getLockoutErrorMessage($seconds),
             ]);
+    }
+
+    /**
+     * Get the login lockout error message.
+     *
+     * @param  int  $seconds
+     * @return string
+     */
+    protected function getLockoutErrorMessage($seconds)
+    {
+        return Lang::has('auth.throttle')
+            ? Lang::get('auth.throttle', ['seconds' => $seconds])
+            : 'Too many login attempts. Please try again in '.$seconds.' seconds.';
     }
 
     /**
@@ -113,5 +124,25 @@ trait ThrottlesLogins
         $username = $request->input($this->loginUsername());
 
         return 'login:expiration:'.md5($username.$request->ip());
+    }
+
+    /**
+     * Get the maximum number of login attempts for delaying further attempts.
+     *
+     * @return int
+     */
+    protected function maxLoginAttempts()
+    {
+        return property_exists($this, 'maxLoginAttempts') ? $this->maxLoginAttempts : 5;
+    }
+
+    /**
+     * The number of seconds to delay further login attempts.
+     *
+     * @return int
+     */
+    protected function lockoutTime()
+    {
+        return property_exists($this, 'lockoutTime') ? $this->lockoutTime : 60;
     }
 }

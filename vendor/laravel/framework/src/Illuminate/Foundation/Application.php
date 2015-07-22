@@ -25,7 +25,7 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
      *
      * @var string
      */
-    const VERSION = '5.1.7 (LTS)';
+    const VERSION = '5.1.8 (LTS)';
 
     /**
      * The base path for the Laravel installation.
@@ -780,6 +780,17 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
     public function handle(SymfonyRequest $request, $type = self::MASTER_REQUEST, $catch = true)
     {
         return $this['Illuminate\Contracts\Http\Kernel']->handle(Request::createFromBase($request));
+    }
+
+    /**
+     * Determine if middleware has been disabled for the application.
+     *
+     * @return bool
+     */
+    public function shouldSkipMiddleware()
+    {
+        return $this->bound('middleware.disable') &&
+               $this->make('middleware.disable') === true;
     }
 
     /**
