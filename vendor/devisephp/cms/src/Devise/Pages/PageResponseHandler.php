@@ -108,8 +108,7 @@ class PageResponseHandler
 
         if ($page)
         {
-            return $this->Redirect->route('dvs-pages')
-                ->with('message', 'Page successfully removed');
+            return $this->Redirect->route('dvs-pages');
         }
 
         return $this->Redirect->route('dvs-pages')
@@ -178,13 +177,14 @@ class PageResponseHandler
     /**
      * Request the page listing
      *
-     * @param  array   $input
-     * @param  boolean $includeAdmin
      * @return EloquentCollection
      */
-    public function requestPageList($input, $includeAdmin = false)
+    public function requestPageList($input)
     {
-        return $this->PagesRepository->getPagesList($includeAdmin === true, $input['term']);
+        $term = array_get($input, 'term');
+        $includeAdmin = array_get($input, 'includeAdmin') == '1' ? true : false;
+
+        return $this->PagesRepository->getPagesList($includeAdmin, $term);
     }
 
     /**

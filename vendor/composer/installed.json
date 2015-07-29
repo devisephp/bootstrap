@@ -2970,72 +2970,6 @@
         ]
     },
     {
-        "name": "devisephp/cms",
-        "version": "1.2.12",
-        "version_normalized": "1.2.12.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/devisephp/cms.git",
-            "reference": "17632a1ed86c83700790b916e2ae40698c92ea83"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/devisephp/cms/zipball/17632a1ed86c83700790b916e2ae40698c92ea83",
-            "reference": "17632a1ed86c83700790b916e2ae40698c92ea83",
-            "shasum": ""
-        },
-        "require": {
-            "doctrine/dbal": "~2.3",
-            "ext-imagick": "*",
-            "guzzlehttp/guzzle": "~4.0",
-            "illuminate/html": "5.0.*",
-            "laravel/framework": "5.1.*",
-            "league/commonmark": "0.7.*",
-            "masterminds/html5": "1.*",
-            "php": ">=5.5.9",
-            "symfony/console": "~2.0",
-            "zencoder/zencoder-php": "*"
-        },
-        "require-dev": {
-            "codeception/codeception": "*",
-            "mikey179/vfsstream": "*",
-            "mockery/mockery": "0.9.3",
-            "phpunit/phpunit": "*"
-        },
-        "time": "2015-07-14 19:07:15",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/models",
-                "src/seeds",
-                "src/migrations",
-                "tests/DeviseTestCase.php"
-            ],
-            "psr-0": {
-                "Devise\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "DevisePHP Team",
-                "email": "info@devisephp.com"
-            }
-        ],
-        "description": "Content Management System riding on top of the Laravel Framework",
-        "keywords": [
-            "Content management system",
-            "cms",
-            "devise",
-            "devisephp",
-            "laravel"
-        ]
-    },
-    {
         "name": "psy/psysh",
         "version": "v0.5.2",
         "version_normalized": "0.5.2.0",
@@ -3107,89 +3041,6 @@
             "console",
             "interactive",
             "shell"
-        ]
-    },
-    {
-        "name": "league/flysystem",
-        "version": "1.0.10",
-        "version_normalized": "1.0.10.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thephpleague/flysystem.git",
-            "reference": "3475ce0b1b5cab41f012905c4c58ad645088f7c9"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3475ce0b1b5cab41f012905c4c58ad645088f7c9",
-            "reference": "3475ce0b1b5cab41f012905c4c58ad645088f7c9",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "require-dev": {
-            "ext-fileinfo": "*",
-            "mockery/mockery": "~0.9",
-            "phpspec/phpspec": "^2.2",
-            "phpspec/prophecy-phpunit": "~1.0",
-            "phpunit/phpunit": "~4.1"
-        },
-        "suggest": {
-            "ext-fileinfo": "Required for MimeType",
-            "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
-            "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
-            "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
-            "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
-            "league/flysystem-copy": "Allows you to use Copy.com storage",
-            "league/flysystem-dropbox": "Allows you to use Dropbox storage",
-            "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
-            "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
-            "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
-            "league/flysystem-webdav": "Allows you to use WebDAV storage",
-            "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter"
-        },
-        "time": "2015-07-21 19:35:53",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.1-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "League\\Flysystem\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Frank de Jonge",
-                "email": "info@frenky.net"
-            }
-        ],
-        "description": "Filesystem abstraction: Many filesystems, one API.",
-        "keywords": [
-            "Cloud Files",
-            "WebDAV",
-            "abstraction",
-            "aws",
-            "cloud",
-            "copy.com",
-            "dropbox",
-            "file systems",
-            "files",
-            "filesystem",
-            "filesystems",
-            "ftp",
-            "rackspace",
-            "remote",
-            "s3",
-            "sftp",
-            "storage"
         ]
     },
     {
@@ -3833,6 +3684,155 @@
             "comparator",
             "compare",
             "equality"
+        ]
+    },
+    {
+        "name": "league/flysystem",
+        "version": "1.0.11",
+        "version_normalized": "1.0.11.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/flysystem.git",
+            "reference": "c16222fdc02467eaa12cb6d6d0e65527741f6040"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c16222fdc02467eaa12cb6d6d0e65527741f6040",
+            "reference": "c16222fdc02467eaa12cb6d6d0e65527741f6040",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "ext-fileinfo": "*",
+            "mockery/mockery": "~0.9",
+            "phpspec/phpspec": "^2.2",
+            "phpspec/prophecy-phpunit": "~1.0",
+            "phpunit/phpunit": "~4.1"
+        },
+        "suggest": {
+            "ext-fileinfo": "Required for MimeType",
+            "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
+            "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
+            "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
+            "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
+            "league/flysystem-copy": "Allows you to use Copy.com storage",
+            "league/flysystem-dropbox": "Allows you to use Dropbox storage",
+            "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
+            "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
+            "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
+            "league/flysystem-webdav": "Allows you to use WebDAV storage",
+            "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter"
+        },
+        "time": "2015-07-28 20:41:58",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "League\\Flysystem\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Frank de Jonge",
+                "email": "info@frenky.net"
+            }
+        ],
+        "description": "Filesystem abstraction: Many filesystems, one API.",
+        "keywords": [
+            "Cloud Files",
+            "WebDAV",
+            "abstraction",
+            "aws",
+            "cloud",
+            "copy.com",
+            "dropbox",
+            "file systems",
+            "files",
+            "filesystem",
+            "filesystems",
+            "ftp",
+            "rackspace",
+            "remote",
+            "s3",
+            "sftp",
+            "storage"
+        ]
+    },
+    {
+        "name": "devisephp/cms",
+        "version": "1.2.13",
+        "version_normalized": "1.2.13.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/devisephp/cms.git",
+            "reference": "54620f09a14ea667145c8fd9d7e92df3cb1a68e3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/devisephp/cms/zipball/54620f09a14ea667145c8fd9d7e92df3cb1a68e3",
+            "reference": "54620f09a14ea667145c8fd9d7e92df3cb1a68e3",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/dbal": "~2.3",
+            "ext-imagick": "*",
+            "guzzlehttp/guzzle": "~4.0",
+            "illuminate/html": "5.0.*",
+            "laravel/framework": "5.1.*",
+            "league/commonmark": "0.7.*",
+            "masterminds/html5": "1.*",
+            "php": ">=5.5.9",
+            "symfony/console": "~2.0",
+            "zencoder/zencoder-php": "*"
+        },
+        "require-dev": {
+            "codeception/codeception": "*",
+            "mikey179/vfsstream": "*",
+            "mockery/mockery": "0.9.3",
+            "phpunit/phpunit": "*"
+        },
+        "time": "2015-07-28 12:07:07",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/models",
+                "src/seeds",
+                "src/migrations",
+                "tests/DeviseTestCase.php"
+            ],
+            "psr-0": {
+                "Devise\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "DevisePHP Team",
+                "email": "info@devisephp.com"
+            }
+        ],
+        "description": "Content Management System riding on top of the Laravel Framework",
+        "keywords": [
+            "Content management system",
+            "cms",
+            "devise",
+            "devisephp",
+            "laravel"
         ]
     }
 ]

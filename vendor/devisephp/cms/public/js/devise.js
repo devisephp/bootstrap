@@ -90,7 +90,8 @@ devise.require.config({
         dvsDataReplacement: 'app/bindings/data-dvs-replacement',
         dvsChangeTarget:    'app/bindings/data-change-target',
         dvsLiveSpan:        'app/helpers/livespan',
-        dvsDocumentation:   'app/helpers/documentation'
+        dvsDocumentation:   'app/helpers/documentation',
+        dvsImagePicker:     'app/helpers/image-picker'
     }
 });
 devise.define("config", function(){});
@@ -40530,21 +40531,28 @@ devise.define('dvsCollectionView',['jquery', 'dvsBaseView', 'dvsFieldView', 'dvs
 		var instanceIndex = View.data.findIndex(this.data.instances, instanceId);
 		var instance = View.data.find(this.data.instances, instanceId);
 		var url = this.data.page.url('remove_collection_instance', {id: instanceId, collectionId: this.data.collection.id});
+		var txtInput = this.manage.find('#dvs-new-collection-instance-name');
 		var data = {};
+
+		this.sidebar.layout.addClass('saving');
 
 		$.ajax(url, {
 			method: 'POST',
 			data: data,
 			success: function()
 			{
+				self.sidebar.layout.removeClass('saving');
 				self.data.instances.splice(instanceIndex, 1);	// remove from instances array
 				self.renderInstanceSelectorView();
 				self.renderManageView();
+				self.manage.find('#dvs-new-collection-instance-name').focus();
 			},
 			error: function()
 			{
 				alert('could not remove instance at this time');
 				console.warn('could not remove instance at this time', arguments);
+				self.sidebar.layout.removeClass('saving');
+				self.manage.find('#dvs-new-collection-instance-name').focus();
 			}
 		});
 	}
@@ -40569,23 +40577,28 @@ devise.define('dvsCollectionView',['jquery', 'dvsBaseView', 'dvsFieldView', 'dvs
 		txtInput.val('');
 		this.data.instances[instanceIndex] = instance;
 		this.renderManageView();
+		this.sidebar.layout.addClass('saving');
 
 		$.ajax(url, {
 			method: 'POST',
 			data: instance,
 			success: function(data)
 			{
+				self.sidebar.layout.removeClass('saving');
 				self.data.instances[instanceIndex] = data;
 				self.renderInstanceSelectorView();
 				self.renderManageView();
+				self.manage.find('#dvs-new-collection-instance-name').focus();
 				// LiveUpdater.refresh();	// we decided to take this out...
 			},
 			error: function()
 			{
 				alert('could not add instance at this time');
 				console.warn('could not add instance at this time', arguments);
+				self.sidebar.layout.removeClass('saving');
 				self.data.instances.splice(instanceIndex, 1);	// remove from instances array
 				self.renderManageView();
+				self.manage.find('#dvs-new-collection-instance-name').focus();
 			}
 		});
 	}
@@ -41694,6 +41707,27 @@ devise.define('dvsLiveUpdate',['jquery', 'query'], function($, query)
 	}
 
 	return LiveUpdate;
+});
+devise.define('dvsImagePicker',['jquery'], function($) {
+	$(document).ready(function()
+	{
+		initImagePicker();
+	});
+
+	function initImagePicker()
+	{
+		$('body').on('click', '.image-picker', function()
+	    {
+	        var input = $(this);
+	        var mediaUrl = '/admin/media-manager?cropMode=Preserve&type=image';
+
+	        window.open(mediaUrl, 'Media Manager', "width=1024,height=768,location=no");
+
+	        document.onMediaManagerSelect = function(images){
+	            input.val(images);
+	        };
+	    });
+	}
 });
 devise.define('AttributeBinding',[], function()
 {
