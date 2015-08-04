@@ -21,15 +21,14 @@ class Runtime
     private static $binary;
 
     /**
-     * Returns true when the runtime used is PHP + Xdeburg or
+     * Returns true when Xdebug is supported or
      * the runtime used is PHPDBG (PHP >= 7.0).
      *
      * @return bool
      */
     public function canCollectCodeCoverage()
     {
-        return $this->hasXdebug() ||
-               ($this->isPHPDBG() && function_exists('phpdbg_start_oplog'));
+        return $this->hasXdebug() || $this->hasPHPDBGCodeCoverage();
     }
 
     /**
@@ -147,7 +146,7 @@ class Runtime
      */
     public function hasXdebug()
     {
-        return $this->isPHP() && extension_loaded('xdebug');
+        return ($this->isPHP() || $this->isHHVM()) && extension_loaded('xdebug');
     }
 
     /**
@@ -177,6 +176,17 @@ class Runtime
      */
     public function isPHPDBG()
     {
-        return !$this->isHHVM() && PHP_SAPI === 'phpdbg';
+        return PHP_SAPI === 'phpdbg' && !$this->isHHVM();
+    }
+
+    /**
+     * Returns true when the runtime used is PHP with the PHPDBG SAPI
+     * and the phpdbg_*_oplog() functions are available (PHP >= 7.0).
+     *
+     * @return bool
+     */
+    public function hasPHPDBGCodeCoverage()
+    {
+        return $this->isPHPDBG() && function_exists('phpdbg_start_oplog');
     }
 }
