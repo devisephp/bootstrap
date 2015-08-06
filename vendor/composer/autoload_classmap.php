@@ -1128,6 +1128,7 @@ return array(
     'Illuminate\\Cache\\MemcachedConnector' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/MemcachedConnector.php',
     'Illuminate\\Cache\\MemcachedStore' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/MemcachedStore.php',
     'Illuminate\\Cache\\NullStore' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/NullStore.php',
+    'Illuminate\\Cache\\RateLimiter' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/RateLimiter.php',
     'Illuminate\\Cache\\RedisStore' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/RedisStore.php',
     'Illuminate\\Cache\\RedisTaggedCache' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/RedisTaggedCache.php',
     'Illuminate\\Cache\\Repository' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/Repository.php',
