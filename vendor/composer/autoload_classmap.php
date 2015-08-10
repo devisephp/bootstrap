@@ -1841,6 +1841,7 @@ return array(
     'Monolog\\Handler\\GroupHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/GroupHandler.php',
     'Monolog\\Handler\\HandlerInterface' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/HandlerInterface.php',
     'Monolog\\Handler\\HipChatHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/HipChatHandler.php',
+    'Monolog\\Handler\\IFTTTHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/IFTTTHandler.php',
     'Monolog\\Handler\\LogEntriesHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/LogEntriesHandler.php',
     'Monolog\\Handler\\LogglyHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/LogglyHandler.php',
     'Monolog\\Handler\\MailHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/MailHandler.php',
