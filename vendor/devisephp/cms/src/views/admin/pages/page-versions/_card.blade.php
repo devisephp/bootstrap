@@ -1,9 +1,14 @@
+<div class="dvs-pr mb sp20">
+    <input class="js-toggle-ab-testing" type="checkbox" {{ $page->ab_testing_enabled ? 'checked' : ''}}> A|B Testing Enabled
+</div>
+
 <div class="dvs-flexbox">
 @foreach($page->versions as $version)
     <div class="dvs-admin-card dvs-page-versions-card @if ($version->status == 'live') live-card @endif">
         <div class="dvs-card-top"></div>
         <div class="dvs-card-bottom">
-            <h4><?= $version->name ?></h4>
+            <h4 class="mb sp10"><?= $version->name ?></h4>
+            <small><a target="_blank" href="<?= $page->slug . '?page_version=' . htmlentities($version->name) ?>">(view)</a></small>
 
             @if ($version->status == 'live')
                 <p class="dvs-badge green">Live</p>
@@ -18,24 +23,32 @@
                 <select class="dvs-page-version-actions dvs-select">
                     <option value="">Select an action</option>
                     <option value="publish">Publish</option>
-                    <option data-dvs-url="<?= URL::route('dvs-update-page-versions-dates', $version->id) ?>" value="unpublish">Un-Publish</option>
-                    <option data-dvs-url="<?= URL::route('dvs-page-version-store') ?>" value="create-version">Create Version from This Version</option>
-
+                    <option data-dvs-url="<?= route('dvs-update-page-versions-dates', $version->id) ?>" value="unpublish">Un-Publish</option>
+                    <option data-dvs-url="<?= route('dvs-page-version-store') ?>" value="create-version">Create Version from This Version</option>
+                    <option value="update-template">Update This Versions Template</option>
                     @if($version->status != 'live')
                         @if(is_null($version->preview_hash))
-                            <option data-dvs-url="<?= URL::route('dvs-toggle-page-version-share', $version->id) ?>" value="toggle-sharing">Enable Sharing</option>
+                            <option data-dvs-url="<?= route('dvs-toggle-page-version-share', $version->id) ?>" value="toggle-sharing">Enable Sharing</option>
                         @else
-                            <option data-dvs-url="<?= URL::route('dvs-toggle-page-version-share', $version->id) ?>" value="toggle-sharing">Disable Sharing</option>
-                            <option data-dvs-url="<?= URL::to($page->slug . '?page_version_share=' . urlencode($version->preview_hash)) ?>" value="preview">Preview</option>
+                            <option data-dvs-url="<?= route('dvs-toggle-page-version-share', $version->id) ?>" value="toggle-sharing">Disable Sharing</option>
+                            <option data-dvs-url="<?= to($page->slug . '?page_version_share=' . urlencode($version->preview_hash)) ?>" value="preview">Preview</option>
                         @endif
                         @if(!$page->dvs_admin)
-                            <option data-dvs-url="<?= URL::route('dvs-delete-page-version', $version->id) ?>" value="delete">Delete</option>
+                            <option data-dvs-url="<?= route('dvs-delete-page-version', $version->id) ?>" value="delete">Delete</option>
                         @endif
                     @endif
                 </select>
             </div>
 
-            <div class="dvs-publish-dates <?= $version->id ?>" style="display:none;">
+            @if ($page->ab_testing_enabled)
+                <div class="dvs-ab-testing-section mt sp20" data-dvs-page-id="<?= $page->id ?>" data-dvs-version-id="<?= $version->id ?>" data-dvs-url="<?= route('dvs-update-page-versions-ab-testing') ?>">
+                    <label for="ab_test_amount">A|B Chance {{ $version->ab_percentage_shown }}%</label><br>
+                    <input type="text" class="mt mb sp10 js-ab-testing-amount" placeholder="A|B" value="{{ $version->ab_testing_amount }}">
+                    <button class="js-ab-testing-update dvs-button dvs-button-small" type="button">Save</button>
+                </div>
+            @endif
+
+            <div class="dvs-publish-dates <?= $version->id ?> hidden">
                 <p>Current Server Time: <strong><?= date('m/d/y H:i:s') ?></strong></p>
 
                 <?= Form::open(array('method' => 'PUT', 'route' => array('dvs-update-page-versions-dates', $version->id))) ?>
@@ -55,6 +68,16 @@
                     <?= Form::submit('Submit', array('class' => 'dvs-button dvs-button-small dvs-button-solid')) ?>
 
                 <?= Form::close() ?>
+            </div>
+
+            <div class="dvs-update-template <?= $version->id ?> hidden">
+                <form class="dvs-admin-form mt sp20" method="PUT" action="<?= route('dvs-update-page-versions-template', $version->id) ?>">
+                    <div class="dvs-form-group">
+                        <label>Template</label>
+                        <?= Form::select('view', ['' => 'Select a Template'] + $templateList + ['custom' => 'Custom'], $version->view, []) ?>
+                    </div>
+                    <?= Form::submit('Submit', array('class' => 'dvs-button dvs-button-small dvs-button-solid')) ?>
+                </form>
             </div>
         </div>
     </div>

@@ -129,6 +129,22 @@ class PageVersionManager
     }
 
     /**
+     * Updates the page version ab testing amount
+     *
+     * @param  [type] $pageVersionId
+     * @param  [type] $amount
+     * @return [type]
+     */
+    public function updatePageVersionABTestingAmount($pageVersionId, $amount)
+    {
+        $version = $this->PageVersion->findOrFail($pageVersionId);
+        $version->ab_testing_amount = $amount;
+        $version->save();
+
+        return $version;
+    }
+
+    /**
      * Changes the timestamp from human readable to database specific
      *
      * @param  string $timestamp
@@ -237,6 +253,24 @@ class PageVersionManager
         $previewHashValue = is_null($pageVersion->preview_hash) ? $this->Hash->make($pageVersion->id) : null;
 
         return $pageVersion->update(array('preview_hash' => $previewHashValue));
+    }
+
+    /**
+     * Updates the page version view
+     *
+     * @param  [type] $pageVersionId
+     * @param  [type] $view
+     * @return [type]
+     */
+    public function updatePageVersionView($pageVersionId, $view)
+    {
+        $pageVersion = $this->PageVersion->findOrFail($pageVersionId);
+
+        $pageVersion->view = $view ?: null;
+
+        $pageVersion->save();
+
+        return $pageVersion;
     }
 
 }

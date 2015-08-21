@@ -65,7 +65,9 @@ class PageResponseHandler
 
         if ($page)
         {
-            return $this->Redirect->route('dvs-pages');
+            return $this->Redirect->route('dvs-pages')
+                ->with('warnings', $this->PageManager->warnings)
+                ->with('message', $this->PageManager->message);
         }
 
         return $this->Redirect->route('dvs-pages-create')
@@ -87,7 +89,9 @@ class PageResponseHandler
 
         if ($page)
         {
-            return $this->Redirect->route('dvs-pages');
+            return $this->Redirect->route('dvs-pages')
+                ->with('warnings', $this->PageManager->warnings)
+                ->with('message', $this->PageManager->message);
         }
 
         return $this->Redirect->route('dvs-pages-edit', $id)
@@ -108,7 +112,9 @@ class PageResponseHandler
 
         if ($page)
         {
-            return $this->Redirect->route('dvs-pages');
+            return $this->Redirect->route('dvs-pages')
+                ->with('warnings', $this->PageManager->warnings)
+                ->with('message', $this->PageManager->message);
         }
 
         return $this->Redirect->route('dvs-pages')
@@ -130,7 +136,9 @@ class PageResponseHandler
 
         if ($page)
         {
-            return $this->Redirect->route('dvs-pages');
+            return $this->Redirect->route('dvs-pages')
+                ->with('warnings', $this->PageManager->warnings)
+                ->with('message', $this->PageManager->message);
         }
 
         return $this->Redirect->route('dvs-pages-copy', $id)
@@ -217,5 +225,51 @@ class PageResponseHandler
             ],
             200
         );
+    }
+
+    /**
+     * Request that ab testing be turned on or off
+     *
+     * @param  [type] $input
+     * @return [type]
+     */
+    public function requestToggleAbTesting($input)
+    {
+        $pageId = $input['pageId'];
+        $enabled = $input['enabled'];
+        $this->PageManager->toggleABTesting($pageId, $enabled);
+
+        return '';
+    }
+
+    /**
+     * Updates the page version's ab testing percentage
+     * amount. This percentage is the chance it will be picked
+     * during the dice roll for A|B testing
+     *
+     * @param  [type] $input
+     * @return [type]
+     */
+    public function requestUpdatePageVersionAbTesting($input)
+    {
+        $pageVersionId = $input['pageVersionId'];
+        $amount = $input['amount'];
+        $this->PageManager->updatePageVersionABTestingAmount($pageVersionId, $amount);
+
+        return '';
+    }
+
+    /**
+     * Updates the page version's view. This can override the main
+     * page's view if there is one selected.
+     *
+     * @param  [type] $pageVersionId
+     * @param  [type] $input
+     * @return [type]
+     */
+    public function requestUpdatePageVersionTemplate($pageVersionId, $input)
+    {
+        $view = $input['view'];
+        $this->PageManager->updatePageVersionView($pageVersionId, $view);
     }
 }

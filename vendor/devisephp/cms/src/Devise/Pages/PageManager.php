@@ -86,6 +86,12 @@ class PageManager
     public $errors;
 
     /**
+     * [$warnings description]
+     * @var [type]
+     */
+    public $warnings;
+
+    /**
      * This is a message that we can store why the
      * validation failed
      *
@@ -212,8 +218,10 @@ class PageManager
             $fromPageVersion = $fromPage->getLiveVersion();
         }
 
-
-        $input = $this->getTranslatedFromPageId($fromPageId, $input);
+        // get translated page id, if page copy is translation and langauges are different
+        if(array_get($input, 'copy_reason') == 'translate' &&  array_get($input, 'language_id') !== $fromPage->language_id) {
+            $input = $this->getTranslatedFromPageId($fromPageId, $input);
+        }
 
         $toPage = $this->createPageFromInput($input);
 
@@ -350,6 +358,18 @@ class PageManager
     }
 
     /**
+     * Updates the page version view
+     *
+     * @param  [type] $pageVersionId
+     * @param  [type] $view
+     * @return [type]
+     */
+    public function updatePageVersionView($pageVersionId, $view)
+    {
+        return $this->PageVersionManager->updatePageVersionView($pageVersionId, $view);
+    }
+
+    /**
      * Marks all page's fields with a "true" content_requested value as complete
      *
      * @param  int   $pageVersionId
@@ -371,6 +391,34 @@ class PageManager
         }
 
         return json_encode(true);
+    }
+
+    /**
+     * [toggleABTesting description]
+     * @param  [type] $pageId
+     * @param  [type] $isEnabled
+     * @return [type]
+     */
+    public function toggleABTesting($pageId, $isEnabled)
+    {
+        $page = $this->Page->findOrFail($pageId);
+
+        $page->ab_testing_enabled = $isEnabled == 'true' ? true : false;
+
+        $page->save();
+
+        return $page;
+    }
+
+    /**
+     * [updatePageVersionABTestingAmount description]
+     * @param  [type] $pageVersionId
+     * @param  [type] $amount
+     * @return [type]
+     */
+    public function updatePageVersionABTestingAmount($pageVersionId, $amount)
+    {
+        return $this->PageVersionManager->updatePageVersionABTestingAmount($pageVersionId, $amount);
     }
 
     /**

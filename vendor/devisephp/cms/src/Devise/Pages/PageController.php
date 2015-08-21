@@ -38,7 +38,7 @@ class PageController extends Controller
      * @param null $Route
      * @param null $Redirect
      */
-    public function __construct(PagesRepository $PagesRepository, Viewvars\DataBuilder $DataBuilder, $Input = null, $View = null, $Route = null, $Redirect = null)
+    public function __construct(PagesRepository $PagesRepository, Viewvars\DataBuilder $DataBuilder, $Input = null, $View = null, $Route = null, $Redirect = null, $Cookie = null)
     {
         $this->PagesRepository = $PagesRepository;
         $this->DataBuilder = $DataBuilder;
@@ -144,6 +144,10 @@ class PageController extends Controller
     protected function getView($page)
     {
         $pageData = $this->DataBuilder->getData();
-        return $this->View->make($page->view, $pageData);
+
+        // allow a page version to override the page view
+        $view = $page->version->view ?: $page->view;
+
+        return $this->View->make($view, $pageData);
     }
 }
