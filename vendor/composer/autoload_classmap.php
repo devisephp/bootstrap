@@ -3381,6 +3381,7 @@ return array(
     'Symfony\\Component\\Routing\\Tests\\Fixtures\\AnnotatedClasses\\BarClass' => $vendorDir . '/symfony/routing/Tests/Fixtures/AnnotatedClasses/BarClass.php',
     'Symfony\\Component\\Routing\\Tests\\Fixtures\\AnnotatedClasses\\FooClass' => $vendorDir . '/symfony/routing/Tests/Fixtures/AnnotatedClasses/FooClass.php',
     'Symfony\\Component\\Routing\\Tests\\Fixtures\\CustomXmlFileLoader' => $vendorDir . '/symfony/routing/Tests/Fixtures/CustomXmlFileLoader.php',
+    'Symfony\\Component\\Routing\\Tests\\Fixtures\\OtherAnnotatedClasses\\VariadicClass' => $vendorDir . '/symfony/routing/Tests/Fixtures/OtherAnnotatedClasses/VariadicClass.php',
     'Symfony\\Component\\Routing\\Tests\\Fixtures\\RedirectableUrlMatcher' => $vendorDir . '/symfony/routing/Tests/Fixtures/RedirectableUrlMatcher.php',
     'Symfony\\Component\\Routing\\Tests\\Generator\\Dumper\\PhpGeneratorDumperTest' => $vendorDir . '/symfony/routing/Tests/Generator/Dumper/PhpGeneratorDumperTest.php',
     'Symfony\\Component\\Routing\\Tests\\Generator\\UrlGeneratorTest' => $vendorDir . '/symfony/routing/Tests/Generator/UrlGeneratorTest.php',
