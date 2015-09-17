@@ -1294,6 +1294,7 @@ return array(
     'Illuminate\\Foundation\\Console\\RouteClearCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Console/RouteClearCommand.php',
     'Illuminate\\Foundation\\Console\\RouteListCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Console/RouteListCommand.php',
     'Illuminate\\Foundation\\Console\\ServeCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Console/ServeCommand.php',
+    'Illuminate\\Foundation\\Console\\TestMakeCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Console/TestMakeCommand.php',
     'Illuminate\\Foundation\\Console\\TinkerCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Console/TinkerCommand.php',
     'Illuminate\\Foundation\\Console\\UpCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Console/UpCommand.php',
     'Illuminate\\Foundation\\Console\\VendorPublishCommand' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Console/VendorPublishCommand.php',
