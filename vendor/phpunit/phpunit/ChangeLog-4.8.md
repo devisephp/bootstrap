@@ -2,6 +2,12 @@
 
 All notable changes of the PHPUnit 4.8 release series are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [4.8.8] - 2015-09-19
+
+### Fixed
+
+* Fixed [#1860](https://github.com/sebastianbergmann/phpunit/issues/1860): Not well-formed XML strings are always considered equal by `PHPUnit_Framework_Assert::assertXmlStringEqualsXmlString()`
+
 ## [4.8.7] - 2015-09-14
 
 New PHAR release due to updated dependencies
@@ -57,6 +63,7 @@ New PHAR release due to updated dependencies
 * Made the argument check of `assertContains()` and `assertNotContains()` more strict to prevent undefined behavior such as [#1808](https://github.com/sebastianbergmann/phpunit/issues/1808)
 * Changed the name of the default group from `__nogroup__` to `default`
 
+[4.8.8]: https://github.com/sebastianbergmann/phpunit/compare/4.8.7...4.8.8
 [4.8.7]: https://github.com/sebastianbergmann/phpunit/compare/4.8.6...4.8.7
 [4.8.6]: https://github.com/sebastianbergmann/phpunit/compare/4.8.5...4.8.6
 [4.8.5]: https://github.com/sebastianbergmann/phpunit/compare/4.8.4...4.8.5
