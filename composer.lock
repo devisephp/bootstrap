@@ -875,16 +875,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.1.17",
+            "version": "v5.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "415b5d824e15ee7cd18b8b23f96ae32b0b51d6a0"
+                "reference": "2703f4b395631fd3a2165ad74074d3531acfeccf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/415b5d824e15ee7cd18b8b23f96ae32b0b51d6a0",
-                "reference": "415b5d824e15ee7cd18b8b23f96ae32b0b51d6a0",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/2703f4b395631fd3a2165ad74074d3531acfeccf",
+                "reference": "2703f4b395631fd3a2165ad74074d3531acfeccf",
                 "shasum": ""
             },
             "require": {
@@ -999,7 +999,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-09-16 16:57:12"
+            "time": "2015-09-30 20:42:12"
         },
         {
             "name": "league/commonmark",
@@ -1062,16 +1062,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.14",
+            "version": "1.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "202c7775d959f377e2e302d93e7127c47604438a"
+                "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/202c7775d959f377e2e302d93e7127c47604438a",
-                "reference": "202c7775d959f377e2e302d93e7127c47604438a",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/31525caf9e8772683672fefd8a1ca0c0736020f4",
+                "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4",
                 "shasum": ""
             },
             "require": {
@@ -1142,7 +1142,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2015-09-22 19:18:28"
+            "time": "2015-09-30 22:26:59"
         },
         {
             "name": "masterminds/html5",
