@@ -1588,13 +1588,15 @@ class Builder
      */
     public function exists()
     {
-        $limit = $this->limit;
+        $sql = $this->grammar->compileExists($this);
 
-        $result = $this->limit(1)->count() > 0;
+        $results = $this->connection->select($sql, $this->getBindings(), ! $this->useWritePdo);
 
-        $this->limit($limit);
+        if (isset($results[0])) {
+            $results = (array) $results[0];
 
-        return $result;
+            return (bool) $results['exists'];
+        }
     }
 
     /**
@@ -1656,6 +1658,17 @@ class Builder
     public function avg($column)
     {
         return $this->aggregate(__FUNCTION__, [$column]);
+    }
+
+    /**
+     * Alias for the "avg" method.
+     *
+     * @param  string  $column
+     * @return float|int
+     */
+    public function average($column)
+    {
+        return $this->avg($key);
     }
 
     /**

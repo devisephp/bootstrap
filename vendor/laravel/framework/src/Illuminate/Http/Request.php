@@ -881,6 +881,17 @@ class Request extends SymfonyRequest implements ArrayAccess
     }
 
     /**
+     * Check if an input element is set on the request.
+     *
+     * @param  string  $key
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        return ! is_null($this->__get($key));
+    }
+
+    /**
      * Get an input element from the request.
      *
      * @param  string  $key
