@@ -14,10 +14,9 @@
 
 namespace League\CommonMark\Inline\Parser;
 
-use League\CommonMark\ContextInterface;
 use League\CommonMark\Delimiter\Delimiter;
-use League\CommonMark\InlineParserContext;
 use League\CommonMark\Inline\Element\Text;
+use League\CommonMark\InlineParserContext;
 use League\CommonMark\Util\RegexHelper;
 
 class EmphasisParser extends AbstractInlineParser
@@ -27,16 +26,15 @@ class EmphasisParser extends AbstractInlineParser
      */
     public function getCharacters()
     {
-        return array('*', '_');
+        return ['*', '_'];
     }
 
     /**
-     * @param ContextInterface $context
      * @param InlineParserContext $inlineContext
      *
      * @return bool
      */
-    public function parse(ContextInterface $context, InlineParserContext $inlineContext)
+    public function parse(InlineParserContext $inlineContext)
     {
         $character = $inlineContext->getCursor()->getCharacter();
         if (!in_array($character, $this->getCharacters())) {
@@ -62,30 +60,34 @@ class EmphasisParser extends AbstractInlineParser
             $charAfter = "\n";
         }
 
-        $leftFlanking = $numDelims > 0 && !preg_match('/\pZ|\s/u', $charAfter) &&
-            !(preg_match(RegexHelper::REGEX_PUNCTUATION, $charAfter) &&
-            !preg_match('/\pZ|\s/u', $charBefore) &&
-            !(preg_match(RegexHelper::REGEX_PUNCTUATION, $charBefore)));
+        $afterIsWhitespace = preg_match('/\pZ|\s/u', $charAfter);
+        $afterIsPunctuation = preg_match(RegexHelper::REGEX_PUNCTUATION, $charAfter);
+        $beforeIsWhitespace = preg_match('/\pZ|\s/u', $charBefore);
+        $beforeIsPunctuation = preg_match(RegexHelper::REGEX_PUNCTUATION, $charBefore);
 
-        $rightFlanking = $numDelims > 0 && !preg_match('/\pZ|\s/u', $charBefore) &&
-            !(preg_match(RegexHelper::REGEX_PUNCTUATION, $charBefore) &&
-            !preg_match('/\pZ|\s/u', $charAfter) &&
-            !(preg_match(RegexHelper::REGEX_PUNCTUATION, $charAfter)));
+        $leftFlanking = $numDelims > 0 && !$afterIsWhitespace &&
+            !($afterIsPunctuation &&
+            !$beforeIsWhitespace &&
+            !$beforeIsPunctuation);
+
+        $rightFlanking = $numDelims > 0 && !$beforeIsWhitespace &&
+            !($beforeIsPunctuation &&
+            !$afterIsWhitespace &&
+            !$afterIsPunctuation);
 
         if ($character === '_') {
-            $canOpen = $leftFlanking && !$rightFlanking;
-            $canClose = $rightFlanking && !$leftFlanking;
+            $canOpen = $leftFlanking && (!$rightFlanking || $beforeIsPunctuation);
+            $canClose = $rightFlanking && (!$leftFlanking || $afterIsPunctuation);
         } else {
             $canOpen = $leftFlanking;
             $canClose = $rightFlanking;
         }
 
-        $inlineContext->getInlines()->add(
-            new Text($cursor->getPreviousText(), array('delim' => true))
-        );
+        $node = new Text($cursor->getPreviousText(), ['delim' => true]);
+        $inlineContext->getContainer()->appendChild($node);
 
         // Add entry to stack to this opener
-        $delimiter = new Delimiter($character, $numDelims, $inlineContext->getInlines()->count() - 1, $canOpen, $canClose);
+        $delimiter = new Delimiter($character, $numDelims, $node, $canOpen, $canClose);
         $inlineContext->getDelimiterStack()->push($delimiter);
 
         return true;

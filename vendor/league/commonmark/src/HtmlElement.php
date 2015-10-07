@@ -12,7 +12,7 @@ class HtmlElement
     /**
      * @var string[]
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * @var HtmlElement|HtmlElement[]|string
@@ -25,12 +25,12 @@ class HtmlElement
     protected $selfClosing = false;
 
     /**
-     * @param string $tagName
-     * @param string[] $attributes
+     * @param string                           $tagName
+     * @param string[]                         $attributes
      * @param HtmlElement|HtmlElement[]|string $contents
-     * @param bool $selfClosing
+     * @param bool                             $selfClosing
      */
-    public function __construct($tagName, $attributes = array(), $contents = '', $selfClosing = false)
+    public function __construct($tagName, $attributes = [], $contents = '', $selfClosing = false)
     {
         $this->tagName = $tagName;
         $this->attributes = $attributes;
@@ -63,7 +63,7 @@ class HtmlElement
     public function getAttribute($key)
     {
         if (!isset($this->attributes[$key])) {
-            return null;
+            return;
         }
 
         return $this->attributes[$key];

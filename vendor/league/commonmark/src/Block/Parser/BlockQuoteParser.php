@@ -22,12 +22,16 @@ class BlockQuoteParser extends AbstractBlockParser
 {
     /**
      * @param ContextInterface $context
-     * @param Cursor $cursor
+     * @param Cursor           $cursor
      *
      * @return bool
      */
     public function parse(ContextInterface $context, Cursor $cursor)
     {
+        if ($cursor->isIndented()) {
+            return false;
+        }
+
         if ($cursor->getFirstNonSpaceCharacter() !== '>') {
             return false;
         }

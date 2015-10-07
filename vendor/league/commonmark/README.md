@@ -1,4 +1,6 @@
-# CommonMark
+# league/commonmark
+
+[![Join the chat at https://gitter.im/thephpleague/commonmark](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/thephpleague/commonmark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Latest Version](https://img.shields.io/packagist/v/league/commonmark.svg?style=flat-square)](https://packagist.org/packages/league/commonmark)
 [![Software License](http://img.shields.io/badge/License-BSD--3-brightgreen.svg?style=flat-square)](LICENSE)
@@ -7,23 +9,24 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/thephpleague/commonmark.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpleague/commonmark)
 [![Total Downloads](https://img.shields.io/packagist/dt/league/commonmark.svg?style=flat-square)](https://packagist.org/packages/league/commonmark)
 
-**league/commonmark** is a Markdown parser for PHP which supports the full [CommonMark] spec.  It is directly based the [CommonMark JS reference implementation][commonmark.js] by [John MacFarlane] \([@jgm]\).
+**league/commonmark** is a Markdown parser for PHP which supports the full [CommonMark] spec.  It is based on the [CommonMark JS reference implementation][commonmark.js] by [John MacFarlane] \([@jgm]\).
 
 ## Goals
 
-While other Markdown parsers focus on speed, or try to enable a wide range of flavors, this parser will 
-strive to match the C and JavaScript implementations of CommonMark to make a logical and similar API.
-
-We will always focus on CommonMark compliance over speed, but performance improvements will definitely 
-happen during efforts to reach v1.0.0 and afterwards.
+* Fully support the CommonMark spec (100% compliance)
+* Match the C and JavaScript implementations of CommonMark to make a logical and similar API
+* Continuously improve performance without sacrificing quality or compliance
+* Provide an extensible parser/renderer which users may customize as needed
 
 ## Installation
 
 This project can be installed via [Composer]:
 
 ``` bash
-$ composer require league/commonmark
+$ composer require league/commonmark:^0.11
 ```
+
+See [Versioning](#versioning) for important information on which version constraints you should use.
 
 ## Basic Usage
 
@@ -87,9 +90,26 @@ The [documentation][docs] provides several [customization examples][docs-example
 
 You can also reference the core CommonMark parsers/renderers as they use the same functionality available to you.
 
+## Documentation
+
+Documentation can be found at [commonmark.thephpleague.com][docs].
+
+## Integrations
+
+- [CakePHP 3](https://github.com/gourmet/common-mark)
+- [Laravel 4 & 5](https://github.com/GrahamCampbell/Laravel-Markdown)
+- [Sculpin](https://github.com/bcremer/sculpin-commonmark-bundle)
+- [Symfony](https://github.com/webuni/commonmark-bundle)
+- [Twig](https://github.com/webuni/commonmark-twig-renderer)
+
 ## Community Extensions
 
-Custom parsers/renderers can be bundled into extensions which extend CommonMark.  The wiki lists such [community extensions](https://github.com/thephpleague/commonmark/wiki/Community-Extensions) that you may find interesting.
+Custom parsers/renderers can be bundled into extensions which extend CommonMark.  Here are some that you may find interesting:
+
+ - [Markua](https://github.com/dshafik/markua) - Markdown parser for PHP which intends to support the full Markua spec.
+ - [CommonMark Table Extension](https://github.com/webuni/commonmark-table-extension) - Adds the ability to create tables in CommonMark documents.
+ - [CommonMark Attributes Extension](https://github.com/webuni/commonmark-attributes-extension) - Adds a syntax to define attributes on the various HTML elements.
+ - [Alt Three Emoji](https://github.com/AltThree/Emoji) An emoji parser for CommonMark, that integrates with [Laravel Markdown](https://github.com/GrahamCampbell/Laravel-Markdown).
 
 ## Compatibility with CommonMark ##
 
@@ -102,48 +122,53 @@ The following table shows which versions of league/commonmark are compatible wit
         <tr>
             <th>league/commonmark</th>
             <th>CommonMark spec</th>
-            <th>Notes</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td><strong>0.7.2</strong><br>0.7.1<br>0.7.0<br>0.6.1</td>
-            <td><strong><a href="http://spec.commonmark.org/0.18/">0.18</a></strong><br><a href="http://spec.commonmark.org/0.17/">0.17</a></td>
-            <td>current spec (as of Mar 04 '15)</td>
+            <td><strong>0.11.x</strong></td>
+            <td><strong><a href="http://spec.commonmark.org/0.22/">0.22</a></strong></td>
+        </tr>
+        <tr>
+            <td>0.10.0</td>
+            <td><a href="http://spec.commonmark.org/0.21/">0.21</a></td>
+        </tr>
+        <tr>
+            <td>0.9.0</td>
+            <td><a href="http://spec.commonmark.org/0.20/">0.20</a>
+        </tr>
+        <tr>
+            <td>0.8.0</td>
+            <td><a href="http://spec.commonmark.org/0.19/">0.19</a>
+        </tr>
+        <tr>
+            <td>0.7.2<br>0.7.1<br>0.7.0<br>0.6.1</td>
+            <td><a href="http://spec.commonmark.org/0.18/">0.18</a><br><a href="http://spec.commonmark.org/0.17/">0.17</a></td>
         </tr>
         <tr>
             <td>0.6.0</td>
             <td><a href="http://spec.commonmark.org/0.16/">0.16</a><br><a href="http://spec.commonmark.org/0.15/">0.15</a><br><a href="http://spec.commonmark.org/0.14/">0.14</a></td>
-            <td></td>
         </tr>
         <tr>
             <td>0.5.x<br>0.4.0</td>
             <td><a href="http://spec.commonmark.org/0.13/">0.13</a></td>
-            <td></td>
         </tr>
         <tr>
             <td>0.3.0</td>
             <td><a href="http://spec.commonmark.org/0.12/">0.12</a></td>
-            <td></td>
         </tr>
         <tr>
             <td>0.2.x</td>
             <td><a href="http://spec.commonmark.org/0.10/">0.10</a></td>
-            <td></td>
         </tr>
         <tr>
             <td>0.1.x</td>
             <td><a href="https://github.com/jgm/CommonMark/blob/2cf0750a7a507eded4cf3c9a48fd1f924d0ce538/spec.txt">0.01</a></td>
-            <td></td>
         </tr>
     </tbody>
 </table>
 
 This package is **not** part of CommonMark, but rather a compatible derivative.
-
-## Documentation
-
-Documentation can be found at [commonmark.thephpleague.com][docs].
 
 ## Testing
 
@@ -156,18 +181,22 @@ This will also test league/commonmark against the latest supported spec.
 ## Performance Benchmarks
 
 You can compare the performance of **league/commonmark** to other popular parsers by running the included benchmark tool:
- 
+
 ``` bash
 $ ./tests/benchmark/benchmark.php
 ```
 
-## Stability and Versioning
+## Versioning
+
+[SemVer](http://semver.org/) will be followed closely.  0.x versions will introduce breaking changes, so be careful which version constraints you use.  **It's highly recommended that you use [Composer's caret operator](https://getcomposer.org/doc/articles/versions.md#caret) to ensure compatiblity**; for example: `^0.11`.  This is equivalent to `>=0.11.0 <0.12.0`.
+
+If you're only using the `CommonMarkConverter` class to convert Markdown (no other class references, custom parsers, etc.), then it should be safe to use a broader constraint like `~0.11`, `>0.11`, etc.  I personally promise to never break this specific class in any future 0.x release.
+
+## Stability
 
 While this package does work well, the underlying code should not be considered "stable" yet.  The original spec and JS parser may undergo changes in the near future, which will result in corresponding changes to this code.  Any methods tagged with `@api` are not expected to change, but other methods/classes might.
 
-Major release 1.0.0 will be reserved for when both CommonMark and this project are considered stable. 0.x.x will be used until that happens.
-
-SemVer will be followed [closely](http://semver.org/).
+Major release 1.0.0 will be reserved for when both CommonMark and this project are considered stable (see [outstanding CommonMark spec issues](http://talk.commonmark.org/t/issues-to-resolve-before-1-0-release/1287)).   0.x.x will be used until that happens.
 
 ## Contributing
 

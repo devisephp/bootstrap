@@ -25,27 +25,27 @@ class MiscExtension implements ExtensionInterface
     /**
      * @var BlockParserInterface[]
      */
-    protected $blockParsers = array();
+    protected $blockParsers = [];
 
     /**
      * @var BlockRendererInterface[]
      */
-    protected $blockRenderers = array();
+    protected $blockRenderers = [];
 
     /**
      * @var InlineParserInterface[]
      */
-    protected $inlineParsers = array();
+    protected $inlineParsers = [];
 
     /**
      * @var InlineProcessorInterface[]
      */
-    protected $inlineProcessers = array();
+    protected $inlineProcessers = [];
 
     /**
      * @var InlineRendererInterface[]
      */
-    protected $inlineRenderers = array();
+    protected $inlineRenderers = [];
 
     /**
      * Returns a list of block parsers to add to the existing list
@@ -82,13 +82,17 @@ class MiscExtension implements ExtensionInterface
     }
 
     /**
-     * @param string $blockClass
+     * @param string                 $blockClass
      * @param BlockRendererInterface $blockRenderer
      *
      * @return $this
      */
     public function addBlockRenderer($blockClass, BlockRendererInterface $blockRenderer)
     {
+        if (class_exists('League\CommonMark\Block\Element\\' . $blockClass)) {
+            $blockClass = 'League\CommonMark\Block\Element\\' . $blockClass;
+        }
+
         $this->blockRenderers[$blockClass] = $blockRenderer;
     }
 
@@ -147,13 +151,17 @@ class MiscExtension implements ExtensionInterface
     }
 
     /**
-     * @param string $inlineClass
+     * @param string                  $inlineClass
      * @param InlineRendererInterface $inlineRenderer
      *
      * @return $this
      */
     public function addInlineRenderer($inlineClass, InlineRendererInterface $inlineRenderer)
     {
+        if (class_exists('League\CommonMark\Inline\Element\\' . $inlineClass)) {
+            $inlineClass = 'League\CommonMark\Inline\Element\\' . $inlineClass;
+        }
+
         $this->inlineRenderers[$inlineClass] = $inlineRenderer;
 
         return $this;

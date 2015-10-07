@@ -102,7 +102,7 @@ class DelimiterStack
     public function searchByCharacter($characters)
     {
         if (!is_array($characters)) {
-            $characters = array($characters);
+            $characters = [$characters];
         }
 
         $opener = $this->top;
@@ -118,37 +118,64 @@ class DelimiterStack
 
     /**
      * @param string|string[] $characters
-     * @param callable $callback
-     * @param Delimiter $stackBottom
+     * @param callable        $callback
+     * @param Delimiter       $stackBottom
      */
     public function iterateByCharacters($characters, $callback, Delimiter $stackBottom = null)
     {
         if (!is_array($characters)) {
-            $characters = array($characters);
+            $characters = [$characters];
         }
+
+        $openersBottom = array_fill_keys($characters, $stackBottom);
 
         // Find first closer above stackBottom
         $closer = $this->findEarliest($stackBottom);
 
         while ($closer !== null) {
-            if ($closer->canClose() && (in_array($closer->getChar(), $characters))) {
-                // Found emphasis closer. Now look back for first matching opener:
-                $opener = $closer->getPrevious();
-                while ($opener !== null && $opener !== $stackBottom) {
-                    if ($opener->getChar() === $closer->getChar() && $opener->canOpen()) {
-                        break;
-                    }
-                    $opener = $opener->getPrevious();
-                }
+            $closerChar = $closer->getChar();
 
-                if ($opener !== null && $opener !== $stackBottom) {
-                    $closer = $callback($opener, $closer, $this);
-                } else {
-                    $closer = $closer->getNext();
-                }
-            } else {
+            if (!$closer->canClose() || !in_array($closerChar, $characters)) {
                 $closer = $closer->getNext();
+                continue;
             }
+
+            $opener = $this->findFirstMatchingOpener($closer, $openersBottom, $stackBottom);
+            if (!$opener) {
+                $oldCloser = $closer;
+                $closer = $closer->getNext();
+                // Set lower bound for future searches for openers:
+                $openersBottom[$closerChar] = $oldCloser->getPrevious();
+                if (!$oldCloser->canOpen()) {
+                    // We can remove a closer that can't be an opener,
+                    // once we've seen there's no matching opener:
+                    $this->removeDelimiter($oldCloser);
+                }
+                continue;
+            }
+
+            $closer = $callback($opener, $closer, $this);
+        }
+    }
+
+    /**
+     * @param Delimiter      $closer
+     * @param array          $openersBottom
+     * @param Delimiter|null $stackBottom
+     *
+     * @return Delimiter|null
+     */
+    protected function findFirstMatchingOpener(Delimiter $closer, $openersBottom, Delimiter $stackBottom = null)
+    {
+        $closerChar = $closer->getChar();
+        $opener = $closer->getPrevious();
+
+        while ($opener !== null && $opener !== $stackBottom && $opener !== $openersBottom[$closerChar]) {
+            if ($opener->getChar() === $closerChar && $opener->canOpen()) {
+                return $opener;
+            }
+
+            $opener = $opener->getPrevious();
         }
     }
 }

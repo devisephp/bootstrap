@@ -20,7 +20,7 @@ use League\CommonMark\Inline\Element\AbstractInline;
 /**
  * Renders a parsed AST to HTML
  */
-class HtmlRenderer implements HtmlRendererInterface
+class HtmlRenderer implements ElementRendererInterface
 {
     /**
      * @var Environment
@@ -37,9 +37,9 @@ class HtmlRenderer implements HtmlRendererInterface
 
     /**
      * @param string $option
-     * @param mixed|null $default
+     * @param mixed  $default
      *
-     * @return mixed|null
+     * @return mixed
      */
     public function getOption($option, $default = null)
     {
@@ -60,21 +60,21 @@ class HtmlRenderer implements HtmlRendererInterface
             $string = str_replace('&', '&amp;', $string);
         }
 
-        return str_replace(array('<', '>', '"'), array('&lt;', '&gt;', '&quot;'), $string);
+        return str_replace(['<', '>', '"'], ['&lt;', '&gt;', '&quot;'], $string);
     }
 
     /**
      * @param AbstractInline $inline
      *
-     * @return string
-     *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     protected function renderInline(AbstractInline $inline)
     {
         $renderer = $this->environment->getInlineRendererForClass(get_class($inline));
         if (!$renderer) {
-            throw new \RuntimeException('Unable to find corresponding renderer for block type ' . get_class($inline));
+            throw new \RuntimeException('Unable to find corresponding renderer for inline type ' . get_class($inline));
         }
 
         return $renderer->render($inline, $this);
@@ -87,7 +87,7 @@ class HtmlRenderer implements HtmlRendererInterface
      */
     public function renderInlines($inlines)
     {
-        $result = array();
+        $result = [];
         foreach ($inlines as $inline) {
             $result[] = $this->renderInline($inline);
         }
@@ -97,11 +97,11 @@ class HtmlRenderer implements HtmlRendererInterface
 
     /**
      * @param AbstractBlock $block
-     * @param bool         $inTightList
-     *
-     * @return string
+     * @param bool          $inTightList
      *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     public function renderBlock(AbstractBlock $block, $inTightList = false)
     {
@@ -121,7 +121,7 @@ class HtmlRenderer implements HtmlRendererInterface
      */
     public function renderBlocks($blocks, $inTightList = false)
     {
-        $result = array();
+        $result = [];
         foreach ($blocks as $block) {
             $result[] = $this->renderBlock($block, $inTightList);
         }

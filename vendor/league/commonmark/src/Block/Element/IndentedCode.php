@@ -14,7 +14,6 @@
 
 namespace League\CommonMark\Block\Element;
 
-use League\CommonMark\Block\Parser\IndentedCodeParser;
 use League\CommonMark\ContextInterface;
 use League\CommonMark\Cursor;
 
@@ -54,8 +53,8 @@ class IndentedCode extends AbstractBlock
 
     public function matchesNextLine(Cursor $cursor)
     {
-        if ($cursor->getIndent() >= IndentedCodeParser::CODE_INDENT_LEVEL) {
-            $cursor->advanceBy(IndentedCodeParser::CODE_INDENT_LEVEL);
+        if ($cursor->isIndented()) {
+            $cursor->advanceBy(Cursor::INDENT_LEVEL, true);
         } elseif ($cursor->isBlank()) {
             $cursor->advanceToFirstNonSpace();
         } else {
@@ -71,7 +70,7 @@ class IndentedCode extends AbstractBlock
 
         $reversed = array_reverse($this->getStrings(), true);
         foreach ($reversed as $index => $line) {
-            if ($line == '' || $line === "\n" || preg_match('/^(\n *)$/', $line)) {
+            if ($line === '' || $line === "\n" || preg_match('/^(\n *)$/', $line)) {
                 unset($reversed[$index]);
             } else {
                 break;

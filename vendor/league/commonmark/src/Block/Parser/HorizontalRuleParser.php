@@ -23,16 +23,23 @@ class HorizontalRuleParser extends AbstractBlockParser
 {
     /**
      * @param ContextInterface $context
-     * @param Cursor $cursor
+     * @param Cursor           $cursor
      *
      * @return bool
      */
     public function parse(ContextInterface $context, Cursor $cursor)
     {
+        if ($cursor->isIndented()) {
+            return false;
+        }
+
         $match = RegexHelper::matchAt(RegexHelper::getInstance()->getHRuleRegex(), $cursor->getLine(), $cursor->getFirstNonSpacePosition());
         if ($match === null) {
             return false;
         }
+
+        // Advance to the end of the string, consuming the entire line (of the horizontal rule)
+        $cursor->advanceBy(mb_strlen($cursor->getRemainder()));
 
         $context->addBlock(new HorizontalRule());
         $context->setBlocksParsed(true);

@@ -22,7 +22,7 @@ class ReferenceMap
     /**
      * @var Reference[]
      */
-    protected $references = array();
+    protected $references = [];
 
     /**
      * @param Reference $reference
@@ -60,8 +60,6 @@ class ReferenceMap
 
         if (isset($this->references[$label])) {
             return $this->references[$label];
-        } else {
-            return null;
         }
     }
 

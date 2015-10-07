@@ -17,7 +17,7 @@ namespace League\CommonMark\Block\Element;
 use League\CommonMark\ContextInterface;
 use League\CommonMark\Cursor;
 
-class Header extends AbstractInlineContainer
+class Header extends AbstractBlock implements InlineContainer
 {
     /**
      * @var int
@@ -25,7 +25,7 @@ class Header extends AbstractInlineContainer
     protected $level;
 
     /**
-     * @param int $level
+     * @param int    $level
      * @param string $contents
      */
     public function __construct($level, $contents)

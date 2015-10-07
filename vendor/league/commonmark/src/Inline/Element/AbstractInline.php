@@ -14,12 +14,33 @@
 
 namespace League\CommonMark\Inline\Element;
 
-abstract class AbstractInline
+use League\CommonMark\Node\Node;
+
+abstract class AbstractInline extends Node
 {
     /**
      * @var array
      *
      * Used for storage of arbitrary data
      */
-    public $data = array();
+    public $data = [];
+
+    /**
+     * @return bool
+     */
+    public function isContainer()
+    {
+        return false;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    public function getData($key, $default = null)
+    {
+        return array_key_exists($key, $this->data) ? $this->data[$key] : $default;
+    }
 }

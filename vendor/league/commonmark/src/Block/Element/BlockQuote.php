@@ -14,7 +14,6 @@
 
 namespace League\CommonMark\Block\Element;
 
-use League\CommonMark\ContextInterface;
 use League\CommonMark\Cursor;
 
 class BlockQuote extends AbstractBlock
@@ -53,7 +52,7 @@ class BlockQuote extends AbstractBlock
 
     public function matchesNextLine(Cursor $cursor)
     {
-        if ($cursor->getIndent() <= 3 && $cursor->getFirstNonSpaceCharacter() === '>') {
+        if (!$cursor->isIndented() && $cursor->getFirstNonSpaceCharacter() === '>') {
             $cursor->advanceToFirstNonSpace();
             $cursor->advance();
             if ($cursor->getCharacter() === ' ') {
@@ -67,30 +66,13 @@ class BlockQuote extends AbstractBlock
     }
 
     /**
-     * @param ContextInterface $context
-     * @param Cursor           $cursor
-     */
-    public function handleRemainingContents(ContextInterface $context, Cursor $cursor)
-    {
-        if ($cursor->isBlank()) {
-            return;
-        }
-
-        $context->addBlock(new Paragraph());
-        $cursor->advanceToFirstNonSpace();
-        $context->getTip()->addLine($cursor->getRemainder());
-    }
-
-    /**
      * @param Cursor $cursor
-     * @param int $currentLineNumber
+     * @param int    $currentLineNumber
      *
-     * @return $this
+     * @return bool
      */
-    public function setLastLineBlank(Cursor $cursor, $currentLineNumber)
+    public function shouldLastLineBeBlank(Cursor $cursor, $currentLineNumber)
     {
-        parent::setLastLineBlank($cursor, $currentLineNumber);
-
-        $this->lastLineBlank = false;
+        return false;
     }
 }

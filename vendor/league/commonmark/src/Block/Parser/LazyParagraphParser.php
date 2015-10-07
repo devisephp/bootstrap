@@ -21,13 +21,13 @@ class LazyParagraphParser extends AbstractBlockParser
 {
     /**
      * @param ContextInterface $context
-     * @param Cursor $cursor
+     * @param Cursor           $cursor
      *
      * @return bool
      */
     public function parse(ContextInterface $context, Cursor $cursor)
     {
-        if ($cursor->getIndent() < IndentedCodeParser::CODE_INDENT_LEVEL) {
+        if (!$cursor->isIndented()) {
             return false;
         }
 

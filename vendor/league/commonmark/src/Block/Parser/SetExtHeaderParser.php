@@ -24,12 +24,16 @@ class SetExtHeaderParser extends AbstractBlockParser
 {
     /**
      * @param ContextInterface $context
-     * @param Cursor $cursor
+     * @param Cursor           $cursor
      *
      * @return bool
      */
     public function parse(ContextInterface $context, Cursor $cursor)
     {
+        if ($cursor->isIndented()) {
+            return false;
+        }
+
         if (!($context->getContainer() instanceof Paragraph)) {
             return false;
         }

@@ -91,7 +91,8 @@ devise.require.config({
         dvsChangeTarget:    'app/bindings/data-change-target',
         dvsLiveSpan:        'app/helpers/livespan',
         dvsDocumentation:   'app/helpers/documentation',
-        dvsImagePicker:     'app/helpers/image-picker'
+        dvsImagePicker:     'app/helpers/image-picker',
+        dvsFilePicker:      'app/helpers/file-picker'
     }
 });
 devise.define("config", function(){});
@@ -38895,7 +38896,7 @@ devise.define('dvsEditor',['jquery', 'query', 'dvsSidebarView', 'dvsBaseView', '
 
                 body.on('submit', 'form', function(e)
                 {
-                    e.preventDefault();
+                    if (!$(e.currentTarget).hasClass('dvs-allow-submit')) e.preventDefault();
                 });
 
                 // in case the iframe is reloaded, we need to check for these

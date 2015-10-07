@@ -16,22 +16,20 @@ namespace League\CommonMark\Block\Element;
 
 use League\CommonMark\ContextInterface;
 use League\CommonMark\Cursor;
+use League\CommonMark\Node\Node;
 use League\CommonMark\Util\ArrayCollection;
 
 /**
  * Block-level element
  */
-abstract class AbstractBlock
+abstract class AbstractBlock extends Node
 {
     /**
-     * @var ArrayCollection|AbstractBlock[]
+     * Used for storage of arbitrary data.
+     *
+     * @var array
      */
-    protected $children;
-
-    /**
-     * @var AbstractBlock|null
-     */
-    protected $parent = null;
+    public $data = [];
 
     /**
      * @var ArrayCollection|string[]
@@ -68,28 +66,35 @@ abstract class AbstractBlock
      */
     public function __construct()
     {
-        $this->children = new ArrayCollection();
         $this->strings = new ArrayCollection();
     }
 
     /**
      * @return AbstractBlock|null
      */
-    public function getParent()
+    public function parent()
     {
-        return $this->parent ? : null;
+        return parent::parent();
     }
 
     /**
-     * @param AbstractBlock $parent
-     *
-     * @return $this
+     * @param Node $node
      */
-    protected function setParent(AbstractBlock $parent)
+    protected function setParent(Node $node)
     {
-        $this->parent = $parent;
+        if ($node && !$node instanceof self) {
+            throw new \InvalidArgumentException('Parent of block must also be block (can not be inline)');
+        }
 
-        return $this;
+        parent::setParent($node);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isContainer()
+    {
+        return true;
     }
 
     /**
@@ -97,56 +102,7 @@ abstract class AbstractBlock
      */
     public function hasChildren()
     {
-        return !$this->children->isEmpty();
-    }
-
-    /**
-     * @return AbstractBlock[]
-     */
-    public function getChildren()
-    {
-        return $this->children->toArray();
-    }
-
-    /**
-     * @return AbstractBlock|null
-     */
-    public function getLastChild()
-    {
-        return $this->children->last();
-    }
-
-
-    public function addChild(AbstractBlock $childBlock)
-    {
-        $this->children->add($childBlock);
-        $childBlock->setParent($this);
-    }
-
-    public function removeChild(AbstractBlock $childBlock)
-    {
-        if (($index = $this->children->indexOf($childBlock)) !== false) {
-            $this->children->remove($index);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public function replaceChild(ContextInterface $context, AbstractBlock $original, AbstractBlock $replacement)
-    {
-        if (($index = $this->children->indexOf($original)) !== false) {
-            $this->children->remove($index);
-            $replacement->setParent($this);
-            $this->children->set($index, $replacement);
-        } else {
-            $this->addChild($replacement);
-        }
-
-        if ($context->getTip() === $original) {
-            $context->setTip($replacement);
-        }
+        return !is_null($this->firstChild);
     }
 
     /**
@@ -183,7 +139,13 @@ abstract class AbstractBlock
      * @param ContextInterface $context
      * @param Cursor           $cursor
      */
-    abstract public function handleRemainingContents(ContextInterface $context, Cursor $cursor);
+    public function handleRemainingContents(ContextInterface $context, Cursor $cursor)
+    {
+        // create paragraph container for line
+        $context->addBlock(new Paragraph());
+        $cursor->advanceToFirstNonSpace();
+        $context->getTip()->addLine($cursor->getRemainder());
+    }
 
     /**
      * @param int $startLine
@@ -234,6 +196,27 @@ abstract class AbstractBlock
     }
 
     /**
+     * @param bool $blank
+     */
+    public function setLastLineBlank($blank)
+    {
+        $this->lastLineBlank = $blank;
+    }
+
+    /**
+     * Determines whether the last line should be marked as blank
+     *
+     * @param Cursor $cursor
+     * @param int    $currentLineNumber
+     *
+     * @return bool
+     */
+    public function shouldLastLineBeBlank(Cursor $cursor, $currentLineNumber)
+    {
+        return $cursor->isBlank();
+    }
+
+    /**
      * @return string[]
      */
     public function getStrings()
@@ -241,6 +224,9 @@ abstract class AbstractBlock
         return $this->strings->toArray();
     }
 
+    /**
+     * @param string $line
+     */
     public function addLine($line)
     {
         if (!$this->acceptsLines()) {
@@ -278,7 +264,7 @@ abstract class AbstractBlock
             $this->endLine = $context->getLineNumber();
         }
 
-        $context->setTip($context->getTip()->getParent());
+        $context->setTip($context->getTip()->parent());
     }
 
     /**
@@ -290,21 +276,13 @@ abstract class AbstractBlock
     }
 
     /**
-     * @param Cursor $cursor
-     * @param int $currentLineNumber
+     * @param string $key
+     * @param mixed  $default
      *
-     * @return $this
+     * @return mixed
      */
-    public function setLastLineBlank(Cursor $cursor, $currentLineNumber)
+    public function getData($key, $default = null)
     {
-        $this->lastLineBlank = $cursor->isBlank();
-
-        $container = $this;
-        while ($container->getParent()) {
-            $container = $container->getParent();
-            $container->lastLineBlank = false;
-        }
-
-        return $this;
+        return array_key_exists($key, $this->data) ? $this->data[$key] : $default;
     }
 }

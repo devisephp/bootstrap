@@ -22,12 +22,16 @@ class FencedCodeParser extends AbstractBlockParser
 {
     /**
      * @param ContextInterface $context
-     * @param Cursor $cursor
+     * @param Cursor           $cursor
      *
      * @return bool
      */
     public function parse(ContextInterface $context, Cursor $cursor)
     {
+        if ($cursor->isIndented()) {
+            return false;
+        }
+
         $previousState = $cursor->saveState();
         $indent = $cursor->advanceToFirstNonSpace();
         $fence = $cursor->match('/^`{3,}(?!.*`)|^~{3,}(?!.*~)/');
