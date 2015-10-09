@@ -8,10 +8,8 @@
  * file that was distributed with this source code.
  */
 
-namespace SebastianBergmann\GlobalState;
+namespace SebastianBergmann\GlobalState\TestFixture;
 
-/**
- */
-interface Exception
+function snapshotFunction()
 {
 }

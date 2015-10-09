@@ -8,10 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace SebastianBergmann\GlobalState;
+namespace SebastianBergmann\GlobalState\TestFixture;
+
+use DomDocument;
 
 /**
  */
-interface Exception
+class SnapshotDomDocument extends DomDocument
 {
 }
