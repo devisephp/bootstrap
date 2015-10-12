@@ -101,8 +101,9 @@ class PHPUnit_TextUI_Command
     }
 
     /**
-     * @param  array $argv
-     * @param  bool  $exit
+     * @param array $argv
+     * @param bool  $exit
+     *
      * @return int
      */
     public function run(array $argv, $exit = true)
@@ -169,6 +170,7 @@ class PHPUnit_TextUI_Command
      * Create a TestRunner, override in subclasses.
      *
      * @return PHPUnit_TextUI_TestRunner
+     *
      * @since  Method available since Release 3.6.0
      */
     protected function createRunner()
@@ -665,8 +667,9 @@ class PHPUnit_TextUI_Command
     /**
      * Handles the loading of the PHPUnit_Runner_TestSuiteLoader implementation.
      *
-     * @param  string                         $loaderClass
-     * @param  string                         $loaderFile
+     * @param string $loaderClass
+     * @param string $loaderFile
+     *
      * @return PHPUnit_Runner_TestSuiteLoader
      */
     protected function handleLoader($loaderClass, $loaderFile = '')
@@ -709,8 +712,9 @@ class PHPUnit_TextUI_Command
     /**
      * Handles the loading of the PHPUnit_Util_Printer implementation.
      *
-     * @param  string               $printerClass
-     * @param  string               $printerFile
+     * @param string $printerClass
+     * @param string $printerFile
+     *
      * @return PHPUnit_Util_Printer
      */
     protected function handlePrinter($printerClass, $printerFile = '')
@@ -796,7 +800,7 @@ class PHPUnit_TextUI_Command
 
         // Workaround for https://bugs.php.net/bug.php?id=65538
         $caFile = dirname($tempFilename) . '/ca.pem';
-        copy(__PHPUNIT_PHAR_ROOT__ . '/phar/ca.pem', $caFile);
+        copy(__PHPUNIT_PHAR_ROOT__ . '/ca.pem', $caFile);
 
         print 'Updating the PHPUnit PHAR ... ';
 
