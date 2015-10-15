@@ -224,7 +224,7 @@ class Builder
     /**
      * Set the columns to be selected.
      *
-     * @param  array  $columns
+     * @param  array|mixed  $columns
      * @return $this
      */
     public function select($columns = ['*'])
@@ -283,7 +283,7 @@ class Builder
     /**
      * Add a new select column to the query.
      *
-     * @param  mixed  $column
+     * @param  array|mixed  $column
      * @return $this
      */
     public function addSelect($column)
@@ -337,9 +337,13 @@ class Builder
         // is trying to build a join with a complex "on" clause containing more than
         // one condition, so we'll add the join and call a Closure with the query.
         if ($one instanceof Closure) {
-            $this->joins[] = new JoinClause($type, $table);
+            $join = new JoinClause($type, $table);
 
-            call_user_func($one, end($this->joins));
+            call_user_func($one, $join);
+
+            $this->joins[] = $join;
+
+            $this->addBinding($join->bindings, 'join');
         }
 
         // If the column is simply a string, we can assume the join simply has a basic
@@ -351,6 +355,8 @@ class Builder
             $this->joins[] = $join->on(
                 $one, $operator, $two, 'and', $where
             );
+
+            $this->addBinding($join->bindings, 'join');
         }
 
         return $this;
@@ -1246,7 +1252,7 @@ class Builder
 
         $this->unions[] = compact('query', 'all');
 
-        $this->addBinding($query->bindings, 'union');
+        $this->addBinding($query->getBindings(), 'union');
 
         return $this;
     }
@@ -1370,7 +1376,11 @@ class Builder
      */
     public function get($columns = ['*'])
     {
-        return $this->getFresh($columns);
+        if (is_null($this->columns)) {
+            $this->columns = $columns;
+        }
+
+        return $this->processor->processSelect($this, $this->runSelect());
     }
 
     /**
@@ -1378,14 +1388,12 @@ class Builder
      *
      * @param  array  $columns
      * @return array|static[]
+     *
+     * @deprecated since version 5.1. Use get instead.
      */
     public function getFresh($columns = ['*'])
     {
-        if (is_null($this->columns)) {
-            $this->columns = $columns;
-        }
-
-        return $this->processor->processSelect($this, $this->runSelect());
+        return $this->get($columns);
     }
 
     /**
@@ -1512,7 +1520,7 @@ class Builder
      *
      * @param  int  $count
      * @param  callable  $callback
-     * @return void
+     * @return bool
      */
     public function chunk($count, callable $callback)
     {
@@ -1523,13 +1531,15 @@ class Builder
             // developer take care of everything within the callback, which allows us to
             // keep the memory low for spinning through large result sets for working.
             if (call_user_func($callback, $results) === false) {
-                break;
+                return false;
             }
 
             $page++;
 
             $results = $this->forPage($page, $count)->get();
         }
+
+        return true;
     }
 
     /**
@@ -1668,7 +1678,7 @@ class Builder
      */
     public function average($column)
     {
-        return $this->avg($key);
+        return $this->avg($column);
     }
 
     /**
