@@ -17,6 +17,8 @@ community, there will always be a chance that we overlooked something. Please
 ask your favorite trusted hackers to hammer it for implementation errors and
 bugs before even thinking about deploying it in production.
 
+**Do not use the master branch, use a [stable release](https://github.com/paragonie/random_compat/releases/latest).**
+
 For the background of this library, please refer to our blog post on 
 [Generating Random Integers and Strings in PHP](https://paragonie.com/blog/2015/07/how-safely-generate-random-strings-and-integers-in-php).
 
@@ -26,7 +28,7 @@ If PHP cannot safely generate random data, this library will throw an `Exception
 It will never fall back to insecure random data. If this keeps happening, upgrade
 to a newer version of PHP immediately.
 
-## Features
+## Usage
 
 This library exposes the [CSPRNG functions added in PHP 7](https://secure.php.net/manual/en/ref.csprng.php)
 for use in PHP 5 projects. Their behavior should be identical.
@@ -34,7 +36,18 @@ for use in PHP 5 projects. Their behavior should be identical.
 ### Generate a string of random bytes
 
 ```php
-$string = random_bytes(32);
+try {
+    $string = random_bytes(32);
+} catch (TypeError $e) {
+    // Well, it's an integer, so this IS unexpected.
+    die("An unexpected error has occurred"); 
+} catch (Error $e) {
+    // This is also unexpected because 32 is a reasonable integer.
+    die("An unexpected error has occurred");
+} catch (Exception $e) {
+    // If you get this message, the CSPRNG failed hard.
+    die("Could not generate a random string. Is our OS secure?");
+}
 
 var_dump(bin2hex($string));
 // string(64) "5787c41ae124b3b9363b7825104f8bc8cf27c4c3036573e5f0d4a91ad2eeac6f"
@@ -43,9 +56,60 @@ var_dump(bin2hex($string));
 ### Generate a random integer between two given integers (inclusive)
 
 ```php
-$int = random_int(0,255);
+try {
+    $int = random_int(0,255);
+
+} catch (TypeError $e) {
+    // Well, it's an integer, so this IS unexpected.
+    die("An unexpected error has occurred"); 
+} catch (Error $e) {
+    // This is also unexpected because 0 and 255 are both reasonable integers.
+    die("An unexpected error has occurred");
+} catch (Exception $e) {
+    // If you get this message, the CSPRNG failed hard.
+    die("Could not generate a random string. Is our OS secure?");
+}
+
 var_dump($int);
 // int(47)
+```
+
+### Exception handling
+
+When handling exceptions and errors you must account for differences between
+PHP 5 and PHP7.
+
+The differences:
+
+* Catching `Error` works, so long as it is caught before `Exception`.
+* Catching `Exception` has different behavior, without previously catching `Error`.
+* Catching `Throwable` does *not* work the same between PHP5 and PHP7.
+* There is *no* portable way to catch all errors/exceptions.
+
+#### Our recommendation
+
+**Always** catch `Error` before `Exception`, **do not** catch `Throwable`.
+
+#### Example
+
+```php
+try {
+    return random_int(1, $userInput);
+} catch (TypeError $e) {
+    // This is okay, so long as `Error` is caught before `Exception`.
+    throw new Exception('Please enter a number!');
+} catch (Error $e) {
+    // This is required, if you do not need to do anything just rethrow.
+    throw $e;
+} catch (Exception $e) {
+    // This is optional and maybe omitted if you do not want to handle errors
+    // during generation.
+    throw new InternalServerErrorException(
+        'Oops, our server is bust and cannot generate any random data.',
+        500,
+        $e
+    );
+}
 ```
 
 ## Contributors
@@ -57,14 +121,17 @@ weren't for the contributions of the following individuals:
 * [@asgrim (James Titcumb)](https://github.com/asgrim)
 * [@CodesInChaos (Christian Winnerlein)](https://github.com/CodesInChaos)
 * [@chriscct7 (Chris Christoff)](https://github.com/chriscct7)
+* [@cs278 (Chris Smith)](https://github.com/cs278)
+* [@cweagans (Cameron Eagans)](https://github.com/cweagans)
 * [@dd32 (Dion Hulse)](https://github.com/dd32)
+* [@geggleto (Glenn Eggleton)](https://github.com/geggleto)
 * [@ircmaxell (Anthony Ferrara)](https://github.com/ircmaxell)
 * [@jedisct1 (Frank Denis)](https://github.com/jedisct1)
 * [@juliangut (Julián Gutiérrez)](https://github.com/juliangut)
 * [@kelunik (Niklas Keller)](https://github.com/kelunik)
 * [@lt (Leigh)](https://github.com/lt)
 * [@MasonM (Mason Malone)](https://github.com/MasonM)
-* [@mmeyer2k (Michael M)](https://mmeyer2k)
+* [@mmeyer2k (Michael M)](https://github.com/mmeyer2k)
 * [@narfbg (Andrey Andreev)](https://github.com/narfbg)
 * [@oittaa](https://github.com/oittaa)
 * [@redragonx (Stephen Chavez)](https://github.com/redragonx)
@@ -74,6 +141,7 @@ weren't for the contributions of the following individuals:
 * [@skyosev (Stoyan Kyosev)](https://github.com/skyosev)
 * [@stof (Christophe Coevoet)](https://github.com/stof)
 * [@teohhanhui (Teoh Han Hui)](https://github.com/teohhanhui)
+* [@tom-- (Tom Worster)](https://github.com/tom--)
 * [@tsyr2ko](https://github.com/tsyr2ko)
 * [@trowski (Aaron Piotrowski)](https://github.com/trowski)
 * [@twistor (Chris Lepannen)](https://github.com/twistor)
