@@ -3720,17 +3720,17 @@
     },
     {
         "name": "paragonie/random_compat",
-        "version": "1.0.6",
-        "version_normalized": "1.0.6.0",
+        "version": "1.0.7",
+        "version_normalized": "1.0.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/paragonie/random_compat.git",
-            "reference": "9a0ce69360aa22413a96f2bf93f61235e2c18486"
+            "reference": "df1207683dfbd1399f0fa931a368082a28fed50b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/paragonie/random_compat/zipball/9a0ce69360aa22413a96f2bf93f61235e2c18486",
-            "reference": "9a0ce69360aa22413a96f2bf93f61235e2c18486",
+            "url": "https://api.github.com/repos/paragonie/random_compat/zipball/df1207683dfbd1399f0fa931a368082a28fed50b",
+            "reference": "df1207683dfbd1399f0fa931a368082a28fed50b",
             "shasum": ""
         },
         "require": {
@@ -3739,7 +3739,7 @@
         "suggest": {
             "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
         },
-        "time": "2015-10-16 03:43:13",
+        "time": "2015-10-16 14:10:15",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

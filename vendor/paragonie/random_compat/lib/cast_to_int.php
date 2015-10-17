@@ -44,26 +44,14 @@ if (!function_exists('RandomCompat_intval')) {
      */
     function RandomCompat_intval($number, $fail_open = false)
     {
+        if (is_numeric($number)) {
+            $number += 0;
+        }
         if (
             is_float($number) &&
             $number > ~PHP_INT_MAX &&
             $number < PHP_INT_MAX
         ) {
-            $number = (int) (
-                $number < 0
-                    ? ceil($number)
-                    : floor($number)
-            );
-        } elseif (
-            is_string($number) &&
-            preg_match('#^\-?[0-9]+\.[0-9]+$#', $number)
-        ) {
-            $number = (int) (
-                $number < 0
-                    ? ceil($number)
-                    : floor($number)
-            );
-        } elseif (is_string($number) && preg_match('#^\-?[0-9]+$#', $number)) {
             $number = (int) $number;
         }
         if (is_int($number) || $fail_open) {
