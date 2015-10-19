@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-if [ $1 == 'full' ]; then
+if [ "$1" == 'full' ]; then
     fulltest=1
+elif [ "$1" == 'each' ]; then
+    testeach=1
 else
     fulltest=0
 fi
@@ -82,8 +84,22 @@ if [ $? -eq 0 ]; then
         # Test failure
         exit 1
     fi
+
+    if [[ "$testeach" == "1" ]]; then
+        echo "    CAPICOM:"
+        php phpunit.phar --bootstrap "$parentdir/tests/specific/capicom.php" "$parentdir/tests/unit"
+        echo "    /dev/urandom:"
+        php phpunit.phar --bootstrap "$parentdir/tests/specific/dev_urandom.php" "$parentdir/tests/unit"
+        echo "    libsodium:"
+        php phpunit.phar --bootstrap "$parentdir/tests/specific/libsodium.php" "$parentdir/tests/unit"
+        echo "    mcrypt:"
+        php phpunit.phar --bootstrap "$parentdir/tests/specific/mcrypt.php" "$parentdir/tests/unit"
+        echo "    openssl:"
+        php phpunit.phar --bootstrap "$parentdir/tests/specific/openssl.php" "$parentdir/tests/unit"
+    fi
+
     # Should we perform full statistical analyses?
-    if [ $fulltest -eq 1 ]; then
+    if [[ "$fulltest" == "1" ]]; then
         php phpunit.phar --bootstrap "$parentdir/vendor/autoload.php" "$parentdir/tests/full"
         if [ $? -ne 0 ]; then
             # Test failure
@@ -91,7 +107,7 @@ if [ $? -eq 0 ]; then
         fi
     fi
     # Cleanup
-    if [ "$clean" -eq 1 ]; then
+    if [[ "$clean" == "1" ]]; then
         echo -e "\033[32mCleaning Up!\033[0m"
         rm -f phpunit.phar
         rm -f phpunit.phar.asc

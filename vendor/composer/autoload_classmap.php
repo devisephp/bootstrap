@@ -100,6 +100,7 @@ return array(
     'Devise\\Media\\Files\\Manager' => $vendorDir . '/devisephp/cms/src/Devise/Media/Files/Manager.php',
     'Devise\\Media\\Files\\Repository' => $vendorDir . '/devisephp/cms/src/Devise/Media/Files/Repository.php',
     'Devise\\Media\\Files\\ResponseHandler' => $vendorDir . '/devisephp/cms/src/Devise/Media/Files/ResponseHandler.php',
+    'Devise\\Media\\Helpers\\Caption' => $vendorDir . '/devisephp/cms/src/Devise/Media/Helpers/Caption.php',
     'Devise\\Media\\Images\\Images' => $vendorDir . '/devisephp/cms/src/Devise/Media/Images/Images.php',
     'Devise\\Media\\Images\\Manager' => $vendorDir . '/devisephp/cms/src/Devise/Media/Images/Manager.php',
     'Devise\\Media\\Images\\ResponseHandler' => $vendorDir . '/devisephp/cms/src/Devise/Media/Images/ResponseHandler.php',
