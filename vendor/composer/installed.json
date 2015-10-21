@@ -3655,17 +3655,17 @@
     },
     {
         "name": "paragonie/random_compat",
-        "version": "1.0.8",
-        "version_normalized": "1.0.8.0",
+        "version": "1.0.9",
+        "version_normalized": "1.0.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/paragonie/random_compat.git",
-            "reference": "7fe2420f8ad46aa08d5b317c92a148611d366d88"
+            "reference": "7647ac58c35ece044b939e01c85dbaa73ed26351"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/paragonie/random_compat/zipball/7fe2420f8ad46aa08d5b317c92a148611d366d88",
-            "reference": "7fe2420f8ad46aa08d5b317c92a148611d366d88",
+            "url": "https://api.github.com/repos/paragonie/random_compat/zipball/7647ac58c35ece044b939e01c85dbaa73ed26351",
+            "reference": "7647ac58c35ece044b939e01c85dbaa73ed26351",
             "shasum": ""
         },
         "require": {
@@ -3674,7 +3674,7 @@
         "suggest": {
             "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
         },
-        "time": "2015-10-18 21:39:26",
+        "time": "2015-10-20 15:22:41",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -3702,17 +3702,17 @@
     },
     {
         "name": "devisephp/cms",
-        "version": "1.3.4",
-        "version_normalized": "1.3.4.0",
+        "version": "1.3.5",
+        "version_normalized": "1.3.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/devisephp/cms.git",
-            "reference": "a0df970ab064b45acb4a007300bc97a711b1a91b"
+            "reference": "2e6c15fced5b5a5a18c325205610c2eb3a6ec765"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/devisephp/cms/zipball/a0df970ab064b45acb4a007300bc97a711b1a91b",
-            "reference": "a0df970ab064b45acb4a007300bc97a711b1a91b",
+            "url": "https://api.github.com/repos/devisephp/cms/zipball/2e6c15fced5b5a5a18c325205610c2eb3a6ec765",
+            "reference": "2e6c15fced5b5a5a18c325205610c2eb3a6ec765",
             "shasum": ""
         },
         "require": {
@@ -3732,7 +3732,7 @@
             "mockery/mockery": "0.9.3",
             "phpunit/phpunit": "*"
         },
-        "time": "2015-10-18 18:37:02",
+        "time": "2015-10-20 16:05:40",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
