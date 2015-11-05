@@ -78,9 +78,9 @@ abstract class AbstractBlock extends Node
     }
 
     /**
-     * @param Node $node
+     * @param Node|null $node
      */
-    protected function setParent(Node $node)
+    protected function setParent(Node $node = null)
     {
         if ($node && !$node instanceof self) {
             throw new \InvalidArgumentException('Parent of block must also be block (can not be inline)');
@@ -250,19 +250,16 @@ abstract class AbstractBlock extends Node
      * Finalize the block; mark it closed for modification
      *
      * @param ContextInterface $context
+     * @param int              $endLineNumber
      */
-    public function finalize(ContextInterface $context)
+    public function finalize(ContextInterface $context, $endLineNumber)
     {
         if (!$this->open) {
             return; // TODO: Throw AlreadyClosedException?
         }
 
         $this->open = false;
-        if ($context->getLineNumber() > $this->getStartLine()) {
-            $this->endLine = $context->getLineNumber() - 1;
-        } else {
-            $this->endLine = $context->getLineNumber();
-        }
+        $this->endLine = $endLineNumber;
 
         $context->setTip($context->getTip()->parent());
     }

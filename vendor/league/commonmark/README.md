@@ -23,7 +23,7 @@
 This project can be installed via [Composer]:
 
 ``` bash
-$ composer require league/commonmark:^0.11
+$ composer require league/commonmark:^0.12
 ```
 
 See [Versioning](#versioning) for important information on which version constraints you should use.
@@ -94,15 +94,18 @@ You can also reference the core CommonMark parsers/renderers as they use the sam
 
 Documentation can be found at [commonmark.thephpleague.com][docs].
 
-## Integrations
+## Related Packages
+
+### Integrations
 
 - [CakePHP 3](https://github.com/gourmet/common-mark)
+- [Drupal](https://www.drupal.org/project/commonmark)
 - [Laravel 4 & 5](https://github.com/GrahamCampbell/Laravel-Markdown)
 - [Sculpin](https://github.com/bcremer/sculpin-commonmark-bundle)
 - [Symfony](https://github.com/webuni/commonmark-bundle)
 - [Twig](https://github.com/webuni/commonmark-twig-renderer)
 
-## Community Extensions
+### Community Extensions
 
 Custom parsers/renderers can be bundled into extensions which extend CommonMark.  Here are some that you may find interesting:
 
@@ -110,6 +113,10 @@ Custom parsers/renderers can be bundled into extensions which extend CommonMark.
  - [CommonMark Table Extension](https://github.com/webuni/commonmark-table-extension) - Adds the ability to create tables in CommonMark documents.
  - [CommonMark Attributes Extension](https://github.com/webuni/commonmark-attributes-extension) - Adds a syntax to define attributes on the various HTML elements.
  - [Alt Three Emoji](https://github.com/AltThree/Emoji) An emoji parser for CommonMark, that integrates with [Laravel Markdown](https://github.com/GrahamCampbell/Laravel-Markdown).
+
+### Others
+
+Check out the other cool things people are doing with `league/commonmark`: <https://packagist.org/packages/league/commonmark/dependents>
 
 ## Compatibility with CommonMark ##
 
@@ -126,7 +133,7 @@ The following table shows which versions of league/commonmark are compatible wit
     </thead>
     <tbody>
         <tr>
-            <td><strong>0.11.x</strong></td>
+            <td><strong>0.12.x</strong><br>0.11.x</td>
             <td><strong><a href="http://spec.commonmark.org/0.22/">0.22</a></strong></td>
         </tr>
         <tr>
@@ -188,9 +195,9 @@ $ ./tests/benchmark/benchmark.php
 
 ## Versioning
 
-[SemVer](http://semver.org/) will be followed closely.  0.x versions will introduce breaking changes, so be careful which version constraints you use.  **It's highly recommended that you use [Composer's caret operator](https://getcomposer.org/doc/articles/versions.md#caret) to ensure compatiblity**; for example: `^0.11`.  This is equivalent to `>=0.11.0 <0.12.0`.
+[SemVer](http://semver.org/) will be followed closely.  0.x versions will introduce breaking changes, so be careful which version constraints you use.  **It's highly recommended that you use [Composer's caret operator](https://getcomposer.org/doc/articles/versions.md#caret) to ensure compatiblity**; for example: `^0.12`.  This is equivalent to `>=0.12.0 <0.13.0`.
 
-If you're only using the `CommonMarkConverter` class to convert Markdown (no other class references, custom parsers, etc.), then it should be safe to use a broader constraint like `~0.11`, `>0.11`, etc.  I personally promise to never break this specific class in any future 0.x release.
+If you're only using the `CommonMarkConverter` class to convert Markdown (no other class references, custom parsers, etc.), then it should be safe to use a broader constraint like `~0.12`, `>0.12`, etc.  I personally promise to never break this specific class in any future 0.x release.
 
 ## Stability
 

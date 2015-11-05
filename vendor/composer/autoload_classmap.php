@@ -1631,6 +1631,7 @@ return array(
     'League\\CommonMark\\UnmatchedBlockCloser' => $vendorDir . '/league/commonmark/src/UnmatchedBlockCloser.php',
     'League\\CommonMark\\Util\\ArrayCollection' => $vendorDir . '/league/commonmark/src/Util/ArrayCollection.php',
     'League\\CommonMark\\Util\\Configuration' => $vendorDir . '/league/commonmark/src/Util/Configuration.php',
+    'League\\CommonMark\\Util\\ConfigurationAwareInterface' => $vendorDir . '/league/commonmark/src/Util/ConfigurationAwareInterface.php',
     'League\\CommonMark\\Util\\Html5Entities' => $vendorDir . '/league/commonmark/src/Util/Html5Entities.php',
     'League\\CommonMark\\Util\\LinkParserHelper' => $vendorDir . '/league/commonmark/src/Util/LinkParserHelper.php',
     'League\\CommonMark\\Util\\RegexHelper' => $vendorDir . '/league/commonmark/src/Util/RegexHelper.php',

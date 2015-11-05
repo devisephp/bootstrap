@@ -4,13 +4,38 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased][unreleased]
 
+## [0.12.0] - 2015-11-04
+
+### Added
+ - Added ability to configure characters and disable emphasis/strong (#135)
+ - Added new ConfigurationAwareInterface support for all parsers, processors, and renderers (#201)
+ - Added HTML safe mode to handle untrusted input (#200, #201)
+   - Safe mode is disabled by default for backwards-compatibility
+   - To enable it, set the `safe` option to `true`
+ - Added AppVeyor integration for automated unit/functional testing on Windows (#195)
+
+### Changed
+ - `AbstractBlock::finalize()` now reqires a second parameter, `$endLineNumber`
+ - `RegexHelper::REGEX_ENTITY` no longer includes the starting `/` or the ending `/i` (#194)
+ - `Node::setParent()` now accepts null values (#203)
+
+### Fixed
+ - Fixed incorrect `endLine` positions (#187)
+ - Fixed `DocParser::preProcessInput` dropping up to 2 ending newlines instead of just one
+ - Fixed `EntityParser` not checking for ampersands at the start of the current position (#192, #194)
+
+### Removed
+ - Removed protected function Context::addChild()
+   - It was a duplicate of the Context::addBlock() method
+ - Disabled STDIN reading on `bin/commonmark` for Windows due to PHP issues (#189, #195)
+
 ## [0.11.3] - 2015-09-25
-## Fixed
+### Fixed
  - Reset container after closing containing lists (#183; jgm/commonmark.js#67)
    - The temporary fix from 0.11.2 was reverted
 
 ## [0.11.2] - 2015-09-23
-## Fixed
+### Fixed
  - Fixed parser checking acceptsLines on the wrong element (#183)
 
 ## [0.11.1] - 2015-09-22
@@ -316,7 +341,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ### Added
  - Initial commit (compatible with jgm/stmd:spec.txt @ 0275f34)
 
-[unreleased]: https://github.com/thephpleague/commonmark/compare/0.11.3...HEAD
+[unreleased]: https://github.com/thephpleague/commonmark/compare/0.12.0...HEAD
+[0.12.0]: https://github.com/thephpleague/commonmark/compare/0.11.3...0.12.0
 [0.11.3]: https://github.com/thephpleague/commonmark/compare/0.11.2...0.11.3
 [0.11.2]: https://github.com/thephpleague/commonmark/compare/0.11.1...0.11.2
 [0.11.1]: https://github.com/thephpleague/commonmark/compare/0.11.0...0.11.1

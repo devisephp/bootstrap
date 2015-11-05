@@ -52,8 +52,10 @@ class RegexHelper
     const LINK_TITLE = 26;
 
     const REGEX_ESCAPABLE = '[!"#$%&\'()*+,.\/:;<=>?@[\\\\\]^_`{|}~-]';
-    const REGEX_ENTITY = '/&(?:#x[a-f0-9]{1,8}|#[0-9]{1,8}|[a-z][a-z0-9]{1,31});/i';
+    const REGEX_ENTITY = '&(?:#x[a-f0-9]{1,8}|#[0-9]{1,8}|[a-z][a-z0-9]{1,31});';
     const REGEX_PUNCTUATION = '/^[\x{2000}-\x{206F}\x{2E00}-\x{2E7F}\\\\\'!"#\$%&\(\)\*\+,\-\.\\/:;<=>\?@\[\]\^_`\{\|\}~]/u';
+    const REGEX_UNSAFE_PROTOCOL = '/^javascript:|vbscript:|file:|data:/i';
+    const REGEX_SAFE_DATA_PROTOCOL = '/^data:image\/(?:png|gif|jpeg|webp)/i';
 
     protected $regex = [];
 
@@ -242,7 +244,7 @@ class RegexHelper
         $allEscapedChar = '/\\\\(' . self::REGEX_ESCAPABLE . ')/';
 
         $escaped = preg_replace($allEscapedChar, '$1', $string);
-        $replaced = preg_replace_callback(self::REGEX_ENTITY, function ($e) {
+        $replaced = preg_replace_callback('/' . self::REGEX_ENTITY . '/i', function ($e) {
             return Html5Entities::decodeEntity($e[0]);
         }, $escaped);
 
@@ -295,5 +297,15 @@ class RegexHelper
             case HtmlBlock::TYPE_5_CDATA:
                 return '/\]\]>/';
         }
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return bool
+     */
+    public static function isLinkPotentiallyUnsafe($url)
+    {
+        return preg_match(self::REGEX_UNSAFE_PROTOCOL, $url) !== 0 && preg_match(self::REGEX_SAFE_DATA_PROTOCOL, $url) === 0;
     }
 }
