@@ -195,6 +195,7 @@ return array(
     'Devise\\Support\\Console\\DevisePublishConfigsCommand' => $vendorDir . '/devisephp/cms/src/Devise/Support/Console/DevisePublishConfigsCommand.php',
     'Devise\\Support\\Console\\DeviseResetCommand' => $vendorDir . '/devisephp/cms/src/Devise/Support/Console/DeviseResetCommand.php',
     'Devise\\Support\\Console\\DeviseSeedCommand' => $vendorDir . '/devisephp/cms/src/Devise/Support/Console/DeviseSeedCommand.php',
+    'Devise\\Support\\Console\\DeviseTestRoutesCommand' => $vendorDir . '/devisephp/cms/src/Devise/Support/Console/DeviseTestRoutesCommand.php',
     'Devise\\Support\\Console\\DeviseUpgradeCommand' => $vendorDir . '/devisephp/cms/src/Devise/Support/Console/DeviseUpgradeCommand.php',
     'Devise\\Support\\DeviseEloquentAddons' => $vendorDir . '/devisephp/cms/src/Devise/Support/DeviseEloquentAddons.php',
     'Devise\\Support\\DeviseException' => $vendorDir . '/devisephp/cms/src/Devise/Support/DeviseException.php',
