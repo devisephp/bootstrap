@@ -783,6 +783,19 @@ EOF;
 
         $this->assertEquals($expected, $this->parser->parse($yaml));
     }
+
+    /**
+     * @expectedException Symfony\Component\Yaml\Exception\ParseException
+     * @expectedExceptionMessage A colon cannot be used in an unquoted mapping value.
+     */
+    public function testColonInMappingValueException()
+    {
+        $yaml = <<<EOF
+foo: bar: baz
+EOF;
+
+        $this->parser->parse($yaml);
+    }
 }
 
 class B
