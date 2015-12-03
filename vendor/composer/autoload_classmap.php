@@ -1348,6 +1348,7 @@ return array(
     'Illuminate\\Http\\Exception\\HttpResponseException' => $vendorDir . '/laravel/framework/src/Illuminate/Http/Exception/HttpResponseException.php',
     'Illuminate\\Http\\Exception\\PostTooLargeException' => $vendorDir . '/laravel/framework/src/Illuminate/Http/Exception/PostTooLargeException.php',
     'Illuminate\\Http\\JsonResponse' => $vendorDir . '/laravel/framework/src/Illuminate/Http/JsonResponse.php',
+    'Illuminate\\Http\\Middleware\\CheckResponseForModifications' => $vendorDir . '/laravel/framework/src/Illuminate/Http/Middleware/CheckResponseForModifications.php',
     'Illuminate\\Http\\Middleware\\FrameGuard' => $vendorDir . '/laravel/framework/src/Illuminate/Http/Middleware/FrameGuard.php',
     'Illuminate\\Http\\RedirectResponse' => $vendorDir . '/laravel/framework/src/Illuminate/Http/RedirectResponse.php',
     'Illuminate\\Http\\Request' => $vendorDir . '/laravel/framework/src/Illuminate/Http/Request.php',
