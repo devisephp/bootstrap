@@ -1,10 +1,17 @@
 <?php
 
-$grammarFile           = __DIR__ . '/zend_language_parser.phpy';
-$skeletonFile          = __DIR__ . '/kmyacc.php.parser';
-$tmpGrammarFile        = __DIR__ . '/tmp_parser.phpy';
-$tmpResultFile         = __DIR__ . '/tmp_parser.php';
-$parserResultFile      = __DIR__ . '/../lib/PhpParser/Parser.php';
+$grammarFileToName = [
+    __DIR__ . '/php5.y' => 'Php5',
+    __DIR__ . '/php7.y' => 'Php7',
+];
+
+$tokensFile     = __DIR__ . '/tokens.y';
+$tokensTemplate = __DIR__ . '/tokens.template';
+$skeletonFile   = __DIR__ . '/parser.template';
+$tmpGrammarFile = __DIR__ . '/tmp_parser.phpy';
+$tmpResultFile  = __DIR__ . '/tmp_parser.php';
+$resultDir = __DIR__ . '/../lib/PhpParser/Parser';
+$tokensResultsFile = $resultDir . '/Tokens.php';
 
 // check for kmyacc.exe binary in this directory, otherwise fall back to global name
 $kmyacc = __DIR__ . '/kmyacc.exe';
@@ -35,32 +42,41 @@ const ARGS   = '\((?<args>[^()]*+(?:\((?&args)\)[^()]*+)*+)\)';
 /// Main script ///
 ///////////////////
 
-echo 'Building temporary preproprocessed grammar file.', "\n";
+$tokens = file_get_contents($tokensFile);
 
-$grammarCode = file_get_contents($grammarFile);
+foreach ($grammarFileToName as $grammarFile => $name) {
+    echo "Building temporary $name grammar file.\n";
 
-$grammarCode = resolveNodes($grammarCode);
-$grammarCode = resolveMacros($grammarCode);
-$grammarCode = resolveArrays($grammarCode);
-$grammarCode = resolveStackAccess($grammarCode);
+    $grammarCode = file_get_contents($grammarFile);
+    $grammarCode = str_replace('%tokens', $tokens, $grammarCode);
 
-file_put_contents($tmpGrammarFile, $grammarCode);
+    $grammarCode = resolveNodes($grammarCode);
+    $grammarCode = resolveMacros($grammarCode);
+    $grammarCode = resolveStackAccess($grammarCode);
 
-$additionalArgs = $optionDebug ? '-t -v' : '';
+    file_put_contents($tmpGrammarFile, $grammarCode);
 
-echo "Building parser.\n";
-$output = trim(shell_exec("$kmyacc $additionalArgs -l -m $skeletonFile $tmpGrammarFile 2>&1"));
-echo "Output: \"$output\"\n";
+    $additionalArgs = $optionDebug ? '-t -v' : '';
 
-$resultCode = file_get_contents($tmpResultFile);
-$resultCode = removeTrailingWhitespace($resultCode);
+    echo "Building $name parser.\n";
+    $output = trim(shell_exec("$kmyacc $additionalArgs -l -m $skeletonFile -p $name $tmpGrammarFile 2>&1"));
+    echo "Output: \"$output\"\n";
 
-ensureDirExists(dirname($parserResultFile));
-file_put_contents($parserResultFile, $resultCode);
-unlink($tmpResultFile);
+    $resultCode = file_get_contents($tmpResultFile);
+    $resultCode = removeTrailingWhitespace($resultCode);
 
-if (!$optionKeepTmpGrammar) {
-    unlink($tmpGrammarFile);
+    ensureDirExists($resultDir);
+    file_put_contents("$resultDir/$name.php", $resultCode);
+    unlink($tmpResultFile);
+
+    echo "Building token definition.\n";
+    $output = trim(shell_exec("$kmyacc -l -m $tokensTemplate $tmpGrammarFile 2>&1"));
+    assert($output === '');
+    rename($tmpResultFile, $tokensResultsFile);
+
+    if (!$optionKeepTmpGrammar) {
+        unlink($tmpGrammarFile);
+    }
 }
 
 ///////////////////////////////
@@ -121,7 +137,8 @@ function resolveMacros($code) {
             if ('pushNormalizing' == $name) {
                 assertArgs(2, $args, $name);
 
-                return 'if (is_array(' . $args[1] . ')) { $$ = array_merge(' . $args[0] . ', ' . $args[1] . '); } else { ' . $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0] . '; }';
+                return 'if (is_array(' . $args[1] . ')) { $$ = array_merge(' . $args[0] . ', ' . $args[1] . '); }'
+                     . ' else { ' . $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0] . '; }';
             }
 
             if ('toArray' == $name) {
@@ -137,15 +154,19 @@ function resolveMacros($code) {
             }
 
             if ('parseEncapsed' == $name) {
-                assertArgs(2, $args, $name);
+                assertArgs(3, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, ' . $args[1] . '); } }';
+                return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {'
+                     . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, ' . $args[1] . ', ' . $args[2] . '); } }';
             }
 
             if ('parseEncapsedDoc' == $name) {
-                assertArgs(1, $args, $name);
+                assertArgs(2, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, null); } } $s = preg_replace(\'~(\r\n|\n|\r)\z~\', \'\', $s); if (\'\' === $s) array_pop(' . $args[0] . ');';
+                return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {'
+                     . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, null, ' . $args[1] . '); } }'
+                     . ' $s->value = preg_replace(\'~(\r\n|\n|\r)\z~\', \'\', $s->value);'
+                     . ' if (\'\' === $s->value) array_pop(' . $args[0] . ');';
             }
 
             return $matches[0];
@@ -158,37 +179,6 @@ function assertArgs($num, $args, $name) {
     if ($num != count($args)) {
         die('Wrong argument count for ' . $name . '().');
     }
-}
-
-function resolveArrays($code) {
-    return preg_replace_callback(
-        '~' . PARAMS . '~',
-        function ($matches) {
-            $elements = magicSplit(
-                '(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,',
-                $matches['params']
-            );
-
-            // don't convert [] to array, it might have different meaning
-            if (empty($elements)) {
-                return $matches[0];
-            }
-
-            $elementCodes = array();
-            foreach ($elements as $element) {
-                // convert only arrays where all elements have keys
-                if (false === strpos($element, ':')) {
-                    return $matches[0];
-                }
-
-                list($key, $value) = explode(':', $element, 2);
-                $elementCodes[] = "'" . $key . "' =>" . $value;
-            }
-
-            return 'array(' . implode(', ', $elementCodes) . ')';
-        },
-        $code
-    );
 }
 
 function resolveStackAccess($code) {
@@ -224,5 +214,9 @@ function magicSplit($regex, $string) {
         $piece = trim($piece);
     }
 
-    return array_filter($pieces);
+    if ($pieces === ['']) {
+        return [];
+    }
+
+    return $pieces;
 }
