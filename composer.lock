@@ -283,16 +283,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.5.2",
+            "version": "1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "47c7128262da274f590ae6f86eb137a7a64e82af"
+                "reference": "6ecaf07f0dfcc3dd454d0c549c2d16f29a19bffc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/47c7128262da274f590ae6f86eb137a7a64e82af",
-                "reference": "47c7128262da274f590ae6f86eb137a7a64e82af",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/6ecaf07f0dfcc3dd454d0c549c2d16f29a19bffc",
+                "reference": "6ecaf07f0dfcc3dd454d0c549c2d16f29a19bffc",
                 "shasum": ""
             },
             "require": {
@@ -349,7 +349,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-12-03 10:50:37"
+            "time": "2015-12-19 01:09:56"
         },
         {
             "name": "doctrine/collections",
