@@ -1679,6 +1679,7 @@ return array(
     'League\\Flysystem\\Plugin\\PluginNotFoundException' => $vendorDir . '/league/flysystem/src/Plugin/PluginNotFoundException.php',
     'League\\Flysystem\\ReadInterface' => $vendorDir . '/league/flysystem/src/ReadInterface.php',
     'League\\Flysystem\\RootViolationException' => $vendorDir . '/league/flysystem/src/RootViolationException.php',
+    'League\\Flysystem\\UnreadableFileException' => $vendorDir . '/league/flysystem/src/UnreadableFileException.php',
     'League\\Flysystem\\Util' => $vendorDir . '/league/flysystem/src/Util.php',
     'League\\Flysystem\\Util\\ContentListingFormatter' => $vendorDir . '/league/flysystem/src/Util/ContentListingFormatter.php',
     'League\\Flysystem\\Util\\MimeType' => $vendorDir . '/league/flysystem/src/Util/MimeType.php',
