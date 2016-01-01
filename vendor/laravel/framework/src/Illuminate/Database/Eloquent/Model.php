@@ -145,7 +145,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     protected $dateFormat;
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
@@ -1667,6 +1667,8 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
             $this->$relation()->touch();
 
             if ($this->$relation instanceof self) {
+                $this->$relation->fireModelEvent('saved', false);
+
                 $this->$relation->touchOwners();
             } elseif ($this->$relation instanceof Collection) {
                 $this->$relation->each(function (Model $relation) {
@@ -2775,7 +2777,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
 
     /**
-     * Determine whether an attribute should be casted to a native type.
+     * Determine whether an attribute should be cast to a native type.
      *
      * @param  string  $key
      * @return bool
