@@ -119,16 +119,16 @@
         },
         {
             "name": "devisephp/cms",
-            "version": "1.3.11",
+            "version": "1.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devisephp/cms.git",
-                "reference": "34b9e8a305f31f27a70b62f21d2e349a74f23fa2"
+                "reference": "7947af3b6fd50caf008dfc9595381f5b8ef11ca4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devisephp/cms/zipball/34b9e8a305f31f27a70b62f21d2e349a74f23fa2",
-                "reference": "34b9e8a305f31f27a70b62f21d2e349a74f23fa2",
+                "url": "https://api.github.com/repos/devisephp/cms/zipball/7947af3b6fd50caf008dfc9595381f5b8ef11ca4",
+                "reference": "7947af3b6fd50caf008dfc9595381f5b8ef11ca4",
                 "shasum": ""
             },
             "require": {
@@ -178,7 +178,7 @@
                 "devisephp",
                 "laravel"
             ],
-            "time": "2015-12-11 19:37:04"
+            "time": "2016-01-05 14:29:02"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -492,16 +492,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.5.3",
+            "version": "v2.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "2fbcea96eae34a53183377cdbb0b9bec33974648"
+                "reference": "abbdfd1cff43a7b99d027af3be709bc8fc7d4769"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2fbcea96eae34a53183377cdbb0b9bec33974648",
-                "reference": "2fbcea96eae34a53183377cdbb0b9bec33974648",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/abbdfd1cff43a7b99d027af3be709bc8fc7d4769",
+                "reference": "abbdfd1cff43a7b99d027af3be709bc8fc7d4769",
                 "shasum": ""
             },
             "require": {
@@ -559,7 +559,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2015-12-25 16:28:24"
+            "time": "2016-01-05 22:11:12"
         },
         {
             "name": "doctrine/inflector",
