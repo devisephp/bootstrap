@@ -4,6 +4,40 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased][unreleased]
 
+## [0.13.0] - 2016-01-13
+
+### Added
+ - Added AST document processors (#210)
+ - Added optional `Environment` parameter to `CommonMarkConverter` constructor
+
+### Changed
+ - Renamed "header" things to "heading" for spec consistency
+   - `Header` => `Heading`
+   - `ATXHeaderParser` => `ATXHeadingParser`
+   - `SetExtHeaderParser` => `SetExtHeadingParser`
+   - `HeaderRenderer` => `HeadingRenderer`
+ - Renamed "HorizontalRule" to "ThematicBreak" for spec consistency
+   - `HorizontalRule` => `ThematicBreak`
+   - `HorizontalRuleParser` => `ThematicBreakParser`
+   - `HorizontalRuleRenderer` => `ThematicBreakRenderer`
+   - `HorizontalRuleRendererTest` => `ThematicBreakRendererTest`
+   - `RegexHelper::getHRuleRegex()` => `RegexHelper::getThematicBreakRegex()`
+ - Renamed inline "Html" and "RawHtml" to "HtmlInline" for consistency
+   - `Html` => `HtmlInline`
+   - `RawHtmlParser` => `HtmlInlineParser`
+   - `RawHtmlRenderer` => `HtmlInlineRenderer`
+ - Don't allow whitespace between link text and link label of a reference link (spec change)
+ - Don't allow spaces in link destinations, even in `<>`
+ - Allow multiline setext header content
+   - The `Heading` constructor now allows `$contents` to be a `string` (old behavior) or `string[]` (new)
+
+### Fixed
+ - Fixed several list issues and regressions (jgm/commonmark.js#59)
+
+### Removed
+ - Removed schema whitelist from autolink regex
+ - Moved SmartPunct functionality into new [league/commonmark-extras](https://github.com/thephpleague/commonmark-extras) package
+
 ## [0.12.0] - 2015-11-04
 
 ### Added
@@ -15,7 +49,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
  - Added AppVeyor integration for automated unit/functional testing on Windows (#195)
 
 ### Changed
- - `AbstractBlock::finalize()` now reqires a second parameter, `$endLineNumber`
+ - `AbstractBlock::finalize()` now requires a second parameter, `$endLineNumber`
  - `RegexHelper::REGEX_ENTITY` no longer includes the starting `/` or the ending `/i` (#194)
  - `Node::setParent()` now accepts null values (#203)
 
@@ -341,7 +375,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ### Added
  - Initial commit (compatible with jgm/stmd:spec.txt @ 0275f34)
 
-[unreleased]: https://github.com/thephpleague/commonmark/compare/0.12.0...HEAD
+[unreleased]: https://github.com/thephpleague/commonmark/compare/0.13.0...HEAD
+[0.13.0]: https://github.com/thephpleague/commonmark/compare/0.12.0...0.13.0
 [0.12.0]: https://github.com/thephpleague/commonmark/compare/0.11.3...0.12.0
 [0.11.3]: https://github.com/thephpleague/commonmark/compare/0.11.2...0.11.3
 [0.11.2]: https://github.com/thephpleague/commonmark/compare/0.11.1...0.11.2

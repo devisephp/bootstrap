@@ -90,6 +90,8 @@ class DocParser
 
         $this->processInlines($context, $context->getDocument()->walker());
 
+        $this->processDocument($context);
+
         return $context->getDocument();
     }
 
@@ -137,6 +139,13 @@ class DocParser
         }
     }
 
+    private function processDocument(ContextInterface $context)
+    {
+        foreach ($this->getEnvironment()->getDocumentProcessors() as $documentProcessor) {
+            $documentProcessor->processDocument($context->getDocument());
+        }
+    }
+
     private function processInlines(ContextInterface $context, NodeWalker $walker)
     {
         while (($event = $walker->next()) !== null) {
@@ -155,7 +164,7 @@ class DocParser
      * Break out of all containing lists, resetting the tip of the
      * document to the parent of the highest list, and finalizing
      * all the lists.  (This is used to implement the "two blank lines
-     * break of of all lists" feature.)
+     * break out of all lists" feature.)
      *
      * @param ContextInterface $context
      * @param AbstractBlock    $block

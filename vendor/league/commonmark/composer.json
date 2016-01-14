@@ -22,33 +22,24 @@
     },
     "require-dev": {
         "erusev/parsedown": "~1.0",
-        "jgm/CommonMark": "0.22",
-        "jgm/SmartPunct": "0.22",
+        "jgm/CommonMark": "0.24",
         "michelf/php-markdown": "~1.4",
         "mikehaertl/php-shellcommand": "~1.1.0",
         "phpunit/phpunit": "~4.3|~5.0",
         "symfony/finder": "~2.3",
         "scrutinizer/ocular": "^1.1"
     },
+    "suggest": {
+        "league/commonmark-extras": "Library of useful extensions including smart punctuation"
+    },
     "repositories": [
         {
             "type": "package",
             "package": {
                 "name": "jgm/CommonMark",
-                "version": "0.22",
+                "version": "0.24",
                 "dist": {
-                    "url": "http://spec.commonmark.org/0.22/spec.txt",
-                    "type": "file"
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "jgm/SmartPunct",
-                "version": "0.22",
-                "dist": {
-                    "url": "https://raw.githubusercontent.com/jgm/commonmark.js/0.22.0/test/smart_punct.txt",
+                    "url": "http://spec.commonmark.org/0.24/spec.txt",
                     "type": "file"
                 }
             }
@@ -68,7 +59,7 @@
     "bin": ["bin/commonmark"],
     "extra": {
         "branch-alias": {
-            "dev-master": "0.13-dev"
+            "dev-master": "0.14-dev"
         }
     }
 }

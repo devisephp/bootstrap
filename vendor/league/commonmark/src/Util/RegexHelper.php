@@ -167,13 +167,13 @@ class RegexHelper
      */
     public function getLinkDestinationBracesRegex()
     {
-        return '/^(?:' . '[<](?:[^<>\\n\\\\\\x00]' . '|' . $this->regex[self::ESCAPED_CHAR] . '|' . '\\\\)*[>]' . ')/';
+        return '/^(?:' . '[<](?:[^ <>\\t\\n\\\\\\x00]' . '|' . $this->regex[self::ESCAPED_CHAR] . '|' . '\\\\)*[>]' . ')/';
     }
 
     /**
      * @return string
      */
-    public function getHRuleRegex()
+    public function getThematicBreakRegex()
     {
         return '/^(?:(?:\* *){3,}|(?:_ *){3,}|(?:- *){3,}) *$/';
     }

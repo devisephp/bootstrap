@@ -14,12 +14,12 @@
 
 namespace League\CommonMark\Block\Parser;
 
-use League\CommonMark\Block\Element\Header;
+use League\CommonMark\Block\Element\ThematicBreak;
 use League\CommonMark\ContextInterface;
 use League\CommonMark\Cursor;
 use League\CommonMark\Util\RegexHelper;
 
-class ATXHeaderParser extends AbstractBlockParser
+class ThematicBreakParser extends AbstractBlockParser
 {
     /**
      * @param ContextInterface $context
@@ -33,21 +33,15 @@ class ATXHeaderParser extends AbstractBlockParser
             return false;
         }
 
-        $match = RegexHelper::matchAll('/^#{1,6}(?: +|$)/', $cursor->getLine(), $cursor->getFirstNonSpacePosition());
-        if (!$match) {
+        $match = RegexHelper::matchAt(RegexHelper::getInstance()->getThematicBreakRegex(), $cursor->getLine(), $cursor->getFirstNonSpacePosition());
+        if ($match === null) {
             return false;
         }
 
-        $cursor->advanceToFirstNonSpace();
+        // Advance to the end of the string, consuming the entire line (of the thematic break)
+        $cursor->advanceBy(mb_strlen($cursor->getRemainder()));
 
-        $cursor->advanceBy(strlen($match[0]));
-
-        $level = strlen(trim($match[0]));
-        $str = $cursor->getRemainder();
-        $str = preg_replace('/^ *#+ *$/', '', $str);
-        $str = preg_replace('/ +#+ *$/', '', $str);
-
-        $context->addBlock(new Header($level, $str));
+        $context->addBlock(new ThematicBreak());
         $context->setBlocksParsed(true);
 
         return true;
